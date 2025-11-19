@@ -16,21 +16,22 @@ const server = http.createServer((req, res) => {
     // routing - login
     if (req.url === "/login") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
-        return res.end("<h2>Register (coming soon)</h2><a href='/'>Back</a>");
+        // TODO; login page and JWT session
+        return res.end("<h2>Login (coming soon)</h2><a href='/'>Back</a>");
     }
 
     // routing - register
     if (req.url === "/register") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
-        return res.end("<h2>Login (coming soon)</h2><a href='/'>Back</a>");
+        // TODO: register page and JWT token creation
+        return res.end("<h2>Register (coming soon)</h2><a href='/'>Back</a>");
     }
 
     // routing - dashboard
     if (req.url === "/dashboard") {
         res.setHeader('Content-Type', 'text/html');
-        // TODO
+        // TODO: if user logged in (JWT exists) -> full dashboard functionality
+        //       otherwise -> guest: only search but not request -> register
         return res.end("<h2>Dashboard (coming soon)</h2><a href='/'>Back</a>");
     }
 
