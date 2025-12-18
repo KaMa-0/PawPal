@@ -1,14 +1,16 @@
 System Design - Notes
 =====================
 
-as of 19.11.2025, the system makes use of the following technologies:  
+as of 18.12.2025, the system makes use of the following technologies:  
+
+- Node  
 
 Frontend:  
-  - HTML  
-  - CSS  
+  - React-TS   
+  - Vite    
 
 Backend:  
-  - NodeJS (JavaScript)  
+  - Express (TypeScript)  
 
 Database:   
-  - (Node-)Postgres    
+  - (Node-)Postgres  
