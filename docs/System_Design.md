@@ -3,14 +3,21 @@ System Design - Notes
 
 as of 18.12.2025, the system makes use of the following technologies:  
 
-- Node  
+**Package- and Dependency Managment:**  
 
-Frontend:  
+  - Node  
+
+**Frontend:**  
+
   - React-TS   
   - Vite    
 
-Backend:  
+**Backend:**  
+
   - Express (TypeScript)  
 
-Database:   
+**Database:**     
+
   - (Node-)Postgres  
+
+  See the [Database Design](./Database_Design.md) for details.  
