@@ -1,36 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>PawPal - Welcome</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 100px;
-        }
-        .container {
-            max-width: 300px;
-            margin: auto;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <h1>🐾 PawPal</h1>
-    <p>Find the pet-sitter you need!</p>
-
-    <div class="container">
-        <button onclick="location.href='/login'">Login</button>
-        <button onclick="location.href='/register'">Register</button>
-        <body><a href='/dashboard'>Continue as Guest</a></body>
-    </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pawpal</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
-
