@@ -1,17 +1,44 @@
-import express, { Request, Response } from "express";
-import cors from "cors";
 import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import authRouter from "./auth";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+/**
+ * Middleware (ORDER MATTERS)
+ */
+app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
+
+/**
+ * Health check
+ */
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
+/**
+ * Temporary root endpoint (optional, can be removed later)
+ */
+app.get("/", (_req, res) => {
   res.json({ message: "PawPal Backend says Hi!" });
 });
 
-app.listen(port, () => {
-  console.log(`The server is running at http://localhost:${port}`);
-});
+/**
+ * Auth routes
+ */
+app.use("/auth", authRouter);
 
+/**
+ * Start server
+ */
+app.listen(port, () => {
+  console.log(`Backend running at http://localhost:${port}`);
+});
