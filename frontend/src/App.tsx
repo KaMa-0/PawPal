@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import api from "./services/api";
+import Login from "./pages/Login";
 import "./App.css";
 
 function TemporaryHomePage({ message }: { message: string }) {
@@ -8,7 +9,9 @@ function TemporaryHomePage({ message }: { message: string }) {
     <div style={{ padding: "2rem" }}>
       <h1>Hello World from PawPal</h1>
       <p>Message from Express backend, connected to Vite + React frontend:</p>
-      <p><strong>{message}</strong></p>
+      <p>
+        <strong>{message}</strong>
+      </p>
     </div>
   );
 }
@@ -40,11 +43,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<TemporaryHomePage message={message} />} />
+        <Route path="/login" element={<Login />} />
 
         {/*
-        Future routes:
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+          Future routes:
+          <Route path="/register" element={<Register />} />
         */}
       </Routes>
     </BrowserRouter>
