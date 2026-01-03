@@ -21,10 +21,12 @@
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
+    "@prisma/client": "^6.19.1",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^25.0.3"
+    "@types/node": "^25.0.3",
+    "prisma": "^6.19.1"
   }
 }
