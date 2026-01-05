@@ -2,10 +2,11 @@ services:
   postgres:
     image: postgres:15
     container_name: pawpal_db
+    restart: always
     environment:
-      POSTGRES_USER: pawpal_user
-      POSTGRES_PASSWORD: pawpal_password
-      POSTGRES_DB: pawpal_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     volumes:

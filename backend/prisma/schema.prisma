@@ -1,4 +1,4 @@
-// Das ist deine Konfiguration
+// 1. Konfiguration
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,7 +8,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// --- Enums (Auswahlmöglichkeiten) ---
+// --- Enums ---
+
+enum UserType {
+  OWNER
+  SITTER
+  ADMIN
+}
 
 enum BookingStatus {
   PENDING
@@ -23,138 +29,135 @@ enum RequestStatus {
   REJECTED
 }
 
-// --- Deine Tabellen ---
+enum AustriaState {
+  WIEN
+  NIEDEROESTERREICH
+  OBEROESTERREICH
+  SALZBURG
+  TIROL
+  VORARLBERG
+  KAERNTEN
+  STEIERMARK
+  BURGENLAND
+}
+
+// --- Haupt-Tabellen ---
 
 model User {
-  userId          Int      @id @default(autoincrement()) // PK
-  email           String   @unique
-  passwordHash    String
+  userId           Int      @id @default(autoincrement())
+  email            String   @unique
+  passwordHash     String
+
+  // Basis-Daten für alle Rollen
+  username         String
+  state            AustriaState
+  userType         UserType
+
   registrationDate DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
-  // Relationen (Ein User kann EINE dieser Rollen haben)
-  petOwner        PetOwner?
-  petSitter       PetSitter?
-  admin           Admin?
+  // Relationen zu den spezifischen Rollen (1:1)
+  petOwner      PetOwner?
+  petSitter     PetSitter?
+  admin         Admin?
 
-  // Profilbilder (Ein User kann mehrere Bilder haben)
-  profileImages   ProfileImage[]
+  profileImages ProfileImage[]
 }
 
 model PetOwner {
-  userId    Int     @id // PK und FK zugleich
-  user      User    @relation(fields: [userId], references: [userId])
-  username  String
-  aboutText String? // Das '?' bedeutet optional (kann leer sein)
+  userId    Int      @id
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  // Relationen
-  bookings      Booking[]
-  favorites     Favorite[]
-  petTypes      OwnerPetType[]
+  // Owner spezifische Daten
+  aboutText String?
+  updatedAt DateTime @updatedAt
+  petTypes  String[]
+
+  bookings  Booking[]
+  favorites Favorite[]
 }
 
 model PetSitter {
   userId        Int     @id
-  user          User    @relation(fields: [userId], references: [userId])
-  username      String
-  aboutText     String?
-  location      String  // HINZUGEFÜGT für die Suchfunktion!
-  averageRating Float   @default(0.0)
+  user          User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  // Relationen
+  // Sitter spezifische Daten
+  aboutText     String?
+  averageRating Float   @default(0.0)
+  updatedAt     DateTime @updatedAt
+  petTypes      String[]
+
   bookings              Booking[]
-  favorites             Favorite[]     @relation("SitterFavorites")
-  petTypes              SitterPetType[]
+  favorites             Favorite[]
   certificationRequests CertificationRequest[]
 }
 
 model Admin {
   userId Int  @id
-  user   User @relation(fields: [userId], references: [userId])
+  user   User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  // Relationen
   processedRequests CertificationRequest[]
 }
 
+// --- Features ---
+
 model Booking {
   bookingId   Int           @id @default(autoincrement())
-  ownerId     Int
-  sitterId    Int
-  status      BookingStatus @default(PENDING)
-  requestDate DateTime      @default(now())
-  details     String?       @db.Text // @db.Text erlaubt sehr lange Texte
 
-  // Verbindungen
+  ownerId     Int
   owner       PetOwner      @relation(fields: [ownerId], references: [userId])
+
+  sitterId    Int
   sitter      PetSitter     @relation(fields: [sitterId], references: [userId])
 
-  review      Review?       // Ein Booking hat maximal ein Review
+  status      BookingStatus @default(PENDING)
+  requestDate DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  details     String?       @db.Text
+
+  review      Review?
 }
 
 model Review {
-  reviewId  Int     @id @default(autoincrement())
-  bookingId Int     @unique // Wichtig: Eine Review pro Booking
-  rating    Int
-  text      String? @db.Text
+  reviewId  Int      @id @default(autoincrement())
 
-  booking   Booking @relation(fields: [bookingId], references: [bookingId])
+  bookingId Int      @unique
+  booking   Booking  @relation(fields: [bookingId], references: [bookingId], onDelete: Cascade)
+
+  rating    Int
+  text      String?  @db.Text
+  createdAt DateTime @default(now())
 }
 
 model CertificationRequest {
   requestId      Int           @id @default(autoincrement())
+
   sitterId       Int
-  adminId        Int?          // Kann null sein, solange noch kein Admin es bearbeitet hat
+  sitter         PetSitter     @relation(fields: [sitterId], references: [userId], onDelete: Cascade)
+
+  adminId        Int?
+  admin          Admin?        @relation(fields: [adminId], references: [userId])
+
   status         RequestStatus @default(PENDING)
   submissionDate DateTime      @default(now())
-
-  sitter         PetSitter     @relation(fields: [sitterId], references: [userId])
-  admin          Admin?        @relation(fields: [adminId], references: [userId])
-}
-
-model PetType {
-  petTypeId Int             @id @default(autoincrement())
-  name      String          @unique
-
-  // Relationen
-  owners    OwnerPetType[]
-  sitters   SitterPetType[]
-}
-
-// --- Join Tabellen (Verknüpfungstabellen) ---
-
-model OwnerPetType {
-  ownerId   Int
-  petTypeId Int
-
-  owner     PetOwner @relation(fields: [ownerId], references: [userId])
-  petType   PetType  @relation(fields: [petTypeId], references: [petTypeId])
-
-  @@id([ownerId, petTypeId]) // Zusammengesetzter Primärschlüssel
-}
-
-model SitterPetType {
-  sitterId  Int
-  petTypeId Int
-
-  sitter    PetSitter @relation(fields: [sitterId], references: [userId])
-  petType   PetType   @relation(fields: [petTypeId], references: [petTypeId])
-
-  @@id([sitterId, petTypeId])
+  updatedAt      DateTime      @updatedAt
 }
 
 model Favorite {
   ownerId  Int
+  owner    PetOwner  @relation(fields: [ownerId], references: [userId], onDelete: Cascade)
+
   sitterId Int
+  sitter   PetSitter @relation(fields: [sitterId], references: [userId], onDelete: Cascade)
 
-  owner    PetOwner  @relation(fields: [ownerId], references: [userId])
-  sitter   PetSitter @relation("SitterFavorites", fields: [sitterId], references: [userId])
-
+  // Verbundener Primärschlüssel
   @@id([ownerId, sitterId])
 }
 
 model ProfileImage {
   imageId  Int    @id @default(autoincrement())
   userId   Int
-  imageUrl String
+  user     User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
-  user     User   @relation(fields: [userId], references: [userId])
+  imageUrl String
 }

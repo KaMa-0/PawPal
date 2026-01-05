@@ -1,0 +1,8 @@
+### Login testen
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "max@test.at",
+  "password": "geheim123!"
+}
