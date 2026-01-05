@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 import { setAuth } from "../auth/authStore";
 import type { Role } from "../auth/authStore";
+import "./login.css";
 
 type AuthResponse = {
   token: string;
-  user: { userId: string; email: string; role: Role };
+  user: { id: number; email: string; role: Role };
 };
 
 export default function Login() {
   const nav = useNavigate();
-  const [email, setEmail] = useState("owner@pawpal.test");
-  const [password, setPassword] = useState("123");
-  const [role, setRole] = useState<Role>("OWNER");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
@@ -21,57 +21,65 @@ export default function Login() {
     setError(null);
 
     try {
-      const res = await api.post<AuthResponse>("/auth/login", {
+      // Added '/api' prefix
+      const res = await api.post<AuthResponse>("/api/auth/login", {
         email,
         password,
-        role,
       });
 
+      // Converting 'id' (number) to string for storage
       setAuth({
         token: res.data.token,
-        userId: res.data.user.userId,
+        userId: String(res.data.user.id),
         email: res.data.user.email,
         role: res.data.user.role,
       });
 
       nav("/");
     } catch (err: any) {
-      setError(err?.response?.data?.message ?? "Login failed");
+      console.error("Login Error:", err);
+      setError(err?.response?.data?.message || "Login failed. Please check your credentials.");
     }
   }
 
   return (
-    <div style={{ padding: 24, maxWidth: 420 }}>
-      <h1>Login</h1>
+    <div className="login-container">
+      <div className="login-card">
+        <h1 className="login-title">Welcome Back</h1>
 
-      <form onSubmit={onSubmit} style={{ display: "grid", gap: 12 }}>
-        <label>
-          Email
-          <input value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
+        {error && <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
 
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        <form onSubmit={onSubmit} className="login-form">
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input
+              className="form-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              required
+            />
+          </div>
 
-        <label>
-          Role (temporary)
-          <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
-            <option value="OWNER">OWNER</option>
-            <option value="SITTER">SITTER</option>
-            <option value="ADMIN">ADMIN</option>
-          </select>
-        </label>
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input
+              className="form-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              required
+            />
+          </div>
 
-        {error && <div style={{ color: "salmon" }}>{error}</div>}
+          <button type="submit" className="login-button">Login</button>
+        </form>
 
-        <button type="submit">Login</button>
-      </form>
+        <div className="register-link">
+          Don't have an account? <Link to="/register">Sign up</Link>
+        </div>
+      </div>
     </div>
   );
 }

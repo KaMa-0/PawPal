@@ -1,0 +1,131 @@
+/* Faded Orange Theme Variables - Matching Login but separate file */
+:root {
+    --primary-orange: #ffb74d;
+    --dark-orange: #f57c00;
+    --light-bg: #fff3e0;
+    --text-color: #333;
+    --white: #ffffff;
+    --error-color: #d32f2f;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* changed to min-height for scrollability if form is long */
+    width: 100vw;
+    padding: 2rem 0;
+}
+
+.register-card {
+    background-color: var(--white);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    /* Slightly wider than login */
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.register-title {
+    margin-bottom: 2rem;
+    color: var(--dark-orange);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    /* Slightly smaller gap to fit more fields */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.form-label {
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.form-select,
+.form-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    background-color: white;
+}
+
+.form-select:focus,
+.form-input:focus {
+    border-color: var(--primary-orange);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 183, 77, 0.2);
+}
+
+.register-button {
+    background: linear-gradient(135deg, var(--primary-orange), var(--dark-orange));
+    color: var(--white);
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.1s;
+    margin-top: 1rem;
+}
+
+.register-button:hover {
+    opacity: 0.9;
+}
+
+.register-button:active {
+    transform: scale(0.98);
+}
+
+.error-message {
+    color: var(--error-color);
+    background-color: #ffebee;
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ffcdd2;
+}
+
+.login-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.login-link a {
+    color: var(--dark-orange);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

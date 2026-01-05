@@ -24,3 +24,8 @@ app.get("/", (_req, res) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+
+// Health Check Endpoint
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
