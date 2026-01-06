@@ -64,7 +64,7 @@ export default function Register() {
 
                 <form onSubmit={onSubmit} className="register-form">
                     <div className="form-group">
-                        <label>Username</label>
+                        <label className="form-label">Username</label>
                         <input
                             name="username"
                             value={formData.username}
@@ -76,7 +76,7 @@ export default function Register() {
                     </div>
 
                     <div className="form-group">
-                        <label>Email</label>
+                        <label className="form-label">Email</label>
                         <input
                             name="email"
                             type="email"
@@ -89,7 +89,7 @@ export default function Register() {
                     </div>
 
                     <div className="form-group">
-                        <label>Password</label>
+                        <label className="form-label">Password</label>
                         <input
                             name="password"
                             type="password"
@@ -102,7 +102,7 @@ export default function Register() {
                     </div>
 
                     <div className="form-group">
-                        <label>Location (State)</label>
+                        <label className="form-label">Location (State)</label>
                         <select name="state" value={formData.state} onChange={handleChange} required className="form-select">
                             <option value="" disabled>Select your state...</option>
                             <option value="WIEN">Vienna (Wien)</option>
@@ -118,7 +118,7 @@ export default function Register() {
                     </div>
 
                     <div className="form-group">
-                        <label>I am a...</label>
+                        <label className="form-label">I am a...</label>
                         <select name="userType" value={formData.userType} onChange={handleChange} className="form-select">
                             <option value="OWNER">Pet Owner</option>
                             <option value="SITTER">Pet Sitter</option>
