@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { getAuth } from "../auth/authStore";
 import "./home.css";
+import { clearAuth } from "../auth/authStore";
 
 type AustriaState =
   | "WIEN" | "NIEDEROESTERREICH" | "OBEROESTERREICH" | "SALZBURG"
@@ -19,6 +21,13 @@ type UserProfile = {
 
 export default function Home() {
   const auth = getAuth();
+  const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null); // Add ref
+
+  const handleLogout = () => {
+    clearAuth();
+    navigate("/login");
+  };
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [aboutText, setAboutText] = useState("");
@@ -65,6 +74,8 @@ export default function Home() {
     setLoading(true);
     setError(null);
 
+
+
     try {
       // 1. Upload new image if selected
       if (selectedImage) {
@@ -97,7 +108,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <h1 className="home-title">Welcome, {profile?.username}</h1>
-      
+
       {error && <div className="error-message">{error}</div>}
 
       <div className="profile-section">
@@ -109,7 +120,24 @@ export default function Home() {
             <div className="profile-placeholder">No image</div>
           )}
         </div>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        {/* HIDDEN Input - functionality only */}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          ref={fileInputRef} // Connect the ref here
+          className="hidden" // Tailwind class to hide it
+        />
+
+        {/* VISIBLE Button - Design and Text */}
+        <button
+
+          type="button" // Prevent form submission
+          onClick={() => fileInputRef.current?.click()} // Trigger the hidden input
+          className="profile-save-button"
+        >
+          Update Profile Photo
+        </button>
       </div>
 
       <div className="profile-section">
@@ -124,6 +152,10 @@ export default function Home() {
 
       <button onClick={handleSave} className="profile-save-button">
         Save Profile
+      </button>
+
+      <button onClick={handleLogout} className="logout-button">
+        Logout
       </button>
     </div>
   );
