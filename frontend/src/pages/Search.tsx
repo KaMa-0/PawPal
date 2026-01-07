@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getAuth } from "../auth/authStore";
 import api from "../services/api";
 import "./search.css";
 
@@ -25,6 +27,8 @@ type PetSitter = {
 };
 
 export default function Search() {
+  const auth = getAuth();
+
   const [sitters, setSitters] = useState<PetSitter[]>([]);
   const [state, setState] = useState("");
   const [petType, setPetType] = useState("");
@@ -54,6 +58,16 @@ export default function Search() {
   return (
     <div className="search-container">
       <div className="search-content">
+        {!auth && (
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
+            <Link to="/login" className="login-button" style={{ marginRight: "0.75rem", textDecoration: "none" }}>
+              Login
+            </Link>
+            <Link to="/register" className="login-button" style={{ textDecoration: "none" }}>
+              Register
+            </Link>
+          </div>
+        )}
         <h1 className="search-title">Find a Pet Sitter</h1>
 
         {/* Filters */}
