@@ -8,6 +8,7 @@ import {
 import api from "./services/api";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 import Search from "./pages/Search";
 import { getAuth, clearAuth } from "./auth/authStore";
 import "./App.css";
@@ -80,7 +81,7 @@ function App() {
           path="/"
           element={
           getAuth() ? (
-            <TemporaryHomePage message={message} />
+            <Home />
           ) : (
             <Navigate to="/search" replace />
           )}
