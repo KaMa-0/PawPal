@@ -8,6 +8,7 @@ import {
 import api from "./services/api";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Search from "./pages/Search";
 import { getAuth, clearAuth } from "./auth/authStore";
 import "./App.css";
 
@@ -72,7 +73,19 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/search" element={<Search />} />
+
         {/* Start here */}
+        <Route
+          path="/"
+          element={
+          getAuth() ? (
+            <TemporaryHomePage message={message} />
+          ) : (
+            <Navigate to="/search" replace />
+          )}
+        />
+
         <Route
           path="/"
           element={
@@ -101,7 +114,7 @@ function App() {
         />
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/search" replace />} />
       </Routes>
     </BrowserRouter>
   );

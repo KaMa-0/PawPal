@@ -24,6 +24,8 @@ export default function Register() {
         petTypes: [] as string[],
     });
 
+    const petOptions = ["DOG", "CAT", "BIRD", "RABBIT", "FISH", "REPTILE"];
+
     const [error, setError] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -32,6 +34,15 @@ export default function Register() {
             [e.target.name]: e.target.value,
         });
     };
+
+    const handlePetTypesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selected = Array.from(e.target.selectedOptions, option => option.value);
+        setFormData({
+            ...formData,
+            petTypes: selected
+        });
+    };
+
 
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -125,6 +136,31 @@ export default function Register() {
                             <option value="ADMIN">Admin</option>
                         </select>
                     </div>
+
+                    {formData.userType === "SITTER" && (
+                      <div className="form-group">
+                        <label className="form-label">Pet Types I can sit</label>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
+                          {petOptions.map((pet) => (
+                            <label key={pet} style={{ display: "flex", alignItems: "center", gap: "0.25rem", cursor: "pointer" }}>
+                              <input
+                                type="checkbox"
+                                value={pet}
+                                checked={formData.petTypes.includes(pet)}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setFormData({ ...formData, petTypes: [...formData.petTypes, pet] });
+                                  } else {
+                                    setFormData({ ...formData, petTypes: formData.petTypes.filter(p => p !== pet) });
+                                  }
+                                }}
+                              />
+                              {pet.charAt(0).toUpperCase() + pet.slice(1).toLowerCase()}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     <button type="submit" className="register-button">Register</button>
                 </form>
