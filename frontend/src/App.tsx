@@ -79,6 +79,16 @@ function App() {
         <Route
           path="/"
           element={
+          getAuth() ? (
+            <TemporaryHomePage message={message} />
+          ) : (
+            <Navigate to="/search" replace />
+          )}
+        />
+
+        <Route
+          path="/"
+          element={
             <ProtectedRoute>
               <TemporaryHomePage message={message} />
             </ProtectedRoute>
