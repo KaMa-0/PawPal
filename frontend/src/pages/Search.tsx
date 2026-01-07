@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import "./search.css";
 
 type AustriaState =
   | "WIEN"
@@ -25,8 +26,8 @@ type PetSitter = {
 
 export default function Search() {
   const [sitters, setSitters] = useState<PetSitter[]>([]);
-  const [state, setState] = useState<string>("");
-  const [petType, setPetType] = useState<string>("");
+  const [state, setState] = useState("");
+  const [petType, setPetType] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function fetchSitters() {
@@ -51,80 +52,93 @@ export default function Search() {
   }, []);
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Find a Pet Sitter</h1>
+    <div className="search-container">
+      <div className="search-content">
+        <h1 className="search-title">Find a Pet Sitter</h1>
 
-      {/* Filters */}
-      <div className="flex gap-4 mb-8">
-        <select
-          className="border p-2 rounded"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-        >
-          <option value="">All Locations</option>
-          {[
-            "WIEN",
-            "NIEDEROESTERREICH",
-            "OBEROESTERREICH",
-            "SALZBURG",
-            "TIROL",
-            "VORARLBERG",
-            "KAERNTEN",
-            "STEIERMARK",
-            "BURGENLAND",
-          ].map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-
-        <select
-          className="border p-2 rounded"
-          value={petType}
-          onChange={(e) => setPetType(e.target.value)}
-        >
-          <option value="">All Pet Types</option>
-          <option value="DOG">Dog</option>
-          <option value="CAT">Cat</option>
-        </select>
-
-        <button
-          onClick={fetchSitters}
-          className="bg-indigo-600 text-white px-4 py-2 rounded"
-        >
-          Search
-        </button>
-      </div>
-
-      {/* Results */}
-      {loading ? (
-        <p>Loading sitters...</p>
-      ) : sitters.length === 0 ? (
-        <p>No sitters found.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {sitters.map((sitter) => (
-            <div
-              key={sitter.userId}
-              className="border rounded-lg p-4 shadow"
-            >
-              <h2 className="text-xl font-semibold">{sitter.username}</h2>
-              <p className="text-sm text-gray-500">{sitter.state}</p>
-
-              <p className="mt-2 text-sm">
-                {sitter.petSitter.aboutText || "No description provided."}
-              </p>
-
-              <p className="mt-2 text-sm">
-                Pets: {sitter.petSitter.petTypes.join(", ")}
-              </p>
-
-              <p className="mt-2 text-sm">
-                Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
-              </p>
+        {/* Filters */}
+        <div className="search-card">
+          <form
+            className="search-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              fetchSitters();
+            }}
+          >
+            <div className="form-group">
+              <label className="form-label">Location</label>
+              <select
+                className="form-input"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              >
+                <option value="">All Locations</option>
+                {[
+                  "WIEN",
+                  "NIEDEROESTERREICH",
+                  "OBEROESTERREICH",
+                  "SALZBURG",
+                  "TIROL",
+                  "VORARLBERG",
+                  "KAERNTEN",
+                  "STEIERMARK",
+                  "BURGENLAND",
+                ].map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
             </div>
-          ))}
+
+            <div className="form-group">
+              <label className="form-label">Pet Type</label>
+              <select
+                className="form-input"
+                value={petType}
+                onChange={(e) => setPetType(e.target.value)}
+              >
+                <option value="">All Pet Types</option>
+                <option value="DOG">Dog</option>
+                <option value="CAT">Cat</option>
+              </select>
+            </div>
+
+            <div className="form-group" style={{ alignSelf: "flex-end" }}>
+              <button type="submit" className="login-button">
+                Search
+              </button>
+            </div>
+          </form>
         </div>
-      )}
+
+        {/* Results */}
+        {loading ? (
+          <p className="empty-state">Loading pet sitters…</p>
+        ) : sitters.length === 0 ? (
+          <p className="empty-state">No pet sitters found.</p>
+        ) : (
+          <div className="results-grid">
+            {sitters.map((sitter) => (
+              <div key={sitter.userId} className="sitter-card">
+                <div className="sitter-name">{sitter.username}</div>
+                <div className="sitter-location">{sitter.state}</div>
+
+                <p className="sitter-text">
+                  {sitter.petSitter.aboutText || "No description provided."}
+                </p>
+
+                <div className="sitter-meta">
+                  Pets: {sitter.petSitter.petTypes.join(", ")}
+                </div>
+                <div className="sitter-meta">
+                  Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
