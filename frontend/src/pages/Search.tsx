@@ -112,9 +112,13 @@ export default function Search() {
                 value={petType}
                 onChange={(e) => setPetType(e.target.value)}
               >
+
                 <option value="">All Pet Types</option>
                 <option value="DOG">Dog</option>
                 <option value="CAT">Cat</option>
+                <option value="BIRD">Bird</option>
+                <option value="FISH">Fish</option>
+                <option value="REPTILE">Reptile</option>
               </select>
             </div>
 
