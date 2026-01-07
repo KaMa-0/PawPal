@@ -1,5 +1,5 @@
 import prisma from '../config/prisma';
-import { UserType } from '@prisma/client';
+import { UserType, AustriaState } from '@prisma/client';
 
 export const findUserProfileById = async (userId: number, role: string) => {
     let profileData;
@@ -22,4 +22,27 @@ export const findUserProfileById = async (userId: number, role: string) => {
     }
 
     return profileData;
+};
+
+export const searchPetSitters = async (
+  state?: AustriaState,
+  petType?: string
+) => {
+  return prisma.user.findMany({
+    where: {
+      userType: UserType.SITTER,
+      ...(state && { state }),
+      petSitter: {
+        ...(petType && {
+          petTypes: {
+            has: petType
+          }
+        })
+      }
+    },
+    include: {
+      petSitter: true,
+      profileImages: true
+    }
+  });
 };
