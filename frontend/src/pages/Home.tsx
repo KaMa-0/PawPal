@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
-import { getAuth } from "../auth/authStore";
-import "./home.css";
+import { API_BASE_URL } from "../services/api";
 import { clearAuth } from "../auth/authStore";
+import { getAuth } from "../auth/authStore";
+import api from "../services/api";
+import "./home.css";
 
 type AustriaState =
   | "WIEN" | "NIEDEROESTERREICH" | "OBEROESTERREICH" | "SALZBURG"
@@ -19,8 +20,14 @@ type UserProfile = {
   profileImages: { imageId: number; imageUrl: string }[];
 };
 
+const resolveImageUrl = (url: string) => {
+  if (!url) return "";
+  if (url.startsWith("http")) return url;
+  return `${API_BASE_URL}${url}`;
+};
+
 export default function Home() {
-  const auth = getAuth();
+  const [auth] = useState(() => getAuth());
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null); // Add ref
 
@@ -50,7 +57,7 @@ export default function Home() {
         });
         setAboutText(data.petOwner?.aboutText || data.petSitter?.aboutText || "");
         if (data.profileImages?.length > 0) {
-          setPreviewUrl(data.profileImages[0].imageUrl); // show first image
+          setPreviewUrl(resolveImageUrl(data.profileImages[0].imageUrl)); // show first image
         }
       })
       .catch(err => {
@@ -115,7 +122,11 @@ export default function Home() {
         <label className="profile-label">Profile Picture</label>
         <div className="profile-image-wrapper">
           {previewUrl ? (
-            <img src={previewUrl} alt="Profile" className="profile-image" />
+            <img
+              src={previewUrl?.startsWith("blob:") ? previewUrl : resolveImageUrl(previewUrl)}
+              alt="Profile"
+              className="profile-image"
+            />
           ) : (
             <div className="profile-placeholder">No image</div>
           )}
