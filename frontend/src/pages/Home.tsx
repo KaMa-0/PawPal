@@ -81,8 +81,6 @@ export default function Home() {
     setLoading(true);
     setError(null);
 
-
-
     try {
       // 1. Upload new image if selected
       if (selectedImage) {
