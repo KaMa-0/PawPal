@@ -3,6 +3,60 @@ import { AuthRequest } from '../types/auth.types';
 import { findUserProfileById } from '../services/user.service';
 import { searchPetSitters } from '../services/user.service';
 import { AustriaState } from '@prisma/client';
+import prisma from '../config/prisma';
+import multer from 'multer';
+
+const upload = multer({ dest: 'uploads/' });
+
+export const uploadProfileImage = [
+  upload.single('image'),
+  async (req: AuthRequest, res: Response) => {
+    try {
+      if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+      if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+
+      const imageUrl = `/uploads/${req.file.filename}`;
+
+      const image = await prisma.profileImage.create({
+        data: {
+          userId: req.user.userId,
+          imageUrl,
+        },
+      });
+
+      res.json({ message: 'Image uploaded', image });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to upload image' });
+    }
+  }
+];
+
+export const updateAboutText = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+    const { aboutText } = req.body;
+
+    if (req.user.role === "SITTER") {
+      await prisma.petSitter.update({
+        where: { userId: req.user.userId },
+        data: { aboutText }
+      });
+    } else if (req.user.role === "OWNER") {
+      await prisma.petOwner.update({
+        where: { userId: req.user.userId },
+        data: { aboutText }
+      });
+    } else {
+      return res.status(403).json({ message: 'Admins cannot have About Me' });
+    }
+
+    res.json({ message: 'About me updated' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to update about me' });
+  }
+};
 
 export const getMyProfile = async (req: AuthRequest, res: Response) => {
     try {

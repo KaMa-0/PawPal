@@ -8,44 +8,14 @@ import {
 import api from "./services/api";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 import Search from "./pages/Search";
-import { getAuth, clearAuth } from "./auth/authStore";
+import { getAuth } from "./auth/authStore";
 import "./App.css";
 
-function TemporaryHomePage({ message }: { message: string }) {
-  const auth = getAuth();
-
-  return (
-    <div className="p-8 flex flex-col items-center justify-center min-h-screen bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors">
-      <h1 className="text-4xl font-bold mb-6 text-indigo-600 dark:text-indigo-400">PawPal</h1>
-
-      <div className="mb-6 text-center">
-        <p className="mb-4 text-lg">
-          Logged in as <strong className="font-semibold">{auth?.email}</strong> <span className="text-sm opacity-75">({auth?.role})</span>
-        </p>
-        <button
-          className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors shadow-md cursor-pointer"
-          onClick={() => {
-            clearAuth();
-            window.location.href = "/login";
-          }}
-        >
-          Logout
-        </button>
-      </div>
-
-      <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-md">
-        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-semibold mb-2">Message from backend</p>
-        <p className="text-xl font-medium">
-          {message || "Loading..."}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 /**
- * Protects routes that require login
+ * Protects routes that require login.
+ * If not authenticated, redirects to /login.
  */
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const auth = getAuth();
@@ -54,7 +24,8 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
 }
 
 /**
- * Prevents accessing /login when already logged in
+ * Prevents accessing /login or /register when already logged in.
+ * If authenticated, redirects to / (Home).
  */
 function LoginGate({ children }: { children: ReactNode }) {
   const auth = getAuth();
@@ -66,35 +37,30 @@ function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    // Health check or initial data fetch
     api.get("/health").catch(() => { });
-    api.get("/").then((res) => setMessage(res.data.message));
+    api.get("/").then((res) => setMessage(res.data.message)).catch(() => { });
   }, []);
 
   return (
     <BrowserRouter>
+      {/* The Header is placed here so it is visible on all pages. 
+          If you only want it on specific pages, move it inside the Route elements. */}
       <Routes>
+        {/* Public Route */}
         <Route path="/search" element={<Search />} />
 
-        {/* Start here */}
-        <Route
-          path="/"
-          element={
-          getAuth() ? (
-            <TemporaryHomePage message={message} />
-          ) : (
-            <Navigate to="/search" replace />
-          )}
-        />
-
+        {/* Protected Home Route */}
         <Route
           path="/"
           element={
             <ProtectedRoute>
-              <TemporaryHomePage message={message} />
+              <Home />
             </ProtectedRoute>
           }
         />
 
+        {/* Auth Routes (Accessible only if NOT logged in) */}
         <Route
           path="/login"
           element={
@@ -113,7 +79,7 @@ function App() {
           }
         />
 
-        {/* Fallback */}
+        {/* Fallback - Redirect unknown routes to Search or Login */}
         <Route path="*" element={<Navigate to="/search" replace />} />
       </Routes>
     </BrowserRouter>
