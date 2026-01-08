@@ -25,7 +25,6 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
 
 /**
  * Prevents accessing /login or /register when already logged in.
- * If authenticated, redirects to / (Home).
  */
 function LoginGate({ children }: { children: ReactNode }) {
   const auth = getAuth();
@@ -53,6 +52,16 @@ function App() {
         {/* Protected Home Route */}
         <Route
           path="/"
+          element={
+            <ProtectedRoute>
+              <Search />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* User Home Route (Profile Page) */}
+        <Route
+          path="/home"
           element={
             <ProtectedRoute>
               <Home />

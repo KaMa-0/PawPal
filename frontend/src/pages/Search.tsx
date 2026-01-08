@@ -68,6 +68,13 @@ export default function Search() {
             </Link>
           </div>
         )}
+        {auth && (
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
+            <Link to="/home" className="login-button" style={{marginRight: "0.75rem", textDecoration: "none"}}>
+            Profile
+            </Link>
+          </div>
+        )}
         <h1 className="search-title">Find a Pet Sitter</h1>
 
         {/* Filters */}

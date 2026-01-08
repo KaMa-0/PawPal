@@ -112,8 +112,17 @@ export default function Home() {
     }
   };
 
+  const handleBack = () => {
+      navigate("/search");
+  };
+
   return (
     <div className="home-container">
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
+        <button onClick={handleBack} className="logout-button">
+          Back
+        </button>
+      </div>
       <h1 className="home-title">Welcome, {profile?.username}</h1>
 
       {error && <div className="error-message">{error}</div>}
