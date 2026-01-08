@@ -33,10 +33,10 @@ export default function Search() {
   const [state, setState] = useState("");
   const [petType, setPetType] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sendingRequest, setSendingRequest] = useState<number | null>(null);
 
   async function fetchSitters() {
     setLoading(true);
-
     const params: any = {};
     if (state) params.state = state;
     if (petType) params.petType = petType;
@@ -50,6 +50,29 @@ export default function Search() {
       setLoading(false);
     }
   }
+
+  // Send booking request to sitter
+  const handleRequestBooking = async (sitterId: number) => {
+    if (!auth || auth.role !== "OWNER") {
+      alert("Only Pet Owners can request bookings.");
+      return;
+    }
+
+    setSendingRequest(sitterId);
+
+    try {
+      await api.post("/api/bookings/request", {
+        sitterId,
+        details: "Booking requested via search page"
+      });
+      alert("Booking request sent!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send booking request");
+    } finally {
+      setSendingRequest(null);
+    }
+  };
 
   useEffect(() => {
     fetchSitters();
@@ -70,11 +93,12 @@ export default function Search() {
         )}
         {auth && (
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
-            <Link to="/home" className="login-button" style={{marginRight: "0.75rem", textDecoration: "none"}}>
-            Profile
+            <Link to="/home" className="login-button" style={{ marginRight: "0.75rem", textDecoration: "none" }}>
+              Profile
             </Link>
           </div>
         )}
+
         <h1 className="search-title">Find a Pet Sitter</h1>
 
         {/* Filters */}
@@ -119,7 +143,6 @@ export default function Search() {
                 value={petType}
                 onChange={(e) => setPetType(e.target.value)}
               >
-
                 <option value="">All Pet Types</option>
                 <option value="DOG">Dog</option>
                 <option value="CAT">Cat</option>
@@ -159,6 +182,17 @@ export default function Search() {
                 <div className="sitter-meta">
                   Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
                 </div>
+
+                {auth?.role === "OWNER" && (
+                  <button
+                    className="login-button"
+                    style={{ marginTop: "0.75rem", width: "100%" }}
+                    disabled={sendingRequest === sitter.userId}
+                    onClick={() => handleRequestBooking(sitter.userId)}
+                  >
+                    {sendingRequest === sitter.userId ? "Sending..." : "Request Booking"}
+                  </button>
+                )}
               </div>
             ))}
           </div>

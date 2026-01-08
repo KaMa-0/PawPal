@@ -9,6 +9,7 @@ import api from "./services/api";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
 import { getAuth } from "./auth/authStore";
 import "./App.css";
@@ -55,6 +56,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Search />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* User Bookings Page */}
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute>
+              <Bookings />
             </ProtectedRoute>
           }
         />
