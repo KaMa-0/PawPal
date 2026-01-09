@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAuth } from "../auth/authStore";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "./bookings.css";
 
@@ -17,6 +18,7 @@ type Booking = {
 export default function Bookings() {
   const auth = getAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const navigate = useNavigate();
 
   // Show warning if not logged in
   if (!auth) {
@@ -37,6 +39,10 @@ export default function Bookings() {
   useEffect(() => {
     fetchBookings();
   }, []);
+
+  const handleBack = () => {
+    navigate("/search");
+  };
 
   // --- ACTION FUNCTIONS ---
   // I defined separate functions for each action to make it easier to explain
@@ -78,6 +84,11 @@ export default function Bookings() {
   return (
     <div className="mybookings-container">
       <h1>My Bookings</h1>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
+        <button onClick={handleBack} className="logout-button">
+          Back
+        </button>
+      </div>
 
       {bookings.length === 0 ? (
         <p>No bookings found.</p>
@@ -95,6 +106,8 @@ export default function Bookings() {
                 <p><strong>Details:</strong> {booking.details}</p>
                 <p><strong>Status:</strong> {booking.status}</p>
               </div>
+
+
 
               {/* Sitter Buttons: Visible only if User is Sitter AND Status is PENDING */}
               {auth.role === "SITTER" && booking.status === "PENDING" && (
