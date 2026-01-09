@@ -3,106 +3,134 @@ import { getAuth } from "../auth/authStore";
 import api from "../services/api";
 import "./bookings.css";
 
-type BookingStatus = "PENDING" | "ACCEPTED" | "DECLINED" | "COMPLETED";
+// Keep types simple for the presentation
 
 type Booking = {
   bookingId: number;
   owner: { user: { userId: number; username: string } };
   sitter: { user: { userId: number; username: string } };
-  status: BookingStatus;
+  status: string;
   details?: string;
   requestDate: string;
 };
 
-
-export default function MyBookings() {
+export default function Bookings() {
   const auth = getAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [processingBookingId, setProcessingBookingId] = useState<number | null>(null);
 
-  if (!auth || auth.role !== "SITTER") {
-    return <p style={{ padding: "2rem" }}>Only pet sitters can view this page.</p>;
+  // Show warning if not logged in
+  if (!auth) {
+    return <p style={{ padding: "2rem" }}>Please login first.</p>;
   }
 
+  // Function to fetch data from the database
   async function fetchBookings() {
-    setLoading(true);
     try {
-      const res = await api.get("/api/bookings/my"); // backend endpoint to get bookings for the sitter
+      const res = await api.get("/api/bookings/my");
       setBookings(res.data);
     } catch (err) {
-      console.error("Failed to load bookings", err);
-    } finally {
-      setLoading(false);
+      console.log("Error loading bookings:", err);
     }
   }
 
-  const handleBookingAction = async (bookingId: number, action: "ACCEPTED" | "DECLINED") => {
-    setProcessingBookingId(bookingId);
-    try {
-      await api.patch(`/api/bookings/${bookingId}`, { status: action });
-      // Update state locally
-      setBookings((prev) =>
-        prev.map((b) => (b.bookingId === bookingId ? { ...b, status: action } : b))
-      );
-    } catch (err) {
-      console.error(err);
-      alert("Failed to update booking status");
-    } finally {
-      setProcessingBookingId(null);
-    }
-  };
-
+  // Fetch data when the page loads
   useEffect(() => {
     fetchBookings();
   }, []);
 
+  // --- ACTION FUNCTIONS ---
+  // I defined separate functions for each action to make it easier to explain
+
+  async function acceptBooking(id: number) {
+    try {
+      await api.post("/api/bookings/respond", { bookingId: id, accept: true });
+      alert("Booking Accepted!");
+      fetchBookings(); // Refresh the list
+    } catch (err) {
+      alert("Error accepting booking");
+    }
+  }
+
+  async function declineBooking(id: number) {
+    try {
+      await api.post("/api/bookings/respond", { bookingId: id, accept: false });
+      alert("Booking Declined");
+      fetchBookings(); // Refresh the list
+    } catch (err) {
+      alert("Error declining booking");
+    }
+  }
+
+  async function completeBooking(id: number) {
+    // Ask for confirmation
+    const confirm = window.confirm("Is this job completed?");
+    if (!confirm) return;
+
+    try {
+      await api.post("/api/bookings/complete", { bookingId: id });
+      alert("Service marked as Completed!");
+      fetchBookings(); // Refresh the list
+    } catch (err) {
+      alert("Error completing booking");
+    }
+  }
+
   return (
     <div className="mybookings-container">
-      <h1 className="page-title">My Bookings</h1>
+      <h1>My Bookings</h1>
 
-      {loading ? (
-        <p className="empty-state">Loading bookings…</p>
-      ) : bookings.length === 0 ? (
-        <p className="empty-state">No bookings found.</p>
+      {bookings.length === 0 ? (
+        <p>No bookings found.</p>
       ) : (
         <div className="bookings-grid">
           {bookings.map((booking) => (
             <div key={booking.bookingId} className="booking-card">
-              <div className="booking-owner">
-                Owner: <strong>{booking.owner.user.username}</strong>
-              </div>
-              <div className="booking-details">
-                {booking.details || "No details provided."}
-              </div>
-              <div className="booking-meta">
-                Requested: {new Date(booking.requestDate).toLocaleString()}
-              </div>
-              <div className="booking-status">
-                Status: <strong>{booking.status}</strong>
+
+              {/* Simple info section */}
+              <div className="booking-info">
+                <p><strong>ID:</strong> {booking.bookingId}</p>
+                <p><strong>Owner:</strong> {booking.owner.user.username}</p>
+                <p><strong>Sitter:</strong> {booking.sitter.user.username}</p>
+                <p><strong>Date:</strong> {new Date(booking.requestDate).toLocaleDateString()}</p>
+                <p><strong>Details:</strong> {booking.details}</p>
+                <p><strong>Status:</strong> {booking.status}</p>
               </div>
 
-              {booking.status === "PENDING" && (
-                <div className="booking-actions" style={{ display: "flex", gap: "0.5rem", marginTop: "0.75rem" }}>
+              {/* Sitter Buttons: Visible only if User is Sitter AND Status is PENDING */}
+              {auth.role === "SITTER" && booking.status === "PENDING" && (
+                <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
                   <button
-                    className="login-button"
-                    style={{ flex: 1, backgroundColor: "#4caf50" }}
-                    disabled={processingBookingId === booking.bookingId}
-                    onClick={() => handleBookingAction(booking.bookingId, "ACCEPTED")}
+                    onClick={() => acceptBooking(booking.bookingId)}
+                    style={{ backgroundColor: "green", color: "white", padding: "5px 10px" }}
                   >
-                    {processingBookingId === booking.bookingId ? "Processing..." : "Accept"}
+                    Accept
                   </button>
-
                   <button
-                    className="login-button"
-                    style={{ flex: 1, backgroundColor: "#f44336" }}
-                    disabled={processingBookingId === booking.bookingId}
-                    onClick={() => handleBookingAction(booking.bookingId, "DECLINED")}
+                    onClick={() => declineBooking(booking.bookingId)}
+                    style={{ backgroundColor: "red", color: "white", padding: "5px 10px" }}
                   >
-                    {processingBookingId === booking.bookingId ? "Processing..." : "Decline"}
+                    Decline
                   </button>
                 </div>
               )}
+
+              {/* Owner Button: Visible only if User is Owner AND Status is ACCEPTED */}
+              {auth.role === "OWNER" && booking.status === "ACCEPTED" && (
+                <div style={{ marginTop: "10px" }}>
+                  <button
+                    onClick={() => completeBooking(booking.bookingId)}
+                    style={{ backgroundColor: "blue", color: "white", padding: "5px 10px", width: "100%" }}
+                  >
+                    Mark as Completed
+                  </button>
+                </div>
+              )}
+
+              {/* Completion message */}
+              {booking.status === "COMPLETED" && (
+                <p style={{ color: "gray", marginTop: "10px" }}>Service Completed ✅</p>
+              )}
+
             </div>
           ))}
         </div>
@@ -110,4 +138,3 @@ export default function MyBookings() {
     </div>
   );
 }
-

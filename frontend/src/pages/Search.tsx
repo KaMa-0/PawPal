@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getAuth } from "../auth/authStore";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, clearAuth } from "../auth/authStore";
 import api from "../services/api";
 import "./search.css";
 
@@ -28,12 +28,19 @@ type PetSitter = {
 
 export default function Search() {
   const auth = getAuth();
+  const navigate = useNavigate();
 
   const [sitters, setSitters] = useState<PetSitter[]>([]);
   const [state, setState] = useState("");
   const [petType, setPetType] = useState("");
   const [loading, setLoading] = useState(false);
   const [sendingRequest, setSendingRequest] = useState<number | null>(null);
+
+  // Logout function: Clears token and redirects to login
+  const handleLogout = () => {
+    clearAuth();
+    navigate("/login");
+  };
 
   async function fetchSitters() {
     setLoading(true);
@@ -51,7 +58,7 @@ export default function Search() {
     }
   }
 
-  // Send booking request to sitter
+  // Send booking request to sitter (Only for Owners)
   const handleRequestBooking = async (sitterId: number) => {
     if (!auth || auth.role !== "OWNER") {
       alert("Only Pet Owners can request bookings.");
@@ -81,6 +88,10 @@ export default function Search() {
   return (
     <div className="search-container">
       <div className="search-content">
+
+        {/* --- HEADER SECTION --- */}
+
+        {/* 1. If NOT logged in: Show Login/Register buttons */}
         {!auth && (
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
             <Link to="/login" className="login-button" style={{ marginRight: "0.75rem", textDecoration: "none" }}>
@@ -91,17 +102,38 @@ export default function Search() {
             </Link>
           </div>
         )}
+
+        {/* 2. If LOGGED IN: Show User Info + Action Buttons */}
         {auth && (
-          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
-            <Link to="/home" className="login-button" style={{ marginRight: "0.75rem", textDecoration: "none" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "1.5rem", gap: "10px", flexWrap: "wrap" }}>
+
+            {/* User Info Display */}
+            <span style={{ marginRight: "10px", fontWeight: "bold", color: "#555" }}>
+              Logged in as: {auth.email} ({auth.role})
+            </span>
+
+            {/* My Bookings Button */}
+            <Link to="/bookings" className="login-button" style={{ textDecoration: "none", backgroundColor: "#ff9800" }}>
+              My Bookings
+            </Link>
+
+            {/* Profile Button */}
+            <Link to="/home" className="login-button" style={{ textDecoration: "none" }}>
               Profile
             </Link>
+
+            {/* Logout Button */}
+            <button onClick={handleLogout} className="login-button" style={{ backgroundColor: "#f44336" }}>
+              Logout
+            </button>
           </div>
         )}
 
+        {/* --- END HEADER --- */}
+
         <h1 className="search-title">Find a Pet Sitter</h1>
 
-        {/* Filters */}
+        {/* Filters Section */}
         <div className="search-card">
           <form
             className="search-form"
@@ -160,7 +192,7 @@ export default function Search() {
           </form>
         </div>
 
-        {/* Results */}
+        {/* Results Grid */}
         {loading ? (
           <p className="empty-state">Loading pet sitters…</p>
         ) : sitters.length === 0 ? (
@@ -183,6 +215,7 @@ export default function Search() {
                   Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
                 </div>
 
+                {/* Show Request Button only for Owners */}
                 {auth?.role === "OWNER" && (
                   <button
                     className="login-button"
@@ -201,4 +234,3 @@ export default function Search() {
     </div>
   );
 }
-
