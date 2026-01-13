@@ -11,6 +11,8 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
+import Certifications from "./pages/Certifications";
+import SubmitCertification from "./pages/SubmitCertification";
 import { getAuth } from "./auth/authStore";
 import "./App.css";
 
@@ -76,6 +78,26 @@ function App() {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin Certifications Page */}
+        <Route
+          path="/certifications"
+          element={
+            <ProtectedRoute>
+              <Certifications />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Sitter Submit Certification */}
+        <Route
+          path="/submit-certification"
+          element={
+            <ProtectedRoute>
+              <SubmitCertification />
             </ProtectedRoute>
           }
         />

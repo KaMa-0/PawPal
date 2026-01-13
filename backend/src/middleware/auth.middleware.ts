@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { AuthRequest } from '../types/auth.types';
 
-export const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
+export const authenticate = (req: AuthRequest, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -12,7 +12,6 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
 
     const secret = process.env.JWT_SECRET;
 
-    // Check, ob Secret in .env definiert ist
     if (!secret) {
         console.error("FATAL ERROR: JWT_SECRET ist nicht in der .env Datei definiert!");
         return res.status(500).json({ message: 'Server-Konfiguration fehlerhaft.' });
@@ -27,3 +26,12 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
         next();
     });
 };
+
+export const adminOnly = (req: AuthRequest, res: Response, next: NextFunction) => {
+    if ((req as any).user?.role !== 'ADMIN') {
+        return res.status(403).json({ message: 'Admin access required.' });
+    }
+    next();
+};
+
+export const authenticateToken = authenticate;

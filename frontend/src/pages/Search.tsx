@@ -23,6 +23,10 @@ type PetSitter = {
     aboutText?: string;
     averageRating: number;
     petTypes: string[];
+    certificationRequests: Array<{
+      requestId: number;
+      status: string;
+    }>;
   };
 };
 
@@ -122,6 +126,13 @@ export default function Search() {
               Profile
             </Link>
 
+            {/* Certifications Button - Only for Admin */}
+            {auth.role === "ADMIN" && (
+              <Link to="/certifications" className="login-button" style={{ textDecoration: "none", backgroundColor: "#4caf50" }}>
+                Certifications
+              </Link>
+            )}
+
             {/* Logout Button */}
             <button onClick={handleLogout} className="login-button" style={{ backgroundColor: "#f44336" }}>
               Logout
@@ -201,6 +212,9 @@ export default function Search() {
           <div className="results-grid">
             {sitters.map((sitter) => (
               <div key={sitter.userId} className="sitter-card">
+                {sitter.petSitter.certificationRequests.length > 0 && (
+                  <div className="certification-ribbon">✓ Certified</div>
+                )}
                 <div className="sitter-name">{sitter.username}</div>
                 <div className="sitter-location">{sitter.state}</div>
 
