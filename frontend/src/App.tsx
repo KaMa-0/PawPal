@@ -1,3 +1,8 @@
+/* Datei: `public/index.html` (Head)
+   Füge diese Zeile in den <head> ein oder verschiebe deine favicon-Datei nach /public.
+   <link rel="icon" href="/favicon/favicon.ico" />
+*/
+
 import { useEffect, useState, type ReactNode } from "react";
 import {
     BrowserRouter,
@@ -26,6 +31,37 @@ function LoginGate({ children }: { children: ReactNode }) {
     const auth = getAuth();
     if (auth) return <Navigate to="/" replace />;
     return children;
+}
+
+/* Helper: favicon setzen (Cache-Busting optional) */
+function setFavicon(url: string) {
+  let link = document.querySelector("link[rel*='icon']") as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+  link.href = url;
+}
+
+/* Component: Title + Favicon based on current route */
+function TitleFavicon() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const titles: Record<string, string> = {
+      "/": "PawPal — Suche",
+      "/search": "PawPal — Suche",
+      "/home": "PawPal — Home",
+      "/login": "PawPal — Login",
+      "/register": "PawPal — Registrierung",
+    };
+    document.title = titles[location.pathname] ?? "PawPal";
+    // Pfad anpassen, z.B. '/favicon/favicon.ico' oder '/favicon.ico' wenn du es ins Public-Root legst
+    setFavicon("/favicon/favicon.ico?v=1");
+  }, [location.pathname]);
+
+  return null;
 }
 
 function App() {
