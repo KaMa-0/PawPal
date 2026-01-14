@@ -35,11 +35,11 @@ export const completeBooking = async (bookingId: number) => {
 
 export const getBookingsForUser = async (userId: number, role: string) => {
   const where =
-      role === UserType.OWNER
-          ? { ownerId: userId }
-          : role === UserType.SITTER
-              ? { sitterId: userId }
-              : {};
+    role === "OWNER"
+      ? { ownerId: userId }
+      : role === "SITTER"
+      ? { sitterId: userId }
+      : {};
 
   return prisma.booking.findMany({
     where,
@@ -64,52 +64,8 @@ export const getBookingsForUser = async (userId: number, role: string) => {
           },
         },
       },
-      review: true,
     },
     orderBy: { requestDate: "desc" },
   });
 };
 
-// Create Review
-export const createReview = async (bookingId: number, rating: number, text: string) => {
-  // Create the review
-  const review = await prisma.review.create({
-    data: {
-      bookingId,
-      rating,
-      text,
-    },
-  });
-
-  // Get the sitter ID from the booking
-  const booking = await prisma.booking.findUnique({
-    where: { bookingId },
-  });
-
-  if (!booking) {
-    throw new Error('Booking not found');
-  }
-
-  // Calculate the average rating for the sitter using aggregate
-  const ratingData = await prisma.review.aggregate({
-    where: {
-      booking: {
-        sitterId: booking.sitterId,
-      },
-    },
-    _avg: {
-      rating: true,
-    },
-    _count: true,
-  });
-
-  const averageRating = ratingData._avg.rating || 0;
-
-  // Update the sitter's average rating
-  await prisma.petSitter.update({
-    where: { userId: booking.sitterId },
-    data: { averageRating },
-  });
-
-  return review;
-};

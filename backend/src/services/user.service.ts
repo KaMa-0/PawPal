@@ -3,32 +3,13 @@ import { UserType, AustriaState } from '@prisma/client';
 
 export const findUserProfileById = async (userId: number, role: string) => {
   let includeOptions: any = {
-    profileImages: true // Bilder werden immer geladen
+    profileImages: true // always include images at the User level
   };
 
   if (role === UserType.OWNER) {
     includeOptions.petOwner = true;
   } else if (role === UserType.SITTER) {
-    // Fetch Reviews from Database
-    includeOptions.petSitter = {
-      include: {
-        bookings: {
-          where: {
-            review: {
-              isNot: null
-            }
-          },
-          include: {
-            review: true,
-            owner: {
-              include: {
-                user: true
-              }
-            }
-          }
-        }
-      }
-    };
+    includeOptions.petSitter = true;
   } else if (role === UserType.ADMIN) {
     includeOptions.admin = true;
   }
