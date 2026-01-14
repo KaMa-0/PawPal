@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { AuthRequest } from '../types/auth.types';
 import { findUserProfileById } from '../services/user.service';
-import { searchPetSitters } from '../services/user.service';
+import { searchPetSitters, addFavoriteService, removeFavoriteService, getFavoritesService, getFavoriteIdsService } from '../services/user.service';
 import { $Enums, AustriaState} from '@prisma/client';
 import prisma from '../config/prisma';
 import multer from 'multer';
@@ -98,4 +98,80 @@ export const getPetSitters = async (req: { query: { state: any; petType: any; };
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch pet sitters' });
   }
+};
+
+export const getSitterProfile = async (req: any, res: any) => {
+    try {
+        const id = parseInt(req.params.id);
+        if (isNaN(id)) return res.status(400).json({ message: "Invalid ID" });
+
+        const sitter = await findUserProfileById(id, 'SITTER');
+
+        if (!sitter) {
+            return res.status(404).json({ message: "Sitter not found" });
+        }
+
+        // Passwort-Hash entfernen
+        const { passwordHash, ...safeSitter } = sitter;
+
+        res.json(safeSitter);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+// Favorite Controller
+
+export const toggleFavorite = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user || req.user.role !== 'OWNER') {
+            return res.status(403).json({ message: 'Only Pet Owners can manage favorites' });
+        }
+
+        const sitterId = parseInt(req.params.sitterId);
+        const ownerId = req.user.userId;
+        const { action } = req.body; // 'add' oder 'remove'
+
+        if (action === 'add') {
+            await addFavoriteService(ownerId, sitterId);
+            res.json({ message: 'Added to favorites' });
+        } else {
+            await removeFavoriteService(ownerId, sitterId);
+            res.json({ message: 'Removed from favorites' });
+        }
+    } catch (err) {
+        // Prisma Fehler P2002 = Unique constraint failed (bereits favorisiert)
+        // Prisma Fehler P2025 = Record not found (bereits gelöscht)
+        console.error(err);
+        res.status(400).json({ message: 'Could not update favorite status' });
+    }
+};
+
+export const getMyFavorites = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user || req.user.role !== 'OWNER') {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+        const favorites = await getFavoritesService(req.user.userId);
+        res.json(favorites);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Failed to fetch favorites' });
+    }
+};
+
+// Um beim Laden der Suche zu wissen, welche Herzen rot sein sollen
+export const getMyFavoriteIds = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user || req.user.role !== 'OWNER') {
+            return res.json([]); // Leeres Array für Nicht-Owner
+        }
+        const ids = await getFavoriteIdsService(req.user.userId);
+        res.json(ids);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error fetching favorite IDs' });
+    }
 };

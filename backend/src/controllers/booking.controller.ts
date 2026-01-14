@@ -1,3 +1,4 @@
+// booking.controller.ts
 import { AuthRequest } from '../types/auth.types';
 import { Response } from 'express';
 import {
@@ -7,6 +8,10 @@ import {
   getBookingsForUser,
   createReview,
 } from '../services/booking.service';
+
+// NEU: Imports hinzufügen
+import prisma from '../config/prisma';
+import { updateSitterAverageRating } from '../services/user.service';
 
 export const sendBookingRequest = async (req: AuthRequest, res: Response) => {
   try {
@@ -68,11 +73,23 @@ export const addBookingReview = async (req: AuthRequest, res: Response) => {
 
     const { bookingId, rating, text } = req.body;
 
+    // 1. Review erstellen (wie bisher)
     const review = await createReview(bookingId, rating, text);
+
+    // 2. Sitter ID herausfinden und Durchschnitt updaten
+    const booking = await prisma.booking.findUnique({
+      where: { bookingId: Number(bookingId) },
+      select: { sitterId: true }
+    });
+
+    if (booking) {
+      // Hier wird die Berechnung angestoßen
+      await updateSitterAverageRating(booking.sitterId);
+    }
+
     res.json(review);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to create review' });
   }
 };
-

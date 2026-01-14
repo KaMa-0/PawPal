@@ -4,16 +4,20 @@ import { getAuth, clearAuth } from "../auth/authStore";
 import api from "../services/api";
 import "./search.css";
 
-type AustriaState =
-    | "WIEN"
-    | "NIEDEROESTERREICH"
-    | "OBEROESTERREICH"
-    | "SALZBURG"
-    | "TIROL"
-    | "VORARLBERG"
-    | "KAERNTEN"
-    | "STEIERMARK"
-    | "BURGENLAND";
+// Konstante für die Bundesländer
+const AUSTRIA_STATES = [
+  "WIEN",
+  "NIEDEROESTERREICH",
+  "OBEROESTERREICH",
+  "SALZBURG",
+  "TIROL",
+  "VORARLBERG",
+  "KAERNTEN",
+  "STEIERMARK",
+  "BURGENLAND",
+] as const;
+
+type AustriaState = typeof AUSTRIA_STATES[number];
 
 type PetSitter = {
   userId: number;
@@ -26,7 +30,6 @@ type PetSitter = {
   };
 };
 
-// Typ für unsere Benachrichtigung
 type Toast = {
   message: string;
   type: "success" | "error";
@@ -37,16 +40,15 @@ export default function Search() {
   const navigate = useNavigate();
 
   const [sitters, setSitters] = useState<PetSitter[]>([]);
+  const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
   const [state, setState] = useState("");
   const [petType, setPetType] = useState("");
   const [loading, setLoading] = useState(false);
   const [sendingRequest, setSendingRequest] = useState<number | null>(null);
   const [toast, setToast] = useState<Toast>(null);
 
-  // Hilfsfunktion um Alerts zu ersetzen
   const showToast = (message: string, type: "success" | "error") => {
     setToast({ message, type });
-    // Nach 3 Sekunden automatisch ausblenden
     setTimeout(() => {
       setToast(null);
     }, 3000);
@@ -74,6 +76,46 @@ export default function Search() {
     }
   }
 
+  // 1. Sitter laden (Einmalig)
+  useEffect(() => {
+    fetchSitters();
+  }, []);
+
+  // 2. Favoriten laden (Nur wenn Owner & ID sich ändert)
+  useEffect(() => {
+    if (auth?.role === "OWNER" && auth?.userId) {
+      api.get("/api/users/favorites/ids")
+          .then((res) => setFavoriteIds(res.data))
+          .catch((err) => console.error("Failed to load favorites", err));
+    }
+  }, [auth?.userId]);
+
+  const toggleFavorite = async (e: React.MouseEvent, sitterId: number) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!auth || auth.role !== "OWNER") {
+      showToast("Only Pet Owners can use favorites.", "error");
+      return;
+    }
+
+    const isFav = favoriteIds.includes(sitterId);
+    const action = isFav ? "remove" : "add";
+
+    if (isFav) {
+      setFavoriteIds((prev) => prev.filter((id) => id !== sitterId));
+    } else {
+      setFavoriteIds((prev) => [...prev, sitterId]);
+    }
+
+    try {
+      await api.post(`/api/users/favorites/${sitterId}`, { action });
+    } catch (err) {
+      console.error("Failed to toggle favorite", err);
+      showToast("Failed to update favorite.", "error");
+    }
+  };
+
   const handleRequestBooking = async (e: React.MouseEvent, sitterId: number) => {
     e.stopPropagation();
 
@@ -87,7 +129,7 @@ export default function Search() {
     try {
       await api.post("/api/bookings/request", {
         sitterId,
-        details: "Booking requested via search page"
+        details: "Booking requested via search page",
       });
       showToast("Booking request sent successfully!", "success");
     } catch (err) {
@@ -98,14 +140,8 @@ export default function Search() {
     }
   };
 
-  useEffect(() => {
-    fetchSitters();
-  }, []);
-
   return (
       <div className="search-container">
-
-        {/* Toast Anzeige (nur sichtbar wenn toast state existiert) */}
         {toast && (
             <div className={`toast-notification toast-${toast.type}`}>
               {toast.message}
@@ -113,8 +149,7 @@ export default function Search() {
         )}
 
         <div className="search-content">
-
-          {/* --- HEADER SECTION --- */}
+          {/* HEADER */}
           {!auth && (
               <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
                 <Link to="/login" className="login-button" style={{ marginRight: "0.75rem", textDecoration: "none" }}>
@@ -131,6 +166,13 @@ export default function Search() {
             <span style={{ marginRight: "10px", fontWeight: "bold", color: "#555" }}>
               Logged in as: {auth.email} ({auth.role})
             </span>
+
+                {auth.role === "OWNER" && (
+                    <Link to="/favorites" className="login-button" style={{ textDecoration: "none", backgroundColor: "#e91e63" }}>
+                      Favorites
+                    </Link>
+                )}
+
                 <Link to="/bookings" className="login-button" style={{ textDecoration: "none", backgroundColor: "#ff9800" }}>
                   My Bookings
                 </Link>
@@ -145,7 +187,7 @@ export default function Search() {
 
           <h1 className="search-title">Find a Pet Sitter</h1>
 
-          {/* Filters Section */}
+          {/* FILTER */}
           <div className="search-card">
             <form
                 className="search-form"
@@ -162,17 +204,7 @@ export default function Search() {
                     onChange={(e) => setState(e.target.value)}
                 >
                   <option value="">All Locations</option>
-                  {[
-                    "WIEN",
-                    "NIEDEROESTERREICH",
-                    "OBEROESTERREICH",
-                    "SALZBURG",
-                    "TIROL",
-                    "VORARLBERG",
-                    "KAERNTEN",
-                    "STEIERMARK",
-                    "BURGENLAND",
-                  ].map((s) => (
+                  {AUSTRIA_STATES.map((s) => (
                       <option key={s} value={s}>
                         {s}
                       </option>
@@ -204,7 +236,7 @@ export default function Search() {
             </form>
           </div>
 
-          {/* Results Grid */}
+          {/* ERGEBNISSE */}
           {loading ? (
               <p className="empty-state">Loading pet sitters…</p>
           ) : sitters.length === 0 ? (
@@ -215,7 +247,27 @@ export default function Search() {
                     <div
                         key={sitter.userId}
                         className="sitter-card"
+                        style={{ position: "relative", cursor: "pointer" }}
+                        onClick={() => navigate(`/sitters/${sitter.userId}`)}
                     >
+                      {auth?.role === "OWNER" && (
+                          <button
+                              onClick={(e) => toggleFavorite(e, sitter.userId)}
+                              style={{
+                                position: "absolute",
+                                top: "10px",
+                                right: "10px",
+                                background: "none",
+                                border: "none",
+                                fontSize: "1.5rem",
+                                cursor: "pointer",
+                                zIndex: 10,
+                              }}
+                          >
+                            {favoriteIds.includes(sitter.userId) ? "❤️" : "🤍"}
+                          </button>
+                      )}
+
                       <div className="sitter-name">{sitter.username}</div>
                       <div className="sitter-location">{sitter.state}</div>
 
@@ -226,15 +278,18 @@ export default function Search() {
                       <div className="sitter-meta">
                         Pets: {sitter.petSitter.petTypes.join(", ")}
                       </div>
+
+                      {/* NEU: Anzeige 'New' wenn noch keine Reviews da sind, sonst die Zahl */}
                       <div className="sitter-meta">
-                        Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
+                        Rating: ⭐ {sitter.petSitter.averageRating > 0
+                          ? sitter.petSitter.averageRating.toFixed(1)
+                          : "New"}
                       </div>
 
-                      {/* Show Request Button only for Owners */}
                       {auth?.role === "OWNER" && (
                           <button
                               className="login-button"
-                              style={{ marginTop: "0.75rem", width: "100%" }}
+                              style={{ marginTop: "0.75rem", width: "100%", position: "relative", zIndex: 5 }}
                               disabled={sendingRequest === sitter.userId}
                               onClick={(e) => handleRequestBooking(e, sitter.userId)}
                           >
