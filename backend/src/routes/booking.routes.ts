@@ -5,6 +5,7 @@ import {
   respondBookingRequest,
   markBookingCompleted,
   getMyBookings,
+  addBookingReview,
 } from '../controllers/booking.controller';
 
 const router = Router();
@@ -12,6 +13,7 @@ const router = Router();
 router.post('/request', authenticateToken, sendBookingRequest);
 router.post('/respond', authenticateToken, respondBookingRequest);
 router.post('/complete', authenticateToken, markBookingCompleted);
+router.post('/review', authenticateToken, addBookingReview);
 router.get('/my', authenticateToken, getMyBookings);
 
 export default router;

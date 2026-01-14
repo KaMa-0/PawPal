@@ -35,11 +35,11 @@ export const completeBooking = async (bookingId: number) => {
 
 export const getBookingsForUser = async (userId: number, role: string) => {
   const where =
-    role === "OWNER"
-      ? { ownerId: userId }
-      : role === "SITTER"
-      ? { sitterId: userId }
-      : {};
+      role === UserType.OWNER
+          ? { ownerId: userId }
+          : role === UserType.SITTER
+              ? { sitterId: userId }
+              : {};
 
   return prisma.booking.findMany({
     where,
@@ -64,8 +64,19 @@ export const getBookingsForUser = async (userId: number, role: string) => {
           },
         },
       },
+      review: true,
     },
     orderBy: { requestDate: "desc" },
   });
 };
 
+// Create Review
+export const createReview = async (bookingId: number, rating: number, text: string) => {
+  return prisma.review.create({
+    data: {
+      bookingId,
+      rating,
+      text,
+    },
+  });
+};

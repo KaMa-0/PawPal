@@ -44,8 +44,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* The Header is placed here so it is visible on all pages. 
-          If you only want it on specific pages, move it inside the Route elements. */}
       <Routes>
         {/* Public Route */}
         <Route path="/search" element={<Search />} />
