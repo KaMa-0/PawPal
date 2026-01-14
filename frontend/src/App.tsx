@@ -1,13 +1,21 @@
+/* Datei: `public/index.html` (Head)
+   Füge diese Zeile in den <head> ein oder verschiebe deine favicon-Datei nach /public.
+   <link rel="icon" href="/favicon/favicon.ico" />
+*/
+
 import { useEffect, useState, type ReactNode } from "react";
 import {
   BrowserRouter,
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import api from "./services/api";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
@@ -16,43 +24,63 @@ import SubmitCertification from "./pages/SubmitCertification";
 import { getAuth } from "./auth/authStore";
 import "./App.css";
 
-/**
- * Protects routes that require login.
- * If not authenticated, redirects to /login.
- */
+/* Route-Guards */
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const auth = getAuth();
   if (!auth) return <Navigate to="/login" replace />;
   return children;
 }
-
-/**
- * Prevents accessing /login or /register when already logged in.
- */
 function LoginGate({ children }: { children: ReactNode }) {
   const auth = getAuth();
   if (auth) return <Navigate to="/" replace />;
   return children;
 }
 
+/* Helper: favicon setzen (Cache-Busting optional) */
+function setFavicon(url: string) {
+  let link = document.querySelector("link[rel*='icon']") as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+  link.href = url;
+}
+
+/* Component: Title + Favicon based on current route */
+function TitleFavicon() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const titles: Record<string, string> = {
+      "/": "PawPal — Suche",
+      "/search": "PawPal — Suche",
+      "/home": "PawPal — Home",
+      "/login": "PawPal — Login",
+      "/register": "PawPal — Registrierung",
+    };
+    document.title = titles[location.pathname] ?? "PawPal";
+    // Pfad anpassen, z.B. '/favicon/favicon.ico' oder '/favicon.ico' wenn du es ins Public-Root legst
+    setFavicon("/favicon/favicon.ico?v=1");
+  }, [location.pathname]);
+
+  return null;
+}
+
 function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // Health check or initial data fetch
     api.get("/health").catch(() => { });
     api.get("/").then((res) => setMessage(res.data.message)).catch(() => { });
   }, []);
 
   return (
     <BrowserRouter>
-      {/* The Header is placed here so it is visible on all pages. 
-          If you only want it on specific pages, move it inside the Route elements. */}
+      <TitleFavicon />
       <Routes>
-        {/* Public Route */}
         <Route path="/search" element={<Search />} />
 
-        {/* Protected Home Route */}
         <Route
           path="/"
           element={
@@ -113,6 +141,24 @@ function App() {
         />
 
         <Route
+          path="/forgot-password"
+          element={
+            <LoginGate>
+              <ForgotPassword />
+            </LoginGate>
+          }
+        />
+
+        <Route
+          path="/reset-password"
+          element={
+            <LoginGate>
+              <ResetPassword />
+            </LoginGate>
+          }
+        />
+
+        <Route
           path="/register"
           element={
             <LoginGate>
@@ -121,7 +167,6 @@ function App() {
           }
         />
 
-        {/* Fallback - Redirect unknown routes to Search or Login */}
         <Route path="*" element={<Navigate to="/search" replace />} />
       </Routes>
     </BrowserRouter>
