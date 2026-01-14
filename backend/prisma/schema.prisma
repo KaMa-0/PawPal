@@ -56,6 +56,10 @@ model User {
   registrationDate DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
+  // Password Reset
+  resetToken       String?
+  resetTokenExpires DateTime?
+
   // Relationen zu den spezifischen Rollen (1:1)
   petOwner      PetOwner?
   petSitter     PetSitter?

@@ -14,6 +14,8 @@ import {
 import api from "./services/api";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import { getAuth } from "./auth/authStore";
@@ -99,6 +101,24 @@ function App() {
           element={
             <LoginGate>
               <Login />
+            </LoginGate>
+          }
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <LoginGate>
+              <ForgotPassword />
+            </LoginGate>
+          }
+        />
+
+        <Route
+          path="/reset-password"
+          element={
+            <LoginGate>
+              <ResetPassword />
             </LoginGate>
           }
         />
