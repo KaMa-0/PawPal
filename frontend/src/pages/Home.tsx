@@ -273,9 +273,16 @@ export default function Home() {
           Save Profile
         </button>
 
+        {auth?.role === "SITTER" && (
+          <button onClick={() => navigate("/submit-certification")} className="profile-save-button">
+            Request Certification
+          </button>
+        )}
+      
         <button onClick={handleLogout} className="logout-button">
           Logout
         </button>
+      
       </div>
   );
 }

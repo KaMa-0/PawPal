@@ -1,0 +1,178 @@
+/* Theme Variables - Matching App Style */
+:root {
+  --primary-orange: #ffb74d;
+  --dark-orange: #f57c00;
+  --light-bg: #fff3e0;
+  --text-color: #333;
+  --white: #ffffff;
+  --success-color: #2e7d32;
+  --error-color: #d32f2f;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--light-bg);
+}
+
+.cert-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  min-height: 100vh;
+  position: relative;
+}
+
+.cert-container h1 {
+  text-align: center;
+  color: var(--dark-orange);
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: var(--error-color);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  border-left: 4px solid var(--error-color);
+}
+
+.back-btn {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--dark-orange);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.back-btn:hover {
+  background-color: rgba(245, 124, 0, 0.1);
+  transform: translateX(-3px);
+}
+
+.back-btn:active {
+  transform: translateX(-1px);
+}
+
+.no-requests {
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  padding: 40px 20px;
+}
+
+.cert-list {
+  display: grid;
+  gap: 20px;
+}
+
+.cert-card {
+  background: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.cert-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.cert-info h3 {
+  margin: 0 0 10px 0;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.cert-info p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.cert-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-approve {
+  background: linear-gradient(135deg, var(--success-color), #1b5e20);
+  color: var(--white);
+}
+
+.btn-approve:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+}
+
+.btn-reject {
+  background: linear-gradient(135deg, var(--error-color), #b71c1c);
+  color: var(--white);
+}
+
+.btn-reject:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .cert-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cert-actions {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .btn {
+    flex: 1;
+  }
+
+  .cert-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .back-btn {
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+

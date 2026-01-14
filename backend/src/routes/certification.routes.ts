@@ -1,0 +1,29 @@
+import { Router } from 'express';
+import { authenticate, adminOnly } from '../middleware/auth.middleware';
+import {
+  submitCertification,
+  getPending,
+  approve,
+  reject,
+  getStatus
+} from '../controllers/certification.controller';
+
+const router = Router();
+
+// POST - Sitter submits certification request
+router.post('/submit', authenticate, submitCertification);
+
+// GET - Admin views pending requests
+router.get('/pending', authenticate, adminOnly, getPending);
+
+// POST - Admin approves certification
+router.post('/approve', authenticate, adminOnly, approve);
+
+// POST - Admin rejects certification
+router.post('/reject', authenticate, adminOnly, reject);
+
+// GET - Check if sitter is certified
+router.get('/status/:sitterId', getStatus);
+
+export default router;
+

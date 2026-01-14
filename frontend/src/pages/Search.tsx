@@ -23,6 +23,10 @@ type PetSitter = {
     aboutText?: string;
     averageRating: number;
     petTypes: string[];
+    certificationRequests: Array<{
+      requestId: number;
+      status: string;
+    }>;
   };
 };
 
@@ -202,6 +206,18 @@ export default function Search() {
                 </button>
               </div>
             </form>
+            
+            {/* Certifications Button - Only for Admin */}
+            {auth.role === "ADMIN" && (
+              <Link to="/certifications" className="login-button" style={{ textDecoration: "none", backgroundColor: "#4caf50" }}>
+                Certifications
+              </Link>
+            )}
+
+            {/* Logout Button */}
+            <button onClick={handleLogout} className="login-button" style={{ backgroundColor: "#f44336" }}>
+              Logout
+            </button>
           </div>
 
           {/* Results Grid */}
@@ -243,6 +259,70 @@ export default function Search() {
                       )}
                     </div>
                 ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Pet Type</label>
+              <select
+                className="form-input"
+                value={petType}
+                onChange={(e) => setPetType(e.target.value)}
+              >
+                <option value="">All Pet Types</option>
+                <option value="DOG">Dog</option>
+                <option value="CAT">Cat</option>
+                <option value="BIRD">Bird</option>
+                <option value="FISH">Fish</option>
+                <option value="REPTILE">Reptile</option>
+              </select>
+            </div>
+
+            <div className="form-group" style={{ alignSelf: "flex-end" }}>
+              <button type="submit" className="login-button">
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Results Grid */}
+        {loading ? (
+          <p className="empty-state">Loading pet sitters…</p>
+        ) : sitters.length === 0 ? (
+          <p className="empty-state">No pet sitters found.</p>
+        ) : (
+          <div className="results-grid">
+            {sitters.map((sitter) => (
+              <div key={sitter.userId} className="sitter-card">
+                {sitter.petSitter.certificationRequests.length > 0 && (
+                  <div className="certification-ribbon">✓ Certified</div>
+                )}
+                <div className="sitter-name">{sitter.username}</div>
+                <div className="sitter-location">{sitter.state}</div>
+
+                <p className="sitter-text">
+                  {sitter.petSitter.aboutText || "No description provided."}
+                </p>
+
+                <div className="sitter-meta">
+                  Pets: {sitter.petSitter.petTypes.join(", ")}
+                </div>
+                <div className="sitter-meta">
+                  Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
+                </div>
+
+                {/* Show Request Button only for Owners */}
+                {auth?.role === "OWNER" && (
+                  <button
+                    className="login-button"
+                    style={{ marginTop: "0.75rem", width: "100%" }}
+                    disabled={sendingRequest === sitter.userId}
+                    onClick={() => handleRequestBooking(sitter.userId)}
+                  >
+                    {sendingRequest === sitter.userId ? "Sending..." : "Request Booking"}
+                  </button>
+                )}
               </div>
           )}
         </div>

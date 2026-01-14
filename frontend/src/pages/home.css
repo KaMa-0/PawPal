@@ -70,6 +70,8 @@
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.3s;
+  margin-right: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .logout-button {
@@ -81,7 +83,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.3s;
-  margin: 0 7px;
+  margin-bottom: 0.75rem;
 }
 
 .profile-save-button:hover {
