@@ -63,10 +63,24 @@
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
+  position: relative;
 }
 
 .sitter-card:hover {
   transform: translateY(-3px);
+}
+
+.certification-ribbon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: var(--white);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
 }
 
 .sitter-name {

@@ -17,7 +17,10 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
+import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
+import Certifications from "./pages/Certifications";
+import SubmitCertification from "./pages/SubmitCertification";
 import { getAuth } from "./auth/authStore";
 import "./App.css";
 
@@ -87,6 +90,17 @@ function App() {
           }
         />
 
+        {/* User Bookings Page */}
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute>
+              <Bookings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* User Home Route (Profile Page) */}
         <Route
           path="/home"
           element={
@@ -96,6 +110,27 @@ function App() {
           }
         />
 
+        {/* Admin Certifications Page */}
+        <Route
+          path="/certifications"
+          element={
+            <ProtectedRoute>
+              <Certifications />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Sitter Submit Certification */}
+        <Route
+          path="/submit-certification"
+          element={
+            <ProtectedRoute>
+              <SubmitCertification />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Auth Routes (Accessible only if NOT logged in) */}
         <Route
           path="/login"
           element={

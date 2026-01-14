@@ -34,7 +34,7 @@ export const searchPetSitters = async (
   state?: AustriaState,
   petType?: string
 ) => {
-  return prisma.user.findMany({
+  const sitters = await prisma.user.findMany({
     where: {
       userType: UserType.SITTER,
       ...(state && { state }),
@@ -47,8 +47,17 @@ export const searchPetSitters = async (
       }
     },
     include: {
-      petSitter: true,
+      petSitter: {
+        include: {
+          certificationRequests: {
+            where: { status: 'APPROVED' },
+            take: 1
+          }
+        }
+      },
       profileImages: true
     }
   });
+
+  return sitters;
 };

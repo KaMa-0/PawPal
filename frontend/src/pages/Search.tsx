@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getAuth } from "../auth/authStore";
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth, clearAuth } from "../auth/authStore";
 import api from "../services/api";
 import "./search.css";
 
@@ -23,20 +23,31 @@ type PetSitter = {
     aboutText?: string;
     averageRating: number;
     petTypes: string[];
+    certificationRequests: Array<{
+      requestId: number;
+      status: string;
+    }>;
   };
 };
 
 export default function Search() {
   const auth = getAuth();
+  const navigate = useNavigate();
 
   const [sitters, setSitters] = useState<PetSitter[]>([]);
   const [state, setState] = useState("");
   const [petType, setPetType] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sendingRequest, setSendingRequest] = useState<number | null>(null);
+
+  // Logout function: Clears token and redirects to login
+  const handleLogout = () => {
+    clearAuth();
+    navigate("/login");
+  };
 
   async function fetchSitters() {
     setLoading(true);
-
     const params: any = {};
     if (state) params.state = state;
     if (petType) params.petType = petType;
@@ -51,6 +62,29 @@ export default function Search() {
     }
   }
 
+  // Send booking request to sitter (Only for Owners)
+  const handleRequestBooking = async (sitterId: number) => {
+    if (!auth || auth.role !== "OWNER") {
+      alert("Only Pet Owners can request bookings.");
+      return;
+    }
+
+    setSendingRequest(sitterId);
+
+    try {
+      await api.post("/api/bookings/request", {
+        sitterId,
+        details: "Booking requested via search page"
+      });
+      alert("Booking request sent!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send booking request");
+    } finally {
+      setSendingRequest(null);
+    }
+  };
+
   useEffect(() => {
     fetchSitters();
   }, []);
@@ -58,6 +92,10 @@ export default function Search() {
   return (
     <div className="search-container">
       <div className="search-content">
+
+        {/* --- HEADER SECTION --- */}
+
+        {/* 1. If NOT logged in: Show Login/Register buttons */}
         {!auth && (
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
             <Link to="/login" className="login-button" style={{ marginRight: "0.75rem", textDecoration: "none" }}>
@@ -68,16 +106,45 @@ export default function Search() {
             </Link>
           </div>
         )}
+
+        {/* 2. If LOGGED IN: Show User Info + Action Buttons */}
         {auth && (
-          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
-            <Link to="/home" className="login-button" style={{marginRight: "0.75rem", textDecoration: "none"}}>
-            Profile
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "1.5rem", gap: "10px", flexWrap: "wrap" }}>
+
+            {/* User Info Display */}
+            <span style={{ marginRight: "10px", fontWeight: "bold", color: "#555" }}>
+              Logged in as: {auth.email} ({auth.role})
+            </span>
+
+            {/* My Bookings Button */}
+            <Link to="/bookings" className="login-button" style={{ textDecoration: "none", backgroundColor: "#ff9800" }}>
+              My Bookings
             </Link>
+
+            {/* Profile Button */}
+            <Link to="/home" className="login-button" style={{ textDecoration: "none" }}>
+              Profile
+            </Link>
+
+            {/* Certifications Button - Only for Admin */}
+            {auth.role === "ADMIN" && (
+              <Link to="/certifications" className="login-button" style={{ textDecoration: "none", backgroundColor: "#4caf50" }}>
+                Certifications
+              </Link>
+            )}
+
+            {/* Logout Button */}
+            <button onClick={handleLogout} className="login-button" style={{ backgroundColor: "#f44336" }}>
+              Logout
+            </button>
           </div>
         )}
+
+        {/* --- END HEADER --- */}
+
         <h1 className="search-title">Find a Pet Sitter</h1>
 
-        {/* Filters */}
+        {/* Filters Section */}
         <div className="search-card">
           <form
             className="search-form"
@@ -119,7 +186,6 @@ export default function Search() {
                 value={petType}
                 onChange={(e) => setPetType(e.target.value)}
               >
-
                 <option value="">All Pet Types</option>
                 <option value="DOG">Dog</option>
                 <option value="CAT">Cat</option>
@@ -137,7 +203,7 @@ export default function Search() {
           </form>
         </div>
 
-        {/* Results */}
+        {/* Results Grid */}
         {loading ? (
           <p className="empty-state">Loading pet sitters…</p>
         ) : sitters.length === 0 ? (
@@ -146,6 +212,9 @@ export default function Search() {
           <div className="results-grid">
             {sitters.map((sitter) => (
               <div key={sitter.userId} className="sitter-card">
+                {sitter.petSitter.certificationRequests.length > 0 && (
+                  <div className="certification-ribbon">✓ Certified</div>
+                )}
                 <div className="sitter-name">{sitter.username}</div>
                 <div className="sitter-location">{sitter.state}</div>
 
@@ -159,6 +228,18 @@ export default function Search() {
                 <div className="sitter-meta">
                   Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
                 </div>
+
+                {/* Show Request Button only for Owners */}
+                {auth?.role === "OWNER" && (
+                  <button
+                    className="login-button"
+                    style={{ marginTop: "0.75rem", width: "100%" }}
+                    disabled={sendingRequest === sitter.userId}
+                    onClick={() => handleRequestBooking(sitter.userId)}
+                  >
+                    {sendingRequest === sitter.userId ? "Sending..." : "Request Booking"}
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -167,4 +248,3 @@ export default function Search() {
     </div>
   );
 }
-

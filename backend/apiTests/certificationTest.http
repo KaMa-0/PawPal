@@ -1,0 +1,29 @@
+### Submit Certification Request (Sitter)
+POST http://localhost:3000/api/certifications/submit
+Authorization: Bearer {sitter_token}
+
+### Get Pending Certifications (Admin Only)
+GET http://localhost:3000/api/certifications/pending
+Authorization: Bearer {admin_token}
+
+### Approve Certification (Admin Only)
+POST http://localhost:3000/api/certifications/approve
+Authorization: Bearer {admin_token}
+Content-Type: application/json
+
+{
+  "requestId": 1
+}
+
+### Reject Certification (Admin Only)
+POST http://localhost:3000/api/certifications/reject
+Authorization: Bearer {admin_token}
+Content-Type: application/json
+
+{
+  "requestId": 1
+}
+
+### Check Certification Status (Public)
+GET http://localhost:3000/api/certifications/status/2
+
