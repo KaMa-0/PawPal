@@ -5,6 +5,7 @@ import {
   respondToBooking,
   completeBooking,
   getBookingsForUser,
+  createReview,
 } from '../services/booking.service';
 
 export const sendBookingRequest = async (req: AuthRequest, res: Response) => {
@@ -58,6 +59,20 @@ export const getMyBookings = async (req: AuthRequest, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Failed to fetch bookings' });
+  }
+};
+
+export const addBookingReview = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+
+    const { bookingId, rating, text } = req.body;
+
+    const review = await createReview(bookingId, rating, text);
+    res.json(review);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to create review' });
   }
 };
 

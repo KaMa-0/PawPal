@@ -12,6 +12,7 @@ router.post('/me/upload-profile-image', authenticateToken, uploadProfileImage);
 router.put('/me/about', authenticateToken, updateAboutText);
 
 // GET http://localhost:3000/api/users/sitters
+// @ts-ignore
 router.get('/sitters', getPetSitters);
 
 export default router;
