@@ -10,13 +10,28 @@ type AustriaState =
   | "WIEN" | "NIEDEROESTERREICH" | "OBEROESTERREICH" | "SALZBURG"
   | "TIROL" | "VORARLBERG" | "KAERNTEN" | "STEIERMARK" | "BURGENLAND";
 
+
+type Review = {
+  reviewId: number;
+  rating: number;
+  text?: string;
+  createdAt: string;
+};
+
 type UserProfile = {
   userId: number;
   username: string;
   email: string;
   state: AustriaState;
   userType: string;
-  aboutText?: string;
+  petOwner?: { aboutText?: string };
+  petSitter?: {
+    aboutText?: string;
+    bookings?: {
+      review?: Review;
+      owner: { user: { username: string } };
+    }[]
+  };
   profileImages: { imageId: number; imageUrl: string }[];
 };
 
@@ -27,9 +42,10 @@ const resolveImageUrl = (url: string) => {
 };
 
 export default function Home() {
+  // ... existing hooks ...
   const [auth] = useState(() => getAuth());
   const navigate = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement>(null); // Add ref
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleLogout = () => {
     clearAuth();
@@ -52,10 +68,12 @@ export default function Home() {
         const data = res.data;
         setProfile({
           ...data,
-          aboutText: data.petOwner?.aboutText || data.petSitter?.aboutText || "",
+          // userType handles which relation is populated, but types need care
+          // aboutText extraction logic stays same
+          aboutText: (data.petOwner?.aboutText) || (data.petSitter?.aboutText) || "",
           profileImages: data.profileImages || [],
         });
-        setAboutText(data.petOwner?.aboutText || data.petSitter?.aboutText || "");
+        setAboutText((data.petOwner?.aboutText) || (data.petSitter?.aboutText) || "");
         if (data.profileImages?.length > 0) {
           setPreviewUrl(resolveImageUrl(data.profileImages[0].imageUrl)); // show first image
         }
@@ -67,7 +85,7 @@ export default function Home() {
       .finally(() => setLoading(false));
   }, [auth]);
 
-  // Handle image selection
+  // ... handleImageChange and handleSave stay the same ...
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       setSelectedImage(e.target.files[0]);
@@ -75,14 +93,12 @@ export default function Home() {
     }
   };
 
-  // Handle profile save
   const handleSave = async () => {
     if (!auth) return;
     setLoading(true);
     setError(null);
 
     try {
-      // 1. Upload new image if selected
       if (selectedImage) {
         const formData = new FormData();
         formData.append("image", selectedImage);
@@ -91,10 +107,8 @@ export default function Home() {
         });
       }
 
-      // 2. Update "about me" text
       await api.put("/api/users/me/about", { aboutText });
 
-      // 3. Refresh profile
       const res = await api.get(`/api/users/me`);
       setProfile({
         ...res.data,
@@ -111,8 +125,15 @@ export default function Home() {
   };
 
   const handleBack = () => {
-      navigate("/search");
+    navigate("/search");
   };
+
+  // Extract reviews if sitter
+  const reviews = profile?.userType === "SITTER" && profile.petSitter?.bookings
+    ? profile.petSitter.bookings
+      .filter(b => b.review)
+      .map(b => ({ ...b.review!, ownerName: b.owner.user.username }))
+    : [];
 
   return (
     <div className="home-container">
@@ -138,20 +159,16 @@ export default function Home() {
             <div className="profile-placeholder">No image</div>
           )}
         </div>
-        {/* HIDDEN Input - functionality only */}
         <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          ref={fileInputRef} // Connect the ref here
-          className="hidden" // Tailwind class to hide it
+          ref={fileInputRef}
+          className="hidden"
         />
-
-        {/* VISIBLE Button - Design and Text */}
         <button
-
-          type="button" // Prevent form submission
-          onClick={() => fileInputRef.current?.click()} // Trigger the hidden input
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
           className="profile-save-button"
         >
           Update Profile Photo
@@ -173,16 +190,43 @@ export default function Home() {
       </button>
 
       {auth?.role === "SITTER" && (
-        <button onClick={() => navigate("/submit-certification")} className="profile-save-button">
-          Request Certification
-        </button>
+        <>
+          <button onClick={() => navigate("/submit-certification")} className="profile-save-button" style={{ marginTop: '1rem' }}>
+            Request Certification
+          </button>
+
+          {/* Reviews Section for Sitter */}
+          <div className="profile-section" style={{ marginTop: '2rem', borderTop: '2px solid #eee', paddingTop: '1rem' }}>
+            <h2 style={{ color: '#f57c00', fontSize: '1.4rem' }}>My Reviews ({reviews.length})</h2>
+            {reviews.length === 0 ? (
+              <p style={{ color: '#777', fontStyle: 'italic' }}>You haven't received any reviews yet.</p>
+            ) : (
+              <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
+                {reviews.map((review, idx) => (
+                  <div key={idx} style={{ backgroundColor: '#fff8e1', padding: '1rem', borderRadius: '8px', borderLeft: '4px solid #ffb74d' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555' }}>
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <span>{review.ownerName}</span>
+                        <span style={{ fontSize: '0.8rem', color: '#999', fontWeight: 'normal' }}>
+                          {new Date(review.createdAt).toLocaleDateString()} {new Date(review.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      </div>
+                      <span style={{ color: '#ffb74d' }}>{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</span>
+                    </div>
+                    {review.text && <p style={{ fontStyle: 'italic', color: '#333' }}>"{review.text}"</p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
       )}
 
-
-      <button onClick={handleLogout} className="logout-button">
+      <button onClick={handleLogout} className="logout-button" style={{ marginTop: '2rem' }}>
         Logout
       </button>
     </div>
   );
 }
+
 
