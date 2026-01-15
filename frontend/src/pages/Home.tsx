@@ -146,48 +146,52 @@ export default function Home() {
 
       {error && <div className="error-message">{error}</div>}
 
-      <div className="profile-section">
-        <label className="profile-label">Profile Picture</label>
-        <div className="profile-image-wrapper">
-          {previewUrl ? (
-            <img
-              src={previewUrl?.startsWith("blob:") ? previewUrl : resolveImageUrl(previewUrl)}
-              alt="Profile"
-              className="profile-image"
+      {auth?.role !== "ADMIN" && (
+        <>
+          <div className="profile-section">
+            <label className="profile-label">Profile Picture</label>
+            <div className="profile-image-wrapper">
+              {previewUrl ? (
+                <img
+                  src={previewUrl?.startsWith("blob:") ? previewUrl : resolveImageUrl(previewUrl)}
+                  alt="Profile"
+                  className="profile-image"
+                />
+              ) : (
+                <div className="profile-placeholder">No image</div>
+              )}
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              ref={fileInputRef}
+              className="hidden"
             />
-          ) : (
-            <div className="profile-placeholder">No image</div>
-          )}
-        </div>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          ref={fileInputRef}
-          className="hidden"
-        />
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="profile-save-button"
-        >
-          Update Profile Photo
-        </button>
-      </div>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="profile-save-button"
+            >
+              Update Profile Photo
+            </button>
+          </div>
 
-      <div className="profile-section">
-        <label className="profile-label">About Me</label>
-        <textarea
-          value={aboutText}
-          onChange={(e) => setAboutText(e.target.value)}
-          placeholder="Tell others about yourself..."
-          className="profile-textarea"
-        />
-      </div>
+          <div className="profile-section">
+            <label className="profile-label">About Me</label>
+            <textarea
+              value={aboutText}
+              onChange={(e) => setAboutText(e.target.value)}
+              placeholder="Tell others about yourself..."
+              className="profile-textarea"
+            />
+          </div>
 
-      <button onClick={handleSave} className="profile-save-button">
-        Save Profile
-      </button>
+          <button onClick={handleSave} className="profile-save-button">
+            Save Profile
+          </button>
+        </>
+      )}
 
       {auth?.role === "SITTER" && (
         <>
