@@ -174,3 +174,27 @@ export const resetPassword = async (resetToken: string, newPassword: string): Pr
         token
     };
 };
+
+export const changePassword = async (userId: number, oldPassword: string, newPassword: string): Promise<void> => {
+    const user = await prisma.user.findUnique({ where: { userId } });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.passwordHash);
+    if (!isPasswordValid) {
+        throw new Error('Incorrect old password');
+    }
+
+    if (newPassword.length < 8) {
+        throw new Error('Password must be at least 8 characters long');
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+    await prisma.user.update({
+        where: { userId },
+        data: { passwordHash }
+    });
+};
