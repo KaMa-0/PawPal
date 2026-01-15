@@ -48,13 +48,15 @@ export const updateAboutTextService = async (userId: number, role: string, about
 
 export const searchPetSitters = async (
   state?: AustriaState,
-  petType?: string
+  petType?: string,
+  minRating?: number
 ) => {
   const sitters = await prisma.user.findMany({
     where: {
       userType: UserType.SITTER,
       ...(state && { state }),
       petSitter: {
+        ...(minRating !== undefined && { averageRating: { gte: minRating } }),
         ...(petType && {
           petTypes: {
             has: petType

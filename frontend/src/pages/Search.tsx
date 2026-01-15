@@ -37,6 +37,7 @@ export default function Search() {
   const [sitters, setSitters] = useState<PetSitter[]>([]);
   const [state, setState] = useState("");
   const [petType, setPetType] = useState("");
+  const [minRating, setMinRating] = useState(0);
   const [loading, setLoading] = useState(false);
   const [sendingRequest, setSendingRequest] = useState<number | null>(null);
 
@@ -51,6 +52,7 @@ export default function Search() {
     const params: any = {};
     if (state) params.state = state;
     if (petType) params.petType = petType;
+    if (minRating > 0) params.minRating = minRating;
 
     try {
       const res = await api.get("/api/users/sitters", { params });
@@ -192,6 +194,22 @@ export default function Search() {
                 <option value="BIRD">Bird</option>
                 <option value="FISH">Fish</option>
                 <option value="REPTILE">Reptile</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Minimum Rating</label>
+              <select
+                className="form-input"
+                value={minRating}
+                onChange={(e) => setMinRating(Number(e.target.value))}
+              >
+                <option value="0">Any Rating</option>
+                <option value="1">1+ Stars</option>
+                <option value="2">2+ Stars</option>
+                <option value="3">3+ Stars</option>
+                <option value="4">4+ Stars</option>
+                <option value="5">5 Stars</option>
               </select>
             </div>
 

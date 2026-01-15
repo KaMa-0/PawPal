@@ -86,11 +86,12 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
 
 export const getPetSitters = async (req, res) => {
   try {
-    const { state, petType } = req.query;
+    const { state, petType, minRating } = req.query;
 
     const sitters = await searchPetSitters(
       state as AustriaState | undefined,
-      petType as string | undefined
+      petType as string | undefined,
+      minRating ? parseFloat(minRating as string) : undefined
     );
 
     res.json(sitters);
