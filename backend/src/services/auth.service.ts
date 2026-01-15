@@ -15,6 +15,17 @@ export const registerUser = async (data: RegisterData): Promise<AuthResponse> =>
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) throw new Error('Email already exists');
 
+    // Email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        throw new Error('Invalid email format');
+    }
+
+    // Password length check
+    if (password.length < 8) {
+        throw new Error('Password must be at least 8 characters long');
+    }
+
     // 2. Hash Password
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
