@@ -208,7 +208,7 @@ export default function Search() {
             <div className="results-grid">
               {sitters.map((sitter) => (
                 <div key={sitter.userId} className="sitter-card">
-                  {sitter.petSitter.certificationRequests.length > 0 && (
+                  {sitter.petSitter.certificationRequests.some(r => r.status === "APPROVED") && (
                     <div className="certification-ribbon">✓ Certified</div>
                   )}
                   <div className="sitter-name">
