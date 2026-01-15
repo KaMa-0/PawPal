@@ -9,6 +9,7 @@ type Review = {
     reviewId: number;
     rating: number;
     text?: string;
+    createdAt: string;
 };
 
 type SitterProfileData = {
@@ -159,7 +160,12 @@ export default function SitterProfile() {
                             {reviews.map((review, idx) => (
                                 <div key={idx} className="review-card">
                                     <div className="review-card-header">
-                                        <span>{review.ownerName}</span>
+                                        <div>
+                                            <span style={{ marginRight: '10px' }}>{review.ownerName}</span>
+                                            <span style={{ fontSize: '0.8rem', color: '#999', fontWeight: 'normal' }}>
+                                                {new Date(review.createdAt).toLocaleDateString()} {new Date(review.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </span>
+                                        </div>
                                         <span className="review-card-rating">
                                             {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
                                         </span>

@@ -22,7 +22,7 @@ export const findUserProfileById = async (userId: number, role: string) => {
               include: { user: { select: { username: true } } }
             }
           },
-          orderBy: { requestDate: 'desc' }
+          orderBy: { review: { createdAt: 'desc' } }
         }
       }
     };
@@ -104,7 +104,7 @@ export const findPublicSitterProfile = async (sitterId: number) => {
                 include: { user: { select: { username: true } } }
               }
             },
-            orderBy: { requestDate: 'desc' }
+            orderBy: { review: { createdAt: 'desc' } }
           }
         }
       }

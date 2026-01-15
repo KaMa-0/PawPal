@@ -15,6 +15,7 @@ type Review = {
   reviewId: number;
   rating: number;
   text?: string;
+  createdAt: string;
 };
 
 type UserProfile = {
@@ -34,7 +35,11 @@ type UserProfile = {
   profileImages: { imageId: number; imageUrl: string }[];
 };
 
-// ... resolveImageUrl function remains the same ...
+const resolveImageUrl = (url: string) => {
+  if (!url) return "";
+  if (url.startsWith("http")) return url;
+  return `${API_BASE_URL}${url}`;
+};
 
 export default function Home() {
   // ... existing hooks ...
@@ -200,7 +205,12 @@ export default function Home() {
                 {reviews.map((review, idx) => (
                   <div key={idx} style={{ backgroundColor: '#fff8e1', padding: '1rem', borderRadius: '8px', borderLeft: '4px solid #ffb74d' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontWeight: 'bold', color: '#555' }}>
-                      <span>{review.ownerName}</span>
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <span>{review.ownerName}</span>
+                        <span style={{ fontSize: '0.8rem', color: '#999', fontWeight: 'normal' }}>
+                          {new Date(review.createdAt).toLocaleDateString()} {new Date(review.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      </div>
                       <span style={{ color: '#ffb74d' }}>{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</span>
                     </div>
                     {review.text && <p style={{ fontStyle: 'italic', color: '#333' }}>"{review.text}"</p>}
