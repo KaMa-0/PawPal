@@ -76,11 +76,6 @@ export default function Login() {
           <button type="submit" className="login-button">Login</button>
         </form>
 
-        <div style={{ textAlign: 'center', margin: '1rem 0' }}>
-          <Link to="/forgot-password" style={{ color: '#f57c00', textDecoration: 'none', fontSize: '0.9rem' }}>
-            Forgot password?
-          </Link>
-        </div>
 
         <div className="register-link">
           Don't have an account? <Link to="/register">Sign up</Link>

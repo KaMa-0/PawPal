@@ -15,8 +15,6 @@ import api from "./services/api";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
@@ -161,23 +159,6 @@ function App() {
           }
         />
 
-        <Route
-          path="/forgot-password"
-          element={
-            <LoginGate>
-              <ForgotPassword />
-            </LoginGate>
-          }
-        />
-
-        <Route
-          path="/reset-password"
-          element={
-            <LoginGate>
-              <ResetPassword />
-            </LoginGate>
-          }
-        />
 
         <Route
           path="/register"
