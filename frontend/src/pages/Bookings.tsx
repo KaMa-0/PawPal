@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getAuth } from "../auth/authStore";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import ReviewModal from "../components/ReviewModal";
 import "./bookings.css";
 
 // Keep types simple for the presentation
@@ -13,11 +14,19 @@ type Booking = {
   status: string;
   details?: string;
   requestDate: string;
+  review?: {
+    reviewId: number;
+    rating: number;
+    text?: string;
+  };
 };
 
 export default function Bookings() {
   const auth = getAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
+  const [selectedBookingId, setSelectedBookingId] = useState<number | null>(null);
+  const [reviewLoading, setReviewLoading] = useState(false);
   const navigate = useNavigate();
 
   // Show warning if not logged in
@@ -81,6 +90,32 @@ export default function Bookings() {
     }
   }
 
+  const openReviewModal = (bookingId: number) => {
+    setSelectedBookingId(bookingId);
+    setIsReviewOpen(true);
+  };
+
+  const submitReview = async (rating: number, text: string) => {
+    if (!selectedBookingId) return;
+
+    setReviewLoading(true);
+    try {
+      await api.post("/api/reviews", {
+        bookingId: selectedBookingId,
+        rating,
+        text
+      });
+      alert("Review submitted successfully!");
+      setIsReviewOpen(false);
+      fetchBookings(); // Refresh to show the review status
+    } catch (err: any) {
+      console.error(err);
+      alert(err.response?.data?.message || "Failed to submit review");
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
   return (
     <div className="mybookings-container">
       <h1>My Bookings</h1>
@@ -105,13 +140,16 @@ export default function Bookings() {
                 <p><strong>Date:</strong> {new Date(booking.requestDate).toLocaleDateString()}</p>
                 <p><strong>Details:</strong> {booking.details}</p>
                 <p><strong>Status:</strong> {booking.status}</p>
+                {booking.review && (
+                  <p className="review-rating">
+                    Rating: {booking.review.rating}/5 ⭐
+                  </p>
+                )}
               </div>
-
-
 
               {/* Sitter Buttons: Visible only if User is Sitter AND Status is PENDING */}
               {auth.role === "SITTER" && booking.status === "PENDING" && (
-                <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+                <div style={{ marginTop: "10px", display: "flex", gap: "10px", justifyContent: "center" }}>
                   <button
                     onClick={() => acceptBooking(booking.bookingId)}
                     style={{ backgroundColor: "green", color: "white", padding: "5px 10px" }}
@@ -139,15 +177,36 @@ export default function Bookings() {
                 </div>
               )}
 
-              {/* Completion message */}
+              {/* Completion message & Review Button */}
               {booking.status === "COMPLETED" && (
-                <p style={{ color: "gray", marginTop: "10px" }}>Service Completed ✅</p>
+                <div className="review-section">
+                  <p className="review-completed-msg">Service Completed ✅</p>
+
+                  {auth.role === "OWNER" && !booking.review && (
+                    <button
+                      onClick={() => openReviewModal(booking.bookingId)}
+                      className="review-btn-write"
+                    >
+                      Write a Review
+                    </button>
+                  )}
+                  {auth.role === "OWNER" && booking.review && (
+                    <p className="review-submitted-msg">You reviewed this booking.</p>
+                  )}
+                </div>
               )}
 
             </div>
           ))}
         </div>
       )}
+
+      <ReviewModal
+        isOpen={isReviewOpen}
+        onClose={() => setIsReviewOpen(false)}
+        onSubmit={submitReview}
+        loading={reviewLoading}
+      />
     </div>
   );
 }

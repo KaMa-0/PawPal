@@ -38,8 +38,8 @@ export const getBookingsForUser = async (userId: number, role: string) => {
     role === "OWNER"
       ? { ownerId: userId }
       : role === "SITTER"
-      ? { sitterId: userId }
-      : {};
+        ? { sitterId: userId }
+        : {};
 
   return prisma.booking.findMany({
     where,
@@ -64,6 +64,7 @@ export const getBookingsForUser = async (userId: number, role: string) => {
           },
         },
       },
+      review: true,
     },
     orderBy: { requestDate: "desc" },
   });

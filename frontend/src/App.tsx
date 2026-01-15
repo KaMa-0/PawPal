@@ -19,6 +19,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
+import SitterProfile from "./pages/SitterProfile";
 import Certifications from "./pages/Certifications";
 import SubmitCertification from "./pages/SubmitCertification";
 import { getAuth } from "./auth/authStore";
@@ -106,6 +107,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Public Sitter Profile Route */}
+        <Route
+          path="/sitter/:id"
+          element={
+            <ProtectedRoute>
+              <SitterProfile />
             </ProtectedRoute>
           }
         />

@@ -215,7 +215,11 @@ export default function Search() {
                 {sitter.petSitter.certificationRequests.length > 0 && (
                   <div className="certification-ribbon">✓ Certified</div>
                 )}
-                <div className="sitter-name">{sitter.username}</div>
+                <div className="sitter-name">
+                  <Link to={`/sitter/${sitter.userId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    {sitter.username}
+                  </Link>
+                </div>
                 <div className="sitter-location">{sitter.state}</div>
 
                 <p className="sitter-text">
@@ -228,6 +232,10 @@ export default function Search() {
                 <div className="sitter-meta">
                   Rating: ⭐ {sitter.petSitter.averageRating.toFixed(1)}
                 </div>
+
+                <Link to={`/sitter/${sitter.userId}`} className="login-button" style={{ display: 'block', textAlign: 'center', marginTop: '10px', textDecoration: 'none', backgroundColor: '#607d8b' }}>
+                  View Profile
+                </Link>
 
                 {/* Show Request Button only for Owners */}
                 {auth?.role === "OWNER" && (

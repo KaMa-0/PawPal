@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authenticateToken } from '../middleware/auth.middleware';
-import { getMyProfile, getPetSitters } from '../controllers/user.controller';
+import { getMyProfile, getPetSitters, getSitterProfile } from '../controllers/user.controller';
 import { uploadProfileImage, updateAboutText } from '../controllers/user.controller';
 
 const router = Router();
@@ -13,5 +13,8 @@ router.put('/me/about', authenticateToken, updateAboutText);
 
 // GET http://localhost:3000/api/users/sitters
 router.get('/sitters', getPetSitters);
+
+// GET http://localhost:3000/api/users/sitter/:id (Public Profile)
+router.get('/sitter/:id', getSitterProfile);
 
 export default router;

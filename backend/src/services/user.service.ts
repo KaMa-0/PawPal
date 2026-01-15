@@ -9,7 +9,23 @@ export const findUserProfileById = async (userId: number, role: string) => {
   if (role === UserType.OWNER) {
     includeOptions.petOwner = true;
   } else if (role === UserType.SITTER) {
-    includeOptions.petSitter = true;
+    includeOptions.petSitter = {
+      include: {
+        bookings: {
+          where: {
+            status: 'COMPLETED',
+            review: { isNot: null }
+          },
+          include: {
+            review: true,
+            owner: {
+              include: { user: { select: { username: true } } }
+            }
+          },
+          orderBy: { requestDate: 'desc' }
+        }
+      }
+    };
   } else if (role === UserType.ADMIN) {
     includeOptions.admin = true;
   }
@@ -60,4 +76,38 @@ export const searchPetSitters = async (
   });
 
   return sitters;
+};
+
+export const findPublicSitterProfile = async (sitterId: number) => {
+  return prisma.user.findFirst({
+    where: {
+      userId: sitterId,
+      userType: UserType.SITTER
+    },
+    select: {
+      userId: true,
+      username: true,
+      email: true, // Maybe safe to show? Or keep hidden? Let's show it for contact if needed, or remove if strict privacy.
+      state: true,
+      profileImages: true,
+      petSitter: {
+        include: {
+          certificationRequests: {
+            where: { status: 'APPROVED' },
+            take: 1
+          },
+          bookings: {
+            where: { status: 'COMPLETED', review: { isNot: null } },
+            include: {
+              review: true,
+              owner: {
+                include: { user: { select: { username: true } } }
+              }
+            },
+            orderBy: { requestDate: 'desc' }
+          }
+        }
+      }
+    }
+  });
 };

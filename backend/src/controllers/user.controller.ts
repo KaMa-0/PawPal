@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { AuthRequest } from '../types/auth.types';
-import { findUserProfileById } from '../services/user.service';
+import { findUserProfileById, findPublicSitterProfile } from '../services/user.service';
 import { searchPetSitters } from '../services/user.service';
 import { AustriaState } from '@prisma/client';
 import prisma from '../config/prisma';
@@ -59,29 +59,29 @@ export const updateAboutText = async (req: AuthRequest, res: Response) => {
 };
 
 export const getMyProfile = async (req: AuthRequest, res: Response) => {
-    try {
-        const userId = req.user?.userId;
-        const role = req.user?.role;
+  try {
+    const userId = req.user?.userId;
+    const role = req.user?.role;
 
-        if (!userId || !role) {
-            return res.status(401).json({ message: 'Nicht authentifiziert' });
-        }
-
-        // 1. Die Logik an den Service abgeben
-        const profileData = await findUserProfileById(userId, role);
-
-        if (profileData) {
-            // 2. Passwort entfernen
-            const { passwordHash, ...safeProfile } = profileData;
-            return res.json(safeProfile);
-        }
-
-        res.status(404).json({ message: 'Profil nicht gefunden' });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Fehler beim Laden des Profils' });
+    if (!userId || !role) {
+      return res.status(401).json({ message: 'Nicht authentifiziert' });
     }
+
+    // 1. Die Logik an den Service abgeben
+    const profileData = await findUserProfileById(userId, role);
+
+    if (profileData) {
+      // 2. Passwort entfernen
+      const { passwordHash, ...safeProfile } = profileData;
+      return res.json(safeProfile);
+    }
+
+    res.status(404).json({ message: 'Profil nicht gefunden' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Fehler beim Laden des Profils' });
+  }
 };
 
 export const getPetSitters = async (req, res) => {
@@ -97,5 +97,25 @@ export const getPetSitters = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch pet sitters' });
+  }
+};
+
+export const getSitterProfile = async (req: any, res: Response) => {
+  try {
+    const sitterId = parseInt(req.params.id);
+    if (isNaN(sitterId)) {
+      return res.status(400).json({ message: 'Invalid sitter ID' });
+    }
+
+    const sitter = await findPublicSitterProfile(sitterId);
+
+    if (!sitter) {
+      return res.status(404).json({ message: 'Sitter not found' });
+    }
+
+    res.json(sitter);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to fetch sitter profile' });
   }
 };

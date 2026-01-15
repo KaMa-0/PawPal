@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import bookingRoutes from "./routes/booking.routes";
 import certificationRoutes from "./routes/certification.routes";
+import reviewRoutes from "./routes/review.routes";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/certifications", certificationRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 // Test Endpoint
 app.get("/", (_req, res) => {
