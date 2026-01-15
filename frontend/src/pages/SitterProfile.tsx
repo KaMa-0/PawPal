@@ -4,6 +4,7 @@ import api, { API_BASE_URL } from "../services/api";
 import { getAuth } from "../auth/authStore";
 import "./home.css"; // Reuse general styles if needed
 import "./SitterProfile.css";
+import ImageGallery from "../components/ImageGallery";
 
 type Review = {
     reviewId: number;
@@ -16,7 +17,7 @@ type SitterProfileData = {
     userId: number;
     username: string;
     state: string;
-    profileImages: { imageUrl: string }[];
+    profileImages: { imageUrl: string; isAvatar: boolean }[];
     petSitter: {
         aboutText?: string;
         certificationRequests: { status: string }[];
@@ -101,7 +102,13 @@ export default function SitterProfile() {
         : "N/A";
 
     const isCertified = sitter.petSitter.certificationRequests.some(r => r.status === "APPROVED");
-    const profileImage = sitter.profileImages.length > 0 ? resolveImageUrl(sitter.profileImages[0].imageUrl) : null;
+
+    const avatarImage = sitter.profileImages.find(img => img.isAvatar);
+    const profileImageUrl = avatarImage
+        ? resolveImageUrl(avatarImage.imageUrl)
+        : (sitter.profileImages.length > 0 ? resolveImageUrl(sitter.profileImages[0].imageUrl) : null);
+
+    const galleryImages = sitter.profileImages.filter(img => img.imageUrl !== avatarImage?.imageUrl);
 
     return (
         <div className="sitter-profile-container">
@@ -109,8 +116,8 @@ export default function SitterProfile() {
 
                 {/* Header */}
                 <div className="profile-header">
-                    {profileImage ? (
-                        <img src={profileImage} alt={sitter.username} className="profile-avatar-large" />
+                    {profileImageUrl ? (
+                        <img src={profileImageUrl} alt={sitter.username} className="profile-avatar-large" />
                     ) : (
                         <div className="profile-avatar-placeholder-large">No Image</div>
                     )}
@@ -148,6 +155,14 @@ export default function SitterProfile() {
                     <p className="about-text">
                         {sitter.petSitter.aboutText || "This sitter hasn't written a description yet."}
                     </p>
+
+                    {/* Public Gallery */}
+                    {galleryImages.length > 0 && (
+                        <div style={{ marginTop: '2rem' }}>
+                            <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: '#555' }}>Photos</h3>
+                            <ImageGallery images={galleryImages} readonly />
+                        </div>
+                    )}
                 </div>
 
                 {/* Reviews Section */}

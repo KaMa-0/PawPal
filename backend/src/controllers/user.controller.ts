@@ -16,11 +16,22 @@ export const uploadProfileImage = [
       if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
 
       const imageUrl = `/uploads/${req.file.filename}`;
+      const userId = req.user.userId;
+      const isAvatar = req.body.isAvatar === 'true';
+
+      if (isAvatar) {
+        // If this is an avatar, unset previous avatars
+        await prisma.profileImage.updateMany({
+          where: { userId },
+          data: { isAvatar: false }
+        });
+      }
 
       const image = await prisma.profileImage.create({
         data: {
-          userId: req.user.userId,
+          userId,
           imageUrl,
+          isAvatar,
         },
       });
 
@@ -31,6 +42,59 @@ export const uploadProfileImage = [
     }
   }
 ];
+
+export const setAvatar = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+    const imageId = parseInt(req.params.id);
+    const userId = req.user.userId;
+
+    // Verify image ownership
+    const image = await prisma.profileImage.findUnique({ where: { imageId } });
+    if (!image || image.userId !== userId) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+
+    // Transaction to update all images
+    await prisma.$transaction([
+      prisma.profileImage.updateMany({
+        where: { userId },
+        data: { isAvatar: false }
+      }),
+      prisma.profileImage.update({
+        where: { imageId },
+        data: { isAvatar: true }
+      })
+    ]);
+
+    res.json({ message: 'Avatar updated' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to set avatar' });
+  }
+};
+
+export const deleteProfileImage = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+    const imageId = parseInt(req.params.id);
+    const userId = req.user.userId;
+
+    const image = await prisma.profileImage.findUnique({ where: { imageId } });
+    if (!image || image.userId !== userId) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+
+    await prisma.profileImage.delete({ where: { imageId } });
+
+    // No auto-promotion logic. If avatar is deleted, user has no avatar.
+
+    res.json({ message: 'Image deleted' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to delete image' });
+  }
+};
 
 export const updateAboutText = async (req: AuthRequest, res: Response) => {
   try {
