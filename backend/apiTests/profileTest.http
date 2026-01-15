@@ -1,0 +1,93 @@
+### ==========================================
+### SZENARIO 1: Pet Owner (Max) anlegen
+### ==========================================
+
+### 1. Max Registrieren
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "max.owner@test.at",
+  "password": "owner123!",
+  "username": "MaxDerBesitzer",
+  "state": "WIEN",
+  "userType": "OWNER",
+  "petTypes": ["Hund", "Hamster"]
+}
+
+### 2. Max Einloggen (Token holen)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "max.owner@test.at",
+  "password": "owner123!"
+}
+
+### 3. Max Profil abrufen (Token hier unten einfügen!)
+GET http://localhost:3000/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsImVtYWlsIjoibWF4Lm93bmVyQHRlc3QuYXQiLCJyb2xlIjoiT1dORVIiLCJpYXQiOjE3Njc2MzU3MjAsImV4cCI6MTc2ODI0MDUyMH0.Kel0VGR6-HpAJO54VmObiUSXt_iJcQ4ltq4YK5Bv8m4
+
+### ==========================================
+### SZENARIO 2: Pet Sitter (Anna) anlegen
+### ==========================================
+
+### 1. Anna Registrieren
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+### 1. Anna Registrieren (Korrigiert)
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "anna.sitter@test.at",
+  "password": "sitter123!",
+  "username": "AnnaDieSitterin",
+  "state": "NIEDEROESTERREICH",
+  "userType": "SITTER",
+  "petTypes": ["Katze"]
+}
+
+### 2. Anna Einloggen (Token holen)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "anna.sitter@test.at",
+  "password": "sitter123!"
+}
+
+### 3. Anna Profil abrufen (Token hier unten einfügen!)
+GET http://localhost:3000/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYW5uYS5zaXR0ZXJAdGVzdC5hdCIsInJvbGUiOiJTSVRURVIiLCJpYXQiOjE3Njc2MzUwNzcsImV4cCI6MTc2ODIzOTg3N30.4dPP7din71qPnIHSDs068RtSWheCs5oeITfppQVBlLo
+
+### ==========================================
+### SZENARIO 3: Admin anlegen
+### ==========================================
+
+### 1. Admin Registrieren
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "admin@test.at",
+  "password": "admin123!",
+  "username": "DerBoss",
+  "state": "WIEN",
+  "userType": "ADMIN",
+  "petTypes": []
+}
+
+### 2. Admin Einloggen (Token holen)
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@test.at",
+  "password": "admin123!"
+}
+
+### 3. Admin Profil abrufen (Token hier unten einfügen!)
+GET http://localhost:3000/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImVtYWlsIjoiYWRtaW5AdGVzdC5hdCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc2NzYzNTQ5OSwiZXhwIjoxNzY4MjQwMjk5fQ.vJ7eYzxWJcWJd7FmpIZ0ZF1_kQAX1D-oWziW4EQCdYo

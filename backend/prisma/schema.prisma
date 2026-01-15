@@ -1,0 +1,167 @@
+// 1. Konfiguration
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- Enums ---
+
+enum UserType {
+  OWNER
+  SITTER
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  COMPLETED
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AustriaState {
+  WIEN
+  NIEDEROESTERREICH
+  OBEROESTERREICH
+  SALZBURG
+  TIROL
+  VORARLBERG
+  KAERNTEN
+  STEIERMARK
+  BURGENLAND
+}
+
+// --- Haupt-Tabellen ---
+
+model User {
+  userId           Int      @id @default(autoincrement())
+  email            String   @unique
+  passwordHash     String
+
+  // Basis-Daten für alle Rollen
+  username         String
+  state            AustriaState
+  userType         UserType
+
+  registrationDate DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Password Reset
+  resetToken       String?
+  resetTokenExpires DateTime?
+
+  // Relationen zu den spezifischen Rollen (1:1)
+  petOwner      PetOwner?
+  petSitter     PetSitter?
+  admin         Admin?
+
+  profileImages ProfileImage[]
+}
+
+model PetOwner {
+  userId    Int      @id
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  // Owner spezifische Daten
+  aboutText String?
+  updatedAt DateTime @updatedAt
+  petTypes  String[]
+
+  bookings  Booking[]
+  favorites Favorite[]
+}
+
+model PetSitter {
+  userId        Int     @id
+  user          User    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  // Sitter spezifische Daten
+  aboutText     String?
+  averageRating Float   @default(0.0)
+  updatedAt     DateTime @updatedAt
+  petTypes      String[]
+
+  bookings              Booking[]
+  favorites             Favorite[]
+  certificationRequests CertificationRequest[]
+}
+
+model Admin {
+  userId Int  @id
+  user   User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  processedRequests CertificationRequest[]
+}
+
+// --- Features ---
+
+model Booking {
+  bookingId   Int           @id @default(autoincrement())
+
+  ownerId     Int
+  owner       PetOwner      @relation(fields: [ownerId], references: [userId])
+
+  sitterId    Int
+  sitter      PetSitter     @relation(fields: [sitterId], references: [userId])
+
+  status      BookingStatus @default(PENDING)
+  requestDate DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  details     String?       @db.Text
+
+  review      Review?
+}
+
+model Review {
+  reviewId  Int      @id @default(autoincrement())
+
+  bookingId Int      @unique
+  booking   Booking  @relation(fields: [bookingId], references: [bookingId], onDelete: Cascade)
+
+  rating    Int
+  text      String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+model CertificationRequest {
+  requestId      Int           @id @default(autoincrement())
+
+  sitterId       Int
+  sitter         PetSitter     @relation(fields: [sitterId], references: [userId], onDelete: Cascade)
+
+  adminId        Int?
+  admin          Admin?        @relation(fields: [adminId], references: [userId])
+
+  status         RequestStatus @default(PENDING)
+  submissionDate DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Favorite {
+  ownerId  Int
+  owner    PetOwner  @relation(fields: [ownerId], references: [userId], onDelete: Cascade)
+
+  sitterId Int
+  sitter   PetSitter @relation(fields: [sitterId], references: [userId], onDelete: Cascade)
+
+  // Verbundener Primärschlüssel
+  @@id([ownerId, sitterId])
+}
+
+model ProfileImage {
+  imageId  Int    @id @default(autoincrement())
+  userId   Int
+  user     User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  imageUrl String
+}

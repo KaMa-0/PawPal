@@ -1,0 +1,148 @@
+:root {
+  --primary-orange: #ffb74d;
+  --dark-orange: #f57c00;
+  --light-bg: #fff3e0;
+  --text-color: #333;
+  --white: #ffffff;
+  --error-color: #d32f2f;
+  --success-color: #4caf50;
+  --decline-color: #f44336;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--light-bg);
+  color: var(--text-color);
+}
+
+.mybookings-container,
+.bookings-container {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dark-orange);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.booking-card {
+  background-color: var(--white);
+  color: var(--text-color);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.booking-card:hover {
+  transform: translateY(-2px);
+}
+
+.booking-owner {
+  font-weight: 600;
+  color: var(--dark-orange);
+  font-size: 1rem;
+}
+
+.booking-details {
+  font-size: 0.95rem;
+  color: var(--text-color);
+  min-height: 50px;
+}
+
+.booking-meta,
+.booking-status {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.booking-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.booking-actions .login-button {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.65rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.1s;
+  color: var(--white);
+}
+
+.booking-actions .login-button:hover {
+  opacity: 0.9;
+}
+
+.booking-actions .login-button:active {
+  transform: scale(0.97);
+}
+
+.booking-actions .login-button.accept {
+  background: linear-gradient(135deg, var(--success-color), #388e3c);
+}
+
+.booking-actions .login-button.decline {
+  background: linear-gradient(135deg, var(--decline-color), #d32f2f);
+}
+
+.empty-state {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-top: 2rem;
+
+}
+
+/* Review Styles */
+.review-rating {
+  color: var(--dark-orange);
+  font-weight: bold;
+}
+
+.review-section {
+  margin-top: 10px;
+}
+
+.review-completed-msg {
+  color: gray;
+  margin-bottom: 8px;
+}
+
+.review-btn-write {
+  background-color: var(--dark-orange);
+  color: white;
+  padding: 5px 10px;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.review-btn-write:hover {
+  opacity: 0.9;
+}
+
+.review-submitted-msg {
+  font-size: 0.9rem;
+  color: #666;
+}
