@@ -5,10 +5,15 @@ export const submitCertificationRequest = async (sitterId: number) => {
   const sitter = await prisma.petSitter.findUnique({ where: { userId: sitterId } });
   if (!sitter) throw new Error('Sitter not found');
 
-  const existing = await prisma.certificationRequest.findFirst({
+  const approved = await prisma.certificationRequest.findFirst({
+    where: { sitterId, status: 'APPROVED' }
+  });
+  if (approved) throw new Error('You are already certified');
+
+  const pending = await prisma.certificationRequest.findFirst({
     where: { sitterId, status: 'PENDING' }
   });
-  if (existing) throw new Error('Pending request already exists');
+  if (pending) throw new Error('Pending request already exists');
 
   return await prisma.certificationRequest.create({
     data: { sitterId }
@@ -20,6 +25,20 @@ export const getPendingCertifications = async () => {
     where: { status: 'PENDING' },
     include: { sitter: { include: { user: true } } },
     orderBy: { submissionDate: 'asc' }
+  });
+};
+
+export const getAllCertifications = async () => {
+  return await prisma.certificationRequest.findMany({
+    include: { sitter: { include: { user: true } }, admin: { include: { user: true } } },
+    orderBy: { submissionDate: 'desc' }
+  });
+};
+
+export const getSitterCertifications = async (sitterId: number) => {
+  return await prisma.certificationRequest.findMany({
+    where: { sitterId },
+    orderBy: { submissionDate: 'desc' }
   });
 };
 
