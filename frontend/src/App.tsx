@@ -12,6 +12,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import api from "./services/api";
+import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -55,7 +56,7 @@ function TitleFavicon() {
 
   useEffect(() => {
     const titles: Record<string, string> = {
-      "/": "PawPal — Suche",
+      "/": "PawPal — Home",
       "/search": "PawPal — Suche",
       "/home": "PawPal — Home",
       "/login": "PawPal — Login",
@@ -83,14 +84,8 @@ function App() {
       <Routes>
         <Route path="/search" element={<Search />} />
 
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Search />
-            </ProtectedRoute>
-          }
-        />
+        {/* Changed from Protected Search to Public LandingPage */}
+        <Route path="/" element={<LandingPage />} />
 
         {/* User Bookings Page */}
         <Route
@@ -112,15 +107,8 @@ function App() {
           }
         />
 
-        {/* Public Sitter Profile Route */}
-        <Route
-          path="/sitter/:id"
-          element={
-            <ProtectedRoute>
-              <SitterProfile />
-            </ProtectedRoute>
-          }
-        />
+        {/* Public Sitter Profile Route - Accessible to everyone */}
+        <Route path="/sitter/:id" element={<SitterProfile />} />
 
         {/* Admin Certifications Page */}
         <Route
