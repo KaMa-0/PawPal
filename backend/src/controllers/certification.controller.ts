@@ -5,7 +5,9 @@ import {
   getPendingCertifications,
   approveCertification,
   rejectCertification,
-  getCertificationStatus
+  getCertificationStatus,
+  getSitterCertifications,
+  getAllCertifications
 } from '../services/certification.service';
 
 export const submitCertification = async (req: Request, res: Response) => {
@@ -54,6 +56,25 @@ export const getStatus = async (req: Request, res: Response) => {
     const { sitterId } = req.params;
     const status = await getCertificationStatus(parseInt(sitterId));
     res.status(200).json(status);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getMyHistory = async (req: Request, res: Response) => {
+  try {
+    const sitterId = (req as any).user.userId;
+    const history = await getSitterCertifications(sitterId);
+    res.status(200).json(history);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getAllHistory = async (req: Request, res: Response) => {
+  try {
+    const history = await getAllCertifications();
+    res.status(200).json(history);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
