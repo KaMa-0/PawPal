@@ -50,7 +50,7 @@ export default function Bookings() {
   }, []);
 
   const handleBack = () => {
-    navigate("/search");
+    navigate("/");
   };
 
   // --- ACTION FUNCTIONS ---

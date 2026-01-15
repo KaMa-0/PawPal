@@ -151,7 +151,7 @@ export default function Home() {
   };
 
   const handleBack = () => {
-    navigate("/search");
+    navigate("/");
   };
 
   // Extract reviews if sitter
