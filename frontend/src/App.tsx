@@ -22,6 +22,7 @@ import Search from "./pages/Search";
 import SitterProfile from "./pages/SitterProfile";
 import Certifications from "./pages/Certifications";
 import SubmitCertification from "./pages/SubmitCertification";
+import ChangePassword from "./pages/ChangePassword";
 import { getAuth } from "./auth/authStore";
 import "./App.css";
 
@@ -137,6 +138,16 @@ function App() {
           element={
             <ProtectedRoute>
               <SubmitCertification />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Change Password Route */}
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute>
+              <ChangePassword />
             </ProtectedRoute>
           }
         />

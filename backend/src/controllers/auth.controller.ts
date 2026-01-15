@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { registerUser, loginUser, forgotPassword, resetPassword } from '../services/auth.service';
+import { registerUser, loginUser, forgotPassword, resetPassword, changePassword } from '../services/auth.service';
 
 export const register = async (req: Request, res: Response) => {
     try {
@@ -94,5 +94,26 @@ export const resetUserPassword = async (req: Request, res: Response) => {
         res.status(400).json({
             message: error.message || 'Failed to reset password'
         });
+    }
+};
+
+export const changeUserPassword = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user.userId; // Provided by auth middleware
+        const { oldPassword, newPassword, confirmPassword } = req.body;
+
+        if (!oldPassword || !newPassword || !confirmPassword) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({ message: 'New passwords do not match' });
+        }
+
+        await changePassword(userId, oldPassword, newPassword);
+
+        res.status(200).json({ message: 'Password changed successfully' });
+    } catch (error: any) {
+        res.status(400).json({ message: error.message || 'Failed to change password' });
     }
 };

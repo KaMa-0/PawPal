@@ -222,7 +222,11 @@ export default function Home() {
         </>
       )}
 
-      <button onClick={handleLogout} className="logout-button" style={{ marginTop: '2rem' }}>
+      <button onClick={() => navigate("/change-password")} className="profile-save-button" style={{ marginTop: '2rem', backgroundColor: '#607d8b' }}>
+        Change Password
+      </button>
+
+      <button onClick={handleLogout} className="logout-button" style={{ marginTop: '1rem' }}>
         Logout
       </button>
     </div>
