@@ -5,6 +5,7 @@ import { getAuth } from "../auth/authStore";
 import "./home.css"; // Reuse general styles if needed
 import "./SitterProfile.css";
 import ImageGallery from "../components/ImageGallery";
+import FavoriteButton from "../components/FavoriteButton";
 
 type Review = {
     reviewId: number;
@@ -17,7 +18,7 @@ type SitterProfileData = {
     userId: number;
     username: string;
     state: string;
-    profileImages: { imageUrl: string; isAvatar: boolean }[];
+    profileImages: { imageId: number; imageUrl: string; isAvatar: boolean }[];
     petSitter: {
         aboutText?: string;
         certificationRequests: { status: string }[];
@@ -26,6 +27,7 @@ type SitterProfileData = {
             owner: { user: { username: string } };
         }[];
     };
+    isFavorited: boolean;
 };
 
 const resolveImageUrl = (url: string) => {
@@ -126,6 +128,18 @@ export default function SitterProfile() {
                         <h1 className="profile-name">
                             {sitter.username}
                             {isCertified && <span className="certification-badge">✓ Certified</span>}
+                            {auth?.role === "OWNER" && (
+                                <FavoriteButton
+                                    className="profile-favorite-btn"
+                                    sitterId={sitter.userId}
+                                    initialIsFavorited={sitter.isFavorited}
+                                    onToggle={() => {
+                                        // Update local state if needed, though button handles itself visuals.
+                                        // Ideally we update the sitter object to keep consistency if we navigate away and back?
+                                        // but for now local visual feedback is enough.
+                                    }}
+                                />
+                            )}
                         </h1>
                         <div className="profile-location">
                             📍 {sitter.state}

@@ -24,6 +24,7 @@ import SitterProfile from "./pages/SitterProfile";
 import Certifications from "./pages/Certifications";
 import SubmitCertification from "./pages/SubmitCertification";
 import ChangePassword from "./pages/ChangePassword";
+import Favorites from "./pages/Favorites";
 import { getAuth } from "./auth/authStore";
 import "./App.css";
 
@@ -93,6 +94,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Bookings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* User Favorites Page */}
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <Favorites />
             </ProtectedRoute>
           }
         />

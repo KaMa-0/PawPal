@@ -44,6 +44,13 @@ export default function Navbar() {
                             </Link>
                         )}
 
+                        {/* Favorites Button - Owners Only */}
+                        {auth.role === "OWNER" && (
+                            <Link to="/favorites" className="login-button" style={{ textDecoration: "none", backgroundColor: "#e91e63" }}>
+                                My Favorites
+                            </Link>
+                        )}
+
                         {/* Profile Button - Visible to ALL logged in users */}
                         <Link to="/home" className="login-button" style={{ textDecoration: "none" }}>
                             Profile

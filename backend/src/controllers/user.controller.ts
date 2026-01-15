@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { AuthRequest } from '../types/auth.types';
-import { findUserProfileById, findPublicSitterProfile } from '../services/user.service';
+import { findUserProfileById, findPublicSitterProfile, addFavoriteSitter, removeFavoriteSitter, getOwnerFavorites } from '../services/user.service';
 import { searchPetSitters } from '../services/user.service';
 import { AustriaState } from '@prisma/client';
 import prisma from '../config/prisma';
@@ -148,14 +148,15 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getPetSitters = async (req, res) => {
+export const getPetSitters = async (req: AuthRequest, res: Response) => {
   try {
     const { state, petType, minRating } = req.query;
 
     const sitters = await searchPetSitters(
       state as AustriaState | undefined,
       petType as string | undefined,
-      minRating ? parseFloat(minRating as string) : undefined
+      minRating ? parseFloat(minRating as string) : undefined,
+      req.user?.userId // Optional user ID for favorite check
     );
 
     res.json(sitters);
@@ -165,14 +166,14 @@ export const getPetSitters = async (req, res) => {
   }
 };
 
-export const getSitterProfile = async (req: any, res: Response) => {
+export const getSitterProfile = async (req: AuthRequest, res: Response) => {
   try {
     const sitterId = parseInt(req.params.id);
     if (isNaN(sitterId)) {
       return res.status(400).json({ message: 'Invalid sitter ID' });
     }
 
-    const sitter = await findPublicSitterProfile(sitterId);
+    const sitter = await findPublicSitterProfile(sitterId, req.user?.userId);
 
     if (!sitter) {
       return res.status(404).json({ message: 'Sitter not found' });
@@ -182,5 +183,45 @@ export const getSitterProfile = async (req: any, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch sitter profile' });
+  }
+};
+
+// Favorites
+export const addFavorite = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user || req.user.role !== 'OWNER') return res.status(403).json({ message: 'Only Owners can add favorites' });
+    const sitterId = parseInt(req.params.sitterId);
+
+    await addFavoriteSitter(req.user.userId, sitterId);
+    res.json({ message: 'Added to favorites' });
+  } catch (err: any) {
+    console.error(err);
+    if (err.message === 'Sitter not found') return res.status(404).json({ message: 'Sitter not found' });
+    res.status(500).json({ message: 'Failed to add favorite' });
+  }
+};
+
+export const removeFavorite = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user || req.user.role !== 'OWNER') return res.status(403).json({ message: 'Only Owners can remove favorites' });
+    const sitterId = parseInt(req.params.sitterId);
+
+    await removeFavoriteSitter(req.user.userId, sitterId);
+    res.json({ message: 'Removed from favorites' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to remove favorite' });
+  }
+};
+
+export const getMyFavorites = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user || req.user.role !== 'OWNER') return res.status(403).json({ message: 'Only Owners have favorites' });
+
+    const favorites = await getOwnerFavorites(req.user.userId);
+    res.json(favorites);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to get favorites' });
   }
 };

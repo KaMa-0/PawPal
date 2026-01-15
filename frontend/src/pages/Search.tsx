@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { getAuth } from "../auth/authStore";
 import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
+import FavoriteButton from "../components/FavoriteButton";
 import "./search.css";
 
 type AustriaState =
@@ -30,6 +31,7 @@ type PetSitter = {
         }>;
     };
     profileImages: { imageUrl: string; isAvatar: boolean }[];
+    isFavorited: boolean;
 };
 
 const resolveImageUrl = (url: string) => {
@@ -231,9 +233,20 @@ export default function Search() {
 
                                     {/* Content Section */}
                                     <div className="hero-content">
-                                        <Link to={`/sitter/${sitter.userId}`} className="hero-name">
-                                            {sitter.username}
-                                        </Link>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                            <Link to={`/sitter/${sitter.userId}`} className="hero-name">
+                                                {sitter.username}
+                                            </Link>
+
+                                            {/* Favorite Button - Only for Owners */}
+                                            {auth?.role === "OWNER" && (
+                                                <FavoriteButton
+                                                    sitterId={sitter.userId}
+                                                    initialIsFavorited={sitter.isFavorited}
+                                                />
+                                            )}
+                                        </div>
+
                                         <div className="hero-location">{sitter.state}</div>
 
                                         <div className="hero-stats">
