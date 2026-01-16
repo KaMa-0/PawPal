@@ -1,0 +1,18 @@
+:root {
+    --bg-primary: #0f172a;
+    /* Deep dark blue */
+    --bg-secondary: #1e293b;
+    /* Lighter slate */
+    --text-primary: #f8fafc;
+    /* White */
+    --text-secondary: #cbd5e1;
+    /* Light Grey */
+    --accent-color: #8b5cf6;
+    /* Violet */
+    --accent-hover: #7c3aed;
+    /* Darker Violet */
+    --accent-secondary: #06b6d4;
+    /* Cyan */
+    --error-color: #ef4444;
+    --success-color: #10b981;
+}

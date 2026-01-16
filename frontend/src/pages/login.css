@@ -1,17 +1,11 @@
-/* Faded Orange Theme Variables */
-:root {
-  --primary-orange: #ffb74d; /* Faded orange */
-  --dark-orange: #f57c00;   /* Darker orange for hover/active */
-  --light-bg: #fff3e0;      /* Very light orange tint for background */
-  --text-color: #333;
-  --white: #ffffff;
-  --error-color: #d32f2f;
-}
+@import '../theme.css';
+
+/* Faded Orange Theme Variables - REMOVED */
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif; /* Assuming Inter or similar is available, fallback to sans-serif */
-  background-color: var(--light-bg);
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-primary);
 }
 
 .login-container {
@@ -20,13 +14,16 @@ body {
   align-items: center;
   height: 100vh;
   width: 100vw;
+  background-color: var(--bg-primary);
 }
 
 .login-card {
-  background-color: var(--white);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
   padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -40,9 +37,12 @@ body {
 
 .login-title {
   margin-bottom: 2rem;
-  color: var(--dark-orange);
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
+  background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .login-form {
@@ -60,42 +60,68 @@ body {
 
 .form-label {
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: var(--text-color);
-  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .form-input {
   width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
+  padding: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  box-sizing: border-box; /* Important so padding doesn't affect width */
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  /* Important so padding doesn't affect width */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-text-fill-color: var(--text-primary);
+  caret-color: var(--text-primary);
+}
+
+/* Chrome/Safari autofill override for dark theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-primary) !important;
+  caret-color: var(--text-primary) !important;
+  box-shadow: 0 0 0px 1000px var(--bg-primary) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .form-input:focus {
-  border-color: var(--primary-orange);
+  border-color: var(--accent-color);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 183, 77, 0.2);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 .login-button {
-  background: linear-gradient(135deg, var(--primary-orange), var(--dark-orange));
-  color: var(--white);
-  padding: 0.9rem;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+  color: var(--text-primary);
+  padding: 1rem;
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.3s, transform 0.1s;
+  transition: all 0.3s ease;
   margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
 .login-button:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+  filter: brightness(1.1);
 }
 
 .login-button:active {
@@ -104,26 +130,27 @@ body {
 
 .error-message {
   color: var(--error-color);
-  background-color: #ffebee;
+  background-color: rgba(239, 68, 68, 0.1);
   padding: 0.75rem;
   border-radius: 6px;
   font-size: 0.9rem;
   margin-bottom: 1rem;
-  border: 1px solid #ffcdd2;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .register-link {
   margin-top: 1.5rem;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .register-link a {
-  color: var(--dark-orange);
+  color: var(--accent-secondary);
   text-decoration: none;
   font-weight: 600;
 }
 
 .register-link a:hover {
   text-decoration: underline;
+  color: var(--accent-color);
 }

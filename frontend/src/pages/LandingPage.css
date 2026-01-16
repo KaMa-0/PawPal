@@ -1,11 +1,12 @@
-/* LandingPage.css */
+@import '../theme.css';
 
 .landing-container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
 }
 
 .hero-section {
@@ -27,7 +28,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(15, 23, 42, 0.75);
+    /* Darker blue overlay */
     z-index: 1;
 }
 
@@ -40,30 +42,38 @@
 
 .hero-title {
     font-size: 3.5rem;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 1rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: -1px;
+    background: linear-gradient(to right, #f8fafc, var(--accent-secondary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    /* Fallback for readability if gradient fails or on background */
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
     font-size: 1.5rem;
     margin-bottom: 3rem;
     font-weight: 300;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    color: var(--text-secondary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .search-widget {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
+    background: rgba(30, 41, 59, 0.8);
+    /* Dark slate glass */
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: flex-end;
     justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .widget-group {
@@ -71,53 +81,57 @@
     flex-direction: column;
     align-items: flex-start;
     flex: 1;
-    min-width: 180px;
+    min-width: 200px;
 }
 
 .widget-label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #333;
+    margin-bottom: 0.75rem;
+    color: var(--accent-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
 }
 
 .widget-select {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     font-size: 1rem;
-    background-color: white;
-    color: #333;
-    transition: border-color 0.2s;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
 }
 
 .widget-select:focus {
     outline: none;
-    border-color: #ff9800;
-    box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 .search-btn {
-    background-color: #ff9800;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     color: white;
     border: none;
-    padding: 0.75rem 2rem;
+    padding: 0.8rem 2.5rem;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    height: 46px;
-    /* Match input height mostly */
+    transition: all 0.2s ease;
+    height: 48px;
+    /* Match input height roughly */
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     margin-bottom: 1px;
-    /* Alignment tweak */
 }
 
 .search-btn:hover {
-    background-color: #f57c00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+    filter: brightness(1.1);
 }
 
 .search-btn:active {
@@ -136,9 +150,11 @@
     .search-widget {
         flex-direction: column;
         align-items: stretch;
+        padding: 1.5rem;
     }
 
     .search-btn {
         width: 100%;
+        margin-top: 1rem;
     }
 }

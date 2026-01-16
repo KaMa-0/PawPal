@@ -47,7 +47,7 @@ export default function Login() {
       <div className="login-card">
         <h1 className="login-title">Welcome Back</h1>
 
-        {error && <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+        {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={onSubmit} className="login-form">
           <div className="form-group">
@@ -76,8 +76,8 @@ export default function Login() {
           <button type="submit" className="login-button">Login</button>
         </form>
 
-        <div style={{ textAlign: 'center', margin: '1rem 0' }}>
-          <Link to="/forgot-password" style={{ color: '#f57c00', textDecoration: 'none', fontSize: '0.9rem' }}>
+        <div className="register-link">
+          <Link to="/forgot-password">
             Forgot password?
           </Link>
         </div>

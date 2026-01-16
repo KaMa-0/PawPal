@@ -1,7 +1,10 @@
+@import '../theme.css';
+
 .search-page {
     min-height: 100vh;
-    background-color: #f8fafc;
-    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--text-primary);
 }
 
 .search-container {
@@ -12,20 +15,23 @@
 
 .search-title {
     text-align: center;
-    color: #1e293b;
     margin-bottom: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
-    letter-spacing: -0.5px;
+    background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 /* Filters */
 .search-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     margin-bottom: 3rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .search-form {
@@ -46,72 +52,81 @@
 .form-label {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #64748b;
+    color: var(--accent-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
 .form-input {
-    padding: 0.75rem 1rem;
-    border: 1px solid #cbd5e1;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     font-size: 1rem;
-    color: #1e293b;
-    background-color: #f8fafc;
-    transition: all 0.2s;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    -webkit-text-fill-color: var(--text-primary);
 }
 
 .form-input:focus {
     outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
 .search-button-primary {
-    background-color: #f57c00;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     color: white;
-    padding: 0.75rem 2rem;
+    padding: 0.9rem 2rem;
     border-radius: 8px;
-    font-weight: 600;
+    font-weight: 700;
     border: none;
     cursor: pointer;
-    transition: background-color 0.2s;
-    height: 48px;
+    transition: all 0.2s ease;
+    height: 52px;
+    /* Adjusted to align with inputs */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
 .search-button-primary:hover {
-    background-color: #e65100;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+    filter: brightness(1.1);
 }
 
 /* Results Grid */
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
 }
 
 /* Hero Card Design */
 .hero-card {
-    background-color: #0f172a;
-    /* Dark background */
+    background-color: var(--bg-secondary);
     border-radius: 16px;
     overflow: hidden;
-    color: white;
+    color: var(--text-primary);
     position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .hero-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-color);
 }
 
 .hero-image-container {
     height: 220px;
     position: relative;
-    background-color: #1e293b;
+    background-color: #020617;
     overflow: hidden;
 }
 
@@ -124,7 +139,6 @@
 
 .hero-card:hover .hero-image {
     transform: scale(1.05);
-    /* Slight zoom on hover */
 }
 
 /* Placeholder Pattern if no image */
@@ -137,7 +151,7 @@
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     font-size: 4rem;
     font-weight: 800;
-    color: #334155;
+    color: var(--text-secondary);
     user-select: none;
 }
 
@@ -146,13 +160,12 @@
     top: 1rem;
     right: 1rem;
     background-color: rgba(16, 185, 129, 0.9);
-    /* Green */
     color: white;
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -172,13 +185,18 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
-    color: #f8fafc;
+    color: var(--text-primary);
     text-decoration: none;
+    transition: color 0.2s;
+}
+
+.hero-name:hover {
+    color: var(--accent-secondary);
 }
 
 .hero-location {
     font-size: 0.875rem;
-    color: #94a3b8;
+    color: var(--accent-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
@@ -187,12 +205,11 @@
 
 .hero-description {
     font-size: 0.9rem;
-    color: #cbd5e1;
-    line-height: 1.5;
+    color: var(--text-secondary);
+    line-height: 1.6;
     margin-bottom: 1.5rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    /* Limit lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -204,7 +221,10 @@
     gap: 1.5rem;
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
-    color: #e2e8f0;
+    color: var(--text-secondary);
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
 }
 
 .stat-item {
@@ -215,42 +235,46 @@
 
 .hero-actions {
     margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .view-profile-btn {
     display: block;
     width: 100%;
-    background-color: #3b82f6;
-    /* Blue Accent */
+    background: linear-gradient(135deg, var(--accent-secondary), #0891b2);
     color: white;
     text-align: center;
     padding: 0.875rem;
     border-radius: 8px;
     font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .view-profile-btn:hover {
-    background-color: #2563eb;
+    filter: brightness(1.1);
+    transform: translateY(-1px);
 }
 
 .request-btn {
     width: 100%;
     background-color: transparent;
-    color: #94a3b8;
-    border: 1px solid #334155;
+    color: var(--text-secondary);
+    border: 1px solid var(--text-secondary);
     padding: 0.75rem;
     border-radius: 8px;
     font-weight: 600;
-    margin-top: 0.75rem;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .request-btn:hover {
-    border-color: #cbd5e1;
-    color: white;
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .request-btn:disabled {
@@ -260,7 +284,8 @@
 
 .empty-state {
     text-align: center;
-    color: #64748b;
+    color: var(--text-secondary);
     font-size: 1.25rem;
     margin-top: 4rem;
+    font-style: italic;
 }

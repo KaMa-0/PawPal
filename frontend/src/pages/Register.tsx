@@ -35,13 +35,7 @@ export default function Register() {
         });
     };
 
-    const handlePetTypesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selected = Array.from(e.target.selectedOptions, option => option.value);
-        setFormData({
-            ...formData,
-            petTypes: selected
-        });
-    };
+
 
 
     async function onSubmit(e: React.FormEvent) {
@@ -71,7 +65,7 @@ export default function Register() {
         <div className="register-container">
             <div className="register-card">
                 <h1 className="register-title">Sign Up</h1>
-                {error && <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+                {error && <div className="error-message">{error}</div>}
 
                 <form onSubmit={onSubmit} className="register-form">
                     <div className="form-group">
@@ -138,28 +132,28 @@ export default function Register() {
                     </div>
 
                     {formData.userType === "SITTER" && (
-                      <div className="form-group">
-                        <label className="form-label">Pet Types I can sit</label>
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
-                          {petOptions.map((pet) => (
-                            <label key={pet} style={{ display: "flex", alignItems: "center", gap: "0.25rem", cursor: "pointer" }}>
-                              <input
-                                type="checkbox"
-                                value={pet}
-                                checked={formData.petTypes.includes(pet)}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    setFormData({ ...formData, petTypes: [...formData.petTypes, pet] });
-                                  } else {
-                                    setFormData({ ...formData, petTypes: formData.petTypes.filter(p => p !== pet) });
-                                  }
-                                }}
-                              />
-                              {pet.charAt(0).toUpperCase() + pet.slice(1).toLowerCase()}
-                            </label>
-                          ))}
+                        <div className="form-group">
+                            <label className="form-label">Pet Types I can sit</label>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
+                                {petOptions.map((pet) => (
+                                    <label key={pet} style={{ display: "flex", alignItems: "center", gap: "0.25rem", cursor: "pointer", color: "var(--text-primary)" }}>
+                                        <input
+                                            type="checkbox"
+                                            value={pet}
+                                            checked={formData.petTypes.includes(pet)}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setFormData({ ...formData, petTypes: [...formData.petTypes, pet] });
+                                                } else {
+                                                    setFormData({ ...formData, petTypes: formData.petTypes.filter(p => p !== pet) });
+                                                }
+                                            }}
+                                        />
+                                        {pet.charAt(0).toUpperCase() + pet.slice(1).toLowerCase()}
+                                    </label>
+                                ))}
+                            </div>
                         </div>
-                      </div>
                     )}
 
                     <button type="submit" className="register-button">Register</button>

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, clearAuth } from "../auth/authStore";
+import "./Navbar.css";
 
 export default function Navbar() {
     const auth = getAuth();
@@ -11,19 +12,19 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="navbar" style={{ padding: "1rem 2rem", backgroundColor: "white", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "1200px", margin: "0 auto" }}>
-                <Link to="/" style={{ textDecoration: "none", fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
+        <nav className="navbar">
+            <div className="navbar-container">
+                <Link to="/" className="navbar-logo">
                     PawPal
                 </Link>
 
                 {/* 1. If NOT logged in: Show Login/Register buttons */}
                 {!auth && (
-                    <div style={{ display: "flex", gap: "1rem" }}>
-                        <Link to="/login" className="login-button" style={{ textDecoration: "none" }}>
+                    <div className="navbar-links">
+                        <Link to="/login" className="nav-btn secondary">
                             Login
                         </Link>
-                        <Link to="/register" className="login-button" style={{ textDecoration: "none" }}>
+                        <Link to="/register" className="nav-btn primary">
                             Register
                         </Link>
                     </div>
@@ -31,33 +32,33 @@ export default function Navbar() {
 
                 {/* 2. If LOGGED IN: Show User Info + Action Buttons */}
                 {auth && (
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                    <div className="navbar-links">
                         {/* User Info Display */}
-                        <span style={{ marginRight: "10px", fontWeight: "bold", color: "#555" }}>
+                        <span className="user-info">
                             {auth.email} ({auth.role})
                         </span>
 
                         {/* My Bookings Button - Owners & Sitters Only */}
                         {auth.role !== "ADMIN" && (
-                            <Link to="/bookings" className="login-button" style={{ textDecoration: "none", backgroundColor: "#ff9800" }}>
+                            <Link to="/bookings" className="nav-btn accent">
                                 My Bookings
                             </Link>
                         )}
 
                         {/* Profile Button - Visible to ALL logged in users */}
-                        <Link to="/home" className="login-button" style={{ textDecoration: "none" }}>
+                        <Link to="/home" className="nav-btn secondary">
                             Profile
                         </Link>
 
                         {/* Certifications Button - Only for Admin */}
                         {auth.role === "ADMIN" && (
-                            <Link to="/certifications" className="login-button" style={{ textDecoration: "none", backgroundColor: "#4caf50" }}>
+                            <Link to="/certifications" className="nav-btn success">
                                 Certifications
                             </Link>
                         )}
 
                         {/* Logout Button */}
-                        <button onClick={handleLogout} className="login-button" style={{ backgroundColor: "#f44336" }}>
+                        <button onClick={handleLogout} className="nav-btn danger">
                             Logout
                         </button>
                     </div>

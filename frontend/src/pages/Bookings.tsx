@@ -31,7 +31,14 @@ export default function Bookings() {
 
   // Show warning if not logged in
   if (!auth) {
-    return <p style={{ padding: "2rem" }}>Please login first.</p>;
+    return (
+      <div className="mybookings-container">
+        <p className="empty-state">Please login first.</p>
+        <button onClick={() => navigate("/login")} className="logout-button" style={{ marginTop: '1rem' }}>
+          Go to Login
+        </button>
+      </div>
+    );
   }
 
   // Function to fetch data from the database
@@ -119,14 +126,14 @@ export default function Bookings() {
   return (
     <div className="mybookings-container">
       <h1>My Bookings</h1>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", width: "100%", maxWidth: "1000px", marginBottom: "1.5rem" }}>
         <button onClick={handleBack} className="logout-button">
           Back
         </button>
       </div>
 
       {bookings.length === 0 ? (
-        <p>No bookings found.</p>
+        <p className="empty-state">No bookings found.</p>
       ) : (
         <div className="bookings-grid">
           {bookings.map((booking) => (
@@ -139,7 +146,7 @@ export default function Bookings() {
                 <p><strong>Sitter:</strong> {booking.sitter.user.username}</p>
                 <p><strong>Date:</strong> {new Date(booking.requestDate).toLocaleDateString()}</p>
                 <p><strong>Details:</strong> {booking.details}</p>
-                <p><strong>Status:</strong> {booking.status}</p>
+                <p><strong>Status:</strong> <span style={{ color: booking.status === 'ACCEPTED' ? 'var(--success-color)' : booking.status === 'PENDING' ? 'var(--accent-secondary)' : booking.status === 'DECLINED' ? 'var(--error-color)' : 'var(--text-secondary)' }}>{booking.status}</span></p>
                 {booking.review && (
                   <p className="review-rating">
                     Rating: {booking.review.rating}/5 ⭐
@@ -149,16 +156,16 @@ export default function Bookings() {
 
               {/* Sitter Buttons: Visible only if User is Sitter AND Status is PENDING */}
               {auth.role === "SITTER" && booking.status === "PENDING" && (
-                <div style={{ marginTop: "10px", display: "flex", gap: "10px", justifyContent: "center" }}>
+                <div className="booking-actions">
                   <button
                     onClick={() => acceptBooking(booking.bookingId)}
-                    style={{ backgroundColor: "green", color: "white", padding: "5px 10px" }}
+                    className="action-btn accept"
                   >
                     Accept
                   </button>
                   <button
                     onClick={() => declineBooking(booking.bookingId)}
-                    style={{ backgroundColor: "red", color: "white", padding: "5px 10px" }}
+                    className="action-btn decline"
                   >
                     Decline
                   </button>
@@ -170,7 +177,8 @@ export default function Bookings() {
                 <div style={{ marginTop: "10px" }}>
                   <button
                     onClick={() => completeBooking(booking.bookingId)}
-                    style={{ backgroundColor: "blue", color: "white", padding: "5px 10px", width: "100%" }}
+                    className="action-btn complete"
+                    style={{ width: "100%" }}
                   >
                     Mark as Completed
                   </button>

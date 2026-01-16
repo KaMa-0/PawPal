@@ -1,37 +1,86 @@
-.home-container {
-  max-width: 600px;
-  margin: 2rem auto;
+:root {
+  --bg-primary: #0f172a;
+  /* Dark Blue */
+  --bg-secondary: #1e293b;
+  /* Slightly lighter blue for cards */
+  --text-primary: #f8fafc;
+  /* White/Light Grey */
+  --text-secondary: #cbd5e1;
+  /* Lighter Grey */
+  --accent-color: #8b5cf6;
+  /* Violet */
+  --accent-hover: #7c3aed;
+  /* Darker Violet */
+  --accent-secondary: #06b6d4;
+  /* Cyan for highlights */
+  --error-color: #ef4444;
+  --success-color: #10b981;
+}
+
+.home-page-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-primary);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   padding: 2rem;
-  background-color: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.home-container {
+  width: 100%;
+  max-width: 800px;
+  /* margin removed as flex handles centering */
+  padding: 2.5rem;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .home-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: var(--dark-orange);
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-align: center;
 }
 
 .profile-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  /* Subtle glass effect */
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .profile-label {
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   display: block;
+  color: var(--accent-secondary);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .profile-image-wrapper {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 0.5rem;
-  border: 2px solid var(--primary-orange);
+  margin-bottom: 1rem;
+  border: 4px solid var(--accent-color);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  /* Glow effect */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile-image {
@@ -46,186 +95,142 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #eee;
-  color: #999;
+  background-color: #334155;
+  color: #94a3b8;
+  font-size: 0.9rem;
 }
 
 .profile-textarea {
   width: 100%;
-  min-height: 100px;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
+  min-height: 120px;
+  padding: 1rem;
+  background-color: #0f172a;
+  border: 1px solid #334155;
   border-radius: 8px;
   font-size: 1rem;
-  color: #000;
+  color: var(--text-primary);
   resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.profile-textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+button {
+  transition: all 0.3s ease;
 }
 
 .profile-save-button {
-  background: linear-gradient(135deg, var(--primary-orange), var(--dark-orange));
-  color: var(--white);
-  padding: 0.9rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+  color: var(--text-primary);
+  padding: 1rem 2rem;
   border: none;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.3s;
   margin-right: 0.75rem;
   margin-bottom: 0.75rem;
-}
-
-.logout-button {
-  background: linear-gradient(135deg, var(--primary-orange), var(--dark-orange));
-  color: var(--white);
-  padding: 0.9rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.3s;
-  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
 }
 
 .profile-save-button:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+  filter: brightness(1.1);
+}
+
+.logout-button {
+  background-color: transparent;
+  color: var(--text-secondary);
+  padding: 0.8rem 1.5rem;
+  border: 1px solid var(--text-secondary);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+}
+
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--text-primary);
 }
 
 .error-message {
   color: var(--error-color);
-  margin-bottom: 1rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
-.hidden {
-  display: none;
+/* Reviews Styling */
+.home-section-title {
+  color: var(--accent-secondary);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
-/* NEW GALLERY STYLES */
-.profile-gallery {
+.home-reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
 }
 
-.gallery-item {
-  position: relative;
-  aspect-ratio: 1;
+.home-review-card {
+  background-color: #334155;
+  /* Darker slate */
+  padding: 1.25rem;
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--accent-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.gallery-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.home-review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
 }
 
-.delete-image-btn {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  background: rgba(255, 0, 0, 0.8);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
+.home-review-author {
+  font-weight: 700;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: bold;
-  opacity: 0;
-  transition: opacity 0.2s;
+  gap: 0.5rem;
 }
 
-.gallery-item:hover .delete-image-btn {
-  opacity: 1;
-}
-
-.preview-item {
-  border: 2px dashed #ff9800;
-}
-
-.preview-label {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 152, 0, 0.8);
-  color: white;
-  text-align: center;
+.home-review-date {
   font-size: 0.8rem;
-  padding: 2px 0;
+  color: #94a3b8;
+  font-weight: normal;
 }
 
-.secondary-button {
-  background-color: #607d8b;
-  margin-top: 10px;
+.home-review-stars {
+  color: var(--accent-secondary);
+  /* Cyan for stars to match theme and avoid orange */
 }
 
+.home-review-text {
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
 
-/* Separated Avatar Styles */
-.centered-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.empty-state {
+  color: var(--text-secondary);
+  font-style: italic;
   text-align: center;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 2rem;
-}
-
-.avatar-wrapper {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  margin-bottom: 1rem;
-}
-
-.avatar-large {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid var(--primary-orange);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.avatar-placeholder-large {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-  border: 4px dashed #ccc;
-  font-size: 1rem;
-}
-
-.delete-avatar-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #d32f2f;
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.section-subtitle {
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 1rem;
-  font-weight: 600;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
 }
