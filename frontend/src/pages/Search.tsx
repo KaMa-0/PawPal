@@ -142,7 +142,7 @@ export default function Search() {
                                     { value: "LOWER_AUSTRIA", label: "Lower Austria" },
                                     { value: "UPPER_AUSTRIA", label: "Upper Austria" },
                                     { value: "SALZBURG", label: "Salzburg" },
-                                    { value: "TYROL", label: "Tyrol" },
+                                    { value: "TIROL", label: "Tyrol" },
                                     { value: "VORARLBERG", label: "Vorarlberg" },
                                     { value: "CARINTHIA", label: "Carinthia" },
                                     { value: "STYRIA", label: "Styria" },
@@ -187,7 +187,7 @@ export default function Search() {
                             </select>
                         </div>
 
-                        <div className="form-group" style={{ flex: '0 0 auto' }}>
+                        <div className="form-group">
                             <button type="submit" className="search-button-primary">
                                 Search
                             </button>

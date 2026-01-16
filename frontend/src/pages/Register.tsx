@@ -35,18 +35,13 @@ export default function Register() {
         });
     };
 
-
-
-
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
         setError(null);
 
         try {
-            // Added '/api' prefix to the URL
             const res = await api.post<AuthResponse>("/api/auth/register", formData);
 
-            // Converting 'id' (number) to string for storage
             setAuth({
                 token: res.data.token,
                 userId: String(res.data.user.id),
@@ -65,6 +60,7 @@ export default function Register() {
         <div className="register-container">
             <div className="register-card">
                 <h1 className="register-title">Sign Up</h1>
+
                 {error && <div className="error-message">{error}</div>}
 
                 <form onSubmit={onSubmit} className="register-form">
@@ -131,12 +127,13 @@ export default function Register() {
                         </select>
                     </div>
 
+                    {/* Sitter Specific Options */}
                     {formData.userType === "SITTER" && (
                         <div className="form-group">
                             <label className="form-label">Pet Types I can sit</label>
-                            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: "0.5rem" }}>
+                            <div className="pet-types-grid">
                                 {petOptions.map((pet) => (
-                                    <label key={pet} style={{ display: "flex", alignItems: "center", gap: "0.25rem", cursor: "pointer", color: "var(--text-primary)" }}>
+                                    <label key={pet} className="checkbox-label">
                                         <input
                                             type="checkbox"
                                             value={pet}

@@ -1,21 +1,4 @@
-:root {
-  --bg-primary: #0f172a;
-  /* Dark Blue */
-  --bg-secondary: #1e293b;
-  /* Slightly lighter blue for cards */
-  --text-primary: #f8fafc;
-  /* White/Light Grey */
-  --text-secondary: #cbd5e1;
-  /* Lighter Grey */
-  --accent-color: #8b5cf6;
-  /* Violet */
-  --accent-hover: #7c3aed;
-  /* Darker Violet */
-  --accent-secondary: #06b6d4;
-  /* Cyan for highlights */
-  --error-color: #ef4444;
-  --success-color: #10b981;
-}
+@import "../theme.css";
 
 .home-page-wrapper {
   min-height: 100vh;
@@ -27,6 +10,23 @@
   padding: 2rem;
   box-sizing: border-box;
 }
+
+.home-header-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.center-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 
 .home-container {
   width: 100%;
@@ -171,6 +171,21 @@ button {
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
+.btn-certification {
+  margin-top: 1rem;
+  background: linear-gradient(135deg, var(--accent-secondary), #0891b2);
+  border: none;
+}
+
+.btn-danger {
+  border-color: var(--error-color) !important;
+  color: var(--error-color) !important;
+}
+
+.btn-danger:hover {
+  background-color: rgba(252, 40, 40, 0.1) !important;
+}
+
 /* Reviews Styling */
 .home-section-title {
   color: var(--accent-secondary);
@@ -233,4 +248,16 @@ button {
   padding: 2rem;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 8px;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.full-width {
+  width: 100%;
 }

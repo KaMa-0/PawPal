@@ -7,6 +7,31 @@ body {
   color: var(--text-primary);
 }
 
+.bookings-header {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 1000px;
+  margin-bottom: 1.5rem;
+}
+
+.status-badge {
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.status-badge.accepted {
+  color: var(--success-color);
+}
+
+.status-badge.pending {
+  color: var(--accent-secondary);
+}
+
+.status-badge.declined {
+  color: var(--error-color);
+}
+
 .mybookings-container {
   min-height: 100vh;
   width: 100%;
@@ -173,4 +198,17 @@ button.action-btn:hover {
   text-align: center;
   margin-top: 2rem;
   font-size: 1.1rem;
+}
+
+/* Helper*/
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.owner-actions {
+  margin-top: 10px;
+}
+
+.full-width {
+  width: 100%;
 }

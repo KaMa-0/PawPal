@@ -138,11 +138,13 @@ export default function Home() {
   return (
     <div className="home-page-wrapper">
       <div className="home-container">
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
+
+        <div className="home-header-actions">
           <button onClick={handleBack} className="logout-button">
             Back
           </button>
         </div>
+
         <h1 className="home-title">Welcome, {profile?.username}</h1>
 
         {error && <div className="error-message">{error}</div>}
@@ -167,10 +169,10 @@ export default function Home() {
                 accept="image/*"
                 onChange={handleImageChange}
                 ref={fileInputRef}
-                className="hidden"
-                style={{ display: 'none' }}
+                className="file-input-hidden"
               />
-              <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+
+              <div className="center-actions">
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
@@ -180,17 +182,6 @@ export default function Home() {
                 </button>
               </div>
             </div>
-
-            <div className="profile-section">
-              <label className="profile-label">About Me</label>
-              <textarea
-                value={aboutText}
-                onChange={(e) => setAboutText(e.target.value)}
-                placeholder="Tell others about yourself..."
-                className="profile-textarea"
-              />
-            </div>
-
             <button onClick={handleSave} className="profile-save-button">
               Save Profile
             </button>
@@ -199,46 +190,24 @@ export default function Home() {
 
         {auth?.role === "SITTER" && (
           <>
-            <button onClick={() => navigate("/submit-certification")} className="profile-save-button" style={{ marginTop: '1rem', background: 'linear-gradient(135deg, var(--accent-secondary), #0891b2)' }}>
+            <button onClick={() => navigate("/submit-certification")} className="profile-save-button btn-certification">
               Request Certification
             </button>
 
-            {/* Reviews Section for Sitter */}
-            <div className="profile-section" style={{ marginTop: '2rem' }}>
-              <h2 className="home-section-title">My Reviews ({reviews.length})</h2>
-              {reviews.length === 0 ? (
-                <p className="empty-state">You haven't received any reviews yet.</p>
-              ) : (
-                <div className="home-reviews-grid">
-                  {reviews.map((review, idx) => (
-                    <div key={idx} className="home-review-card">
-                      <div className="home-review-header">
-                        <div className="home-review-author">
-                          <span>{review.ownerName}</span>
-                          <span className="home-review-date">
-                            {new Date(review.createdAt).toLocaleDateString()}
-                          </span>
-                        </div>
-                        <span className="home-review-stars">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</span>
-                      </div>
-                      {review.text && <p className="home-review-text">"{review.text}"</p>}
-                    </div>
-                  ))}
-                </div>
-              )}
+            <div className="profile-section mt-2">
             </div>
           </>
         )}
 
-        <button onClick={() => navigate("/change-password")} className="logout-button" style={{ marginTop: '2rem', width: '100%' }}>
+        <button onClick={() => navigate("/change-password")} className="logout-button mt-2 full-width">
           Change Password
         </button>
 
-        <button onClick={handleLogout} className="logout-button" style={{ marginTop: '1rem', width: '100%', borderColor: 'var(--error-color)', color: 'var(--error-color)' }}>
+        <button onClick={handleLogout} className="logout-button btn-danger mt-1 full-width">
           Logout
         </button>
       </div>
-    </div>
+    </div >
   );
 }
 

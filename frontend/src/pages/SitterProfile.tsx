@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api, { API_BASE_URL } from "../services/api";
 import { getAuth } from "../auth/authStore";
-import "./home.css"; // Reuse general styles if needed
-import "./SitterProfile.css";
 import ImageGallery from "../components/ImageGallery";
+import "./SitterProfile.css";
 
 type Review = {
     reviewId: number;
@@ -17,7 +16,7 @@ type SitterProfileData = {
     userId: number;
     username: string;
     state: string;
-    profileImages: { imageUrl: string; isAvatar: boolean }[];
+    profileImages: { imageId: number; imageUrl: string; isAvatar: boolean }[];
     petSitter: {
         aboutText?: string;
         certificationRequests: { status: string }[];
@@ -79,12 +78,12 @@ export default function SitterProfile() {
     };
 
     const handleBack = () => {
-        navigate(-1); // Go back to search
+        navigate(-1);
     };
 
-    if (loading) return <div className="loading-container">Loading Profile...</div>;
+    if (loading) return <div className="profile-loading">Loading Profile...</div>;
     if (error) return (
-        <div className="error-container">
+        <div className="profile-error-container">
             <p>{error}</p>
             <button onClick={handleBack} className="back-button">Go Back</button>
         </div>
@@ -111,36 +110,38 @@ export default function SitterProfile() {
     const galleryImages = sitter.profileImages.filter(img => img.imageUrl !== avatarImage?.imageUrl);
 
     return (
-        <div className="sitter-profile-container">
+        <div className="sitter-profile-page">
             <div className="sitter-profile-card">
 
-                {/* Header */}
-                <div className="profile-header">
-                    {profileImageUrl ? (
-                        <img src={profileImageUrl} alt={sitter.username} className="profile-avatar-large" />
-                    ) : (
-                        <div className="profile-avatar-placeholder-large">No Image</div>
-                    )}
+                {/* Header Section */}
+                <div className="profile-header-section">
+                    <div className="profile-image-container">
+                        {profileImageUrl ? (
+                            <img src={profileImageUrl} alt={sitter.username} className="profile-avatar-large" />
+                        ) : (
+                            <div className="profile-avatar-placeholder-large">
+                                {sitter.username.charAt(0).toUpperCase()}
+                            </div>
+                        )}
+                    </div>
 
-                    <div className="profile-info">
-                        <h1 className="profile-name">
+                    <div className="profile-info-content">
+                        <h1 className="profile-username">
                             {sitter.username}
-                            {isCertified && <span className="certification-badge">✓ Certified</span>}
+                            {isCertified && <span className="verified-badge">✓ Certified</span>}
                         </h1>
-                        <div className="profile-location">
-                            📍 {sitter.state}
-                        </div>
-                        <div className="profile-meta">
-                            ⭐ {averageRating} ({totalReviews} Reviews)
+                        <div className="profile-meta-row">
+                            <span className="meta-item">📍 {sitter.state}</span>
+                            <span className="meta-item">⭐ {averageRating} ({totalReviews} Reviews)</span>
                         </div>
                     </div>
 
-                    <div className="profile-actions">
-                        <button onClick={handleBack} className="back-button">Back</button>
+                    <div className="profile-actions-row">
+                        <button onClick={handleBack} className="profile-btn secondary">Back</button>
                         {auth?.role === "OWNER" && (
                             <button
                                 onClick={handleRequestBooking}
-                                className="request-button"
+                                className="profile-btn primary"
                                 disabled={sendingRequest}
                             >
                                 {sendingRequest ? "Sending..." : "Request Booking"}
@@ -150,42 +151,42 @@ export default function SitterProfile() {
                 </div>
 
                 {/* About Section */}
-                <div className="profile-about">
-                    <h2 className="section-title">About Me</h2>
+                <div className="profile-content-section">
+                    <h2 className="section-header">About Me</h2>
                     <p className="about-text">
                         {sitter.petSitter.aboutText || "This sitter hasn't written a description yet."}
                     </p>
 
-                    {/* Public Gallery */}
+                    {/* Gallery Section */}
                     {galleryImages.length > 0 && (
-                        <div style={{ marginTop: '2rem' }}>
-                            <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: '#555' }}>Photos</h3>
+                        <div className="gallery-section">
+                            <h3 className="gallery-title">Photos</h3>
                             <ImageGallery images={galleryImages} readonly />
                         </div>
                     )}
                 </div>
 
                 {/* Reviews Section */}
-                <div className="profile-reviews">
-                    <h2 className="section-title">Reviews ({totalReviews})</h2>
+                <div className="profile-content-section">
+                    <h2 className="section-header">Reviews ({totalReviews})</h2>
                     {reviews.length === 0 ? (
-                        <p className="no-reviews">No reviews yet.</p>
+                        <p className="empty-reviews">No reviews yet.</p>
                     ) : (
-                        <div className="reviews-grid">
+                        <div className="reviews-list">
                             {reviews.map((review, idx) => (
-                                <div key={idx} className="review-card">
-                                    <div className="review-card-header">
-                                        <div>
-                                            <span style={{ marginRight: '10px' }}>{review.ownerName}</span>
-                                            <span style={{ fontSize: '0.8rem', color: '#999', fontWeight: 'normal' }}>
-                                                {new Date(review.createdAt).toLocaleDateString()} {new Date(review.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                <div key={idx} className="review-item">
+                                    <div className="review-item-header">
+                                        <div className="review-author-info">
+                                            <span className="review-author-name">{review.ownerName}</span>
+                                            <span className="review-date">
+                                                {new Date(review.createdAt).toLocaleDateString()}
                                             </span>
                                         </div>
-                                        <span className="review-card-rating">
+                                        <span className="review-stars">
                                             {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
                                         </span>
                                     </div>
-                                    {review.text && <p className="review-card-text">"{review.text}"</p>}
+                                    {review.text && <p className="review-text">"{review.text}"</p>}
                                 </div>
                             ))}
                         </div>

@@ -5,8 +5,6 @@ import api from "../services/api";
 import ReviewModal from "../components/ReviewModal";
 import "./bookings.css";
 
-// Keep types simple for the presentation
-
 type Booking = {
   bookingId: number;
   owner: { user: { userId: number; username: string } };
@@ -34,7 +32,7 @@ export default function Bookings() {
     return (
       <div className="mybookings-container">
         <p className="empty-state">Please login first.</p>
-        <button onClick={() => navigate("/login")} className="logout-button" style={{ marginTop: '1rem' }}>
+        <button onClick={() => navigate("/login")} className="logout-button mt-1">
           Go to Login
         </button>
       </div>
@@ -126,7 +124,8 @@ export default function Bookings() {
   return (
     <div className="mybookings-container">
       <h1>My Bookings</h1>
-      <div style={{ display: "flex", justifyContent: "flex-end", width: "100%", maxWidth: "1000px", marginBottom: "1.5rem" }}>
+
+      <div className="bookings-header">
         <button onClick={handleBack} className="logout-button">
           Back
         </button>
@@ -139,14 +138,19 @@ export default function Bookings() {
           {bookings.map((booking) => (
             <div key={booking.bookingId} className="booking-card">
 
-              {/* Simple info section */}
               <div className="booking-info">
                 <p><strong>ID:</strong> {booking.bookingId}</p>
                 <p><strong>Owner:</strong> {booking.owner.user.username}</p>
                 <p><strong>Sitter:</strong> {booking.sitter.user.username}</p>
                 <p><strong>Date:</strong> {new Date(booking.requestDate).toLocaleDateString()}</p>
                 <p><strong>Details:</strong> {booking.details}</p>
-                <p><strong>Status:</strong> <span style={{ color: booking.status === 'ACCEPTED' ? 'var(--success-color)' : booking.status === 'PENDING' ? 'var(--accent-secondary)' : booking.status === 'DECLINED' ? 'var(--error-color)' : 'var(--text-secondary)' }}>{booking.status}</span></p>
+
+                <p><strong>Status:</strong>
+                  <span className={`status-badge ${booking.status.toLowerCase()}`}>
+                    {booking.status}
+                  </span>
+                </p>
+
                 {booking.review && (
                   <p className="review-rating">
                     Rating: {booking.review.rating}/5 ⭐
@@ -154,32 +158,21 @@ export default function Bookings() {
                 )}
               </div>
 
-              {/* Sitter Buttons: Visible only if User is Sitter AND Status is PENDING */}
+              {/* Action Buttons */}
               {auth.role === "SITTER" && booking.status === "PENDING" && (
                 <div className="booking-actions">
-                  <button
-                    onClick={() => acceptBooking(booking.bookingId)}
-                    className="action-btn accept"
-                  >
+                  <button onClick={() => acceptBooking(booking.bookingId)} className="action-btn accept">
                     Accept
                   </button>
-                  <button
-                    onClick={() => declineBooking(booking.bookingId)}
-                    className="action-btn decline"
-                  >
+                  <button onClick={() => declineBooking(booking.bookingId)} className="action-btn decline">
                     Decline
                   </button>
                 </div>
               )}
 
-              {/* Owner Button: Visible only if User is Owner AND Status is ACCEPTED */}
               {auth.role === "OWNER" && booking.status === "ACCEPTED" && (
-                <div style={{ marginTop: "10px" }}>
-                  <button
-                    onClick={() => completeBooking(booking.bookingId)}
-                    className="action-btn complete"
-                    style={{ width: "100%" }}
-                  >
+                <div className="owner-actions">
+                  <button onClick={() => completeBooking(booking.bookingId)} className="action-btn complete full-width">
                     Mark as Completed
                   </button>
                 </div>

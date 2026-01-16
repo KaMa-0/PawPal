@@ -1,143 +1,139 @@
 @import '../theme.css';
 
-/* Faded Orange Theme Variables - REMOVED */
-
+/* General Page Settings */
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: var(--bg-primary);
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-primary) !important;
 }
 
+/* Centering Container (Flexbox) */
 .login-container {
   display: flex;
+  /* Use flexbox layout */
   justify-content: center;
+  /* Center horizontally */
   align-items: center;
+  /* Center vertically */
   height: 100vh;
-  width: 100vw;
-  background-color: var(--bg-primary);
+  /* Full viewport height */
+  width: 100%;
 }
 
+/* Login Card Styling */
 .login-card {
   background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
   width: 100%;
   max-width: 400px;
+  /* Prevents the card from getting too wide */
+  padding: 2.5rem;
+  border-radius: 16px;
+  /* Rounded corners */
   text-align: center;
-  transition: transform 0.2s ease;
+
+  /* Subtle shadow and border */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s;
+  /* Smooth movement animation */
 }
 
-/* Optional hover effect on the card */
+/* Hover effect: Move card slightly up */
 .login-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
 }
 
+/* Title Styling */
 .login-title {
-  margin-bottom: 2rem;
   font-size: 2rem;
   font-weight: 800;
+  margin-bottom: 2rem;
+
+  /* Gradient Text Effect */
   background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
-  background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Clip background to text */
+  color: transparent;
+  /* Hide original text color */
 }
 
+/* Form Layout */
 .login-form {
   display: flex;
   flex-direction: column;
+  /* Stack elements vertically */
   gap: 1.5rem;
+  /* Space between elements */
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   text-align: left;
 }
 
 .form-label {
-  margin-bottom: 0.5rem;
-  font-weight: 600;
   color: var(--accent-secondary);
   font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  /* Make all letters uppercase */
 }
 
+/* Input Field Styling */
 .form-input {
-  width: 100%;
-  padding: 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-  /* Important so padding doesn't affect width */
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  -webkit-text-fill-color: var(--text-primary);
-  caret-color: var(--text-primary);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1rem;
+  cursor: text !important;
+  outline: none;
+  /* Remove default browser outline */
+  transition: border-color 0.3s;
 }
 
-/* Chrome/Safari autofill override for dark theme */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus,
-textarea:-webkit-autofill {
-  -webkit-text-fill-color: var(--text-primary) !important;
-  caret-color: var(--text-primary) !important;
-  box-shadow: 0 0 0px 1000px var(--bg-primary) inset !important;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
+/* Input Focus State */
 .form-input:focus {
   border-color: var(--accent-color);
-  outline: none;
   box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
+/* Button Styling */
 .login-button {
   background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-  color: var(--text-primary);
+  color: white;
   padding: 1rem;
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  margin-top: 1rem;
+  transition: transform 0.2s;
 }
 
 .login-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+  /* Slight jump effect */
   filter: brightness(1.1);
+  /* Make it slightly brighter */
 }
 
-.login-button:active {
-  transform: scale(0.98);
-}
-
+/* Error Message Box */
 .error-message {
-  color: var(--error-color);
   background-color: rgba(239, 68, 68, 0.1);
-  padding: 0.75rem;
+  color: var(--error-color);
+  padding: 10px;
   border-radius: 6px;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
   border: 1px solid rgba(239, 68, 68, 0.2);
+  margin-bottom: 1rem;
 }
 
+/* Register Link Styling */
 .register-link {
   margin-top: 1.5rem;
   font-size: 0.9rem;
@@ -147,10 +143,25 @@ textarea:-webkit-autofill {
 .register-link a {
   color: var(--accent-secondary);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .register-link a:hover {
   text-decoration: underline;
-  color: var(--accent-color);
+}
+
+/* Success Message Box for Forgot Password */
+.success-message {
+  color: var(--success-color);
+  background-color: rgba(16, 185, 129, 0.1);
+  /* Slightly transparent green */
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  line-height: 1.5;
+}
+
+.success-message p {
+  margin: 0.5rem 0;
 }

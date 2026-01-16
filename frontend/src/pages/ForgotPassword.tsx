@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // useNavigate unused here, removed
 import api from "../services/api";
 import "./login.css";
 
 export default function ForgotPassword() {
-  const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -32,14 +31,17 @@ export default function ForgotPassword() {
       <div className="login-card">
         <h1 className="login-title">Reset Password</h1>
 
-        {error && <div className="error-message" style={{ color: '#d32f2f', marginBottom: '10px', padding: '10px', backgroundColor: '#ffebee', borderRadius: '4px' }}>{error}</div>}
+        {/* Error Message Display */}
+        {error && <div className="error-message">{error}</div>}
 
+        {/* Success Message Display */}
         {success ? (
-          <div style={{ color: '#4caf50', padding: '15px', backgroundColor: '#f1f8e9', borderRadius: '4px', marginBottom: '15px' }}>
+          <div className="success-message">
             <p><strong>Email sent successfully!</strong></p>
             <p>Check your email for the password reset link. The link will expire in 1 hour.</p>
           </div>
         ) : (
+          /* Reset Form */
           <form onSubmit={onSubmit} className="login-form">
             <div className="form-group">
               <label className="form-label">Email Address</label>
@@ -59,11 +61,11 @@ export default function ForgotPassword() {
           </form>
         )}
 
-        <div className="register-link" style={{ marginTop: '1.5rem' }}>
+        {/* Back to Login Link */}
+        <div className="register-link">
           Remember your password? <Link to="/login">Back to Login</Link>
         </div>
       </div>
     </div>
   );
 }
-

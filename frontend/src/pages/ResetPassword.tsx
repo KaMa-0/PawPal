@@ -75,12 +75,13 @@ export default function ResetPassword() {
     }
   }
 
+  // View for invalid token
   if (!tokenValid) {
     return (
       <div className="login-container">
         <div className="login-card">
           <h1 className="login-title">Reset Password</h1>
-          <div className="error-message" style={{ color: '#d32f2f', padding: '15px', backgroundColor: '#ffebee', borderRadius: '4px', marginBottom: '15px' }}>
+          <div className="error-message">
             {error}
           </div>
           <div className="register-link">
@@ -96,10 +97,11 @@ export default function ResetPassword() {
       <div className="login-card">
         <h1 className="login-title">Reset Password</h1>
 
-        {error && <div className="error-message" style={{ color: '#d32f2f', marginBottom: '10px', padding: '10px', backgroundColor: '#ffebee', borderRadius: '4px' }}>{error}</div>}
+        {error && <div className="error-message">{error}</div>}
 
         {success ? (
-          <div style={{ color: '#4caf50', padding: '15px', backgroundColor: '#f1f8e9', borderRadius: '4px', marginBottom: '15px' }}>
+          /* Using the .success-message class defined in login.css */
+          <div className="success-message">
             <p><strong>Password reset successfully!</strong></p>
             <p>You will be redirected to the home page shortly...</p>
           </div>
@@ -135,11 +137,10 @@ export default function ResetPassword() {
           </form>
         )}
 
-        <div className="register-link" style={{ marginTop: '1.5rem' }}>
+        <div className="register-link">
           Remember your password? <Link to="/login">Back to Login</Link>
         </div>
       </div>
     </div>
   );
 }
-

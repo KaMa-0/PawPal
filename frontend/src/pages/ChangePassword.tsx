@@ -56,19 +56,25 @@ export default function ChangePassword() {
     return (
         <div className="change-password-container">
             <div className="change-password-card">
-                <button className="back-btn" onClick={() => navigate("/home")}>
-                    ← Back to Home
-                </button>
-                <h1>Change Password</h1>
-                <p>Ensure your account is secure by using a strong password.</p>
+
+                {/* Header Section */}
+                <div className="cp-header">
+                    <button className="cp-back-btn" onClick={() => navigate("/home")}>
+                        ← Back
+                    </button>
+                    <h1 className="cp-title">Change Password</h1>
+                </div>
+
+                <p className="cp-subtitle">Ensure your account is secure by using a strong password.</p>
 
                 {error && <div className="error-message">{error}</div>}
                 {success && <div className="success-message">{success}</div>}
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="cp-form">
                     <div className="form-group">
-                        <label htmlFor="oldPassword">Current Password</label>
+                        <label className="form-label" htmlFor="oldPassword">Current Password</label>
                         <input
+                            className="form-input"
                             type="password"
                             id="oldPassword"
                             value={oldPassword}
@@ -78,8 +84,9 @@ export default function ChangePassword() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="newPassword">New Password</label>
+                        <label className="form-label" htmlFor="newPassword">New Password</label>
                         <input
+                            className="form-input"
                             type="password"
                             id="newPassword"
                             value={newPassword}
@@ -89,8 +96,9 @@ export default function ChangePassword() {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="confirmPassword">Confirm New Password</label>
+                        <label className="form-label" htmlFor="confirmPassword">Confirm New Password</label>
                         <input
+                            className="form-input"
                             type="password"
                             id="confirmPassword"
                             value={confirmPassword}
@@ -99,8 +107,8 @@ export default function ChangePassword() {
                         />
                     </div>
 
-                    <button type="submit" className="submit-btn" disabled={loading}>
-                        {loading ? "Updating Password..." : "Update Password"}
+                    <button type="submit" className="cp-submit-btn" disabled={loading}>
+                        {loading ? "Updating..." : "Update Password"}
                     </button>
                 </form>
             </div>

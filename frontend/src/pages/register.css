@@ -1,109 +1,88 @@
-@import '../theme.css';
-
-/* Remove local variables as we use theme.css */
+@import "../theme.css";
 
 body {
     margin: 0;
-    font-family: 'Inter', system-ui, sans-serif;
-    background-color: var(--bg-primary);
+    font-family: 'Inter', sans-serif;
 }
 
+/* Page Container - Centers the card */
 .register-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    width: 100vw;
     padding: 2rem 0;
-    background-color: var(--bg-primary);
+    width: 100%;
 }
 
+/* Register Card Design */
 .register-card {
     background-color: var(--bg-secondary);
     color: var(--text-primary);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
     width: 100%;
     max-width: 500px;
+    /* Slightly wider than login card */
+    padding: 2.5rem;
+    border-radius: 16px;
     text-align: center;
-    transition: transform 0.2s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .register-title {
-    margin-bottom: 2rem;
     font-size: 2rem;
     font-weight: 800;
+    margin-bottom: 2rem;
+    /* Gradient Text */
     background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
-    background-clip: text;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: transparent;
 }
 
 .register-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.2rem;
 }
 
+/* Form Groups */
 .form-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     text-align: left;
 }
 
 .form-label {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
     color: var(--accent-secondary);
     font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
-.form-select,
-.form-input {
+/* Inputs and Select Dropdowns */
+.form-input,
+.form-select {
     width: 100%;
     padding: 0.9rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     font-size: 1rem;
-    transition: all 0.2s ease;
     box-sizing: border-box;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    -webkit-text-fill-color: var(--text-primary);
-    caret-color: var(--text-primary);
+    /* Ensures padding doesn't affect width */
+    transition: border-color 0.3s;
 }
 
-/* Chrome/Safari autofill override for dark theme */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus,
-textarea:-webkit-autofill {
-    -webkit-text-fill-color: var(--text-primary) !important;
-    caret-color: var(--text-primary) !important;
-    box-shadow: 0 0 0px 1000px var(--bg-primary) inset !important;
-    transition: background-color 5000s ease-in-out 0s;
-}
-
-.form-input::placeholder {
-    color: var(--text-secondary);
-    opacity: 0.5;
-}
-
-.form-select:focus,
-.form-input:focus {
-    border-color: var(--accent-color);
+.form-input:focus,
+.form-select:focus {
     outline: none;
+    border-color: var(--accent-color);
     box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
 }
 
+/* Register Button */
 .register-button {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     color: white;
@@ -111,60 +90,59 @@ textarea:-webkit-autofill {
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
     margin-top: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    transition: transform 0.2s;
 }
 
 .register-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
     filter: brightness(1.1);
-}
-
-.register-button:active {
-    transform: scale(0.98);
 }
 
 .error-message {
     color: var(--error-color);
     background-color: rgba(239, 68, 68, 0.1);
-    padding: 0.75rem;
+    padding: 0.8rem;
     border-radius: 6px;
-    font-size: 0.9rem;
     margin-bottom: 1rem;
-    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .login-link {
     margin-top: 1.5rem;
-    font-size: 0.9rem;
     color: var(--text-secondary);
 }
 
 .login-link a {
     color: var(--accent-secondary);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: bold;
 }
 
-.login-link a:hover {
-    text-decoration: underline;
-    color: var(--accent-color);
+/* Pet Types Checkbox Container */
+.pet-types-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
 }
 
-.form-group input[type="checkbox"] {
+/* Individual Checkbox Label */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+/* Custom Checkbox Style */
+.checkbox-label input[type="checkbox"] {
     width: 16px;
     height: 16px;
     accent-color: var(--accent-color);
     cursor: pointer;
-}
-
-.form-group label {
-    font-size: 0.95rem;
-    color: var(--text-primary);
 }
