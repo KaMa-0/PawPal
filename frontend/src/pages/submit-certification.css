@@ -9,17 +9,12 @@
   width: 100%;
   background-color: var(--bg-primary);
   font-family: 'Inter', sans-serif;
-  padding: 0;
 }
 
 .submit-cert-container {
-  flex: 1;
-  /* Like Landing Page Hero Section - takes remaining space */
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
-  padding: 2rem;
   background-color: var(--bg-primary);
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
@@ -30,27 +25,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1rem;
   flex: 1;
 }
 
 /* Main Card */
 .submit-cert-card {
   background-color: var(--bg-secondary);
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.05);
   width: 100%;
-  max-width: 500px;
   text-align: center;
   position: relative;
   color: var(--text-primary);
+  flex-shrink: 0;
 }
 
 /* Header Section */
 .cert-card-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   position: relative;
   display: flex;
   justify-content: center;
@@ -58,7 +56,7 @@
 }
 
 .page-title {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 800;
   margin: 0;
   background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
@@ -87,9 +85,9 @@
 
 /* Status Messages Box */
 .status-message {
-  padding: 1.5rem;
+  padding: 1.2rem;
   border-radius: 12px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   text-align: center;
 }
 
@@ -102,7 +100,7 @@
 }
 
 .status-message.pending h2 {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
 }
 
@@ -115,7 +113,7 @@
 }
 
 .status-message.success h2 {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
 }
 
@@ -129,19 +127,19 @@
 /* Submit Section */
 .instructions {
   color: var(--text-secondary);
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.6;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .submit-btn {
   width: 100%;
-  padding: 1rem;
+  padding: 0.9rem;
   background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
   text-transform: uppercase;
@@ -163,23 +161,24 @@
 .error-message {
   background-color: rgba(239, 68, 68, 0.1);
   color: var(--error-color);
-  padding: 1rem;
+  padding: 0.85rem;
   border-radius: 8px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   border: 1px solid rgba(239, 68, 68, 0.2);
+  font-size: 0.9rem;
 }
 
 /* History Section */
 .cert-history-section {
-  margin-top: 2.5rem;
+  margin-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 1.5rem;
+  padding-top: 1.25rem;
 }
 
 .history-title {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: var(--text-secondary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
   text-align: left;
 }
 
@@ -230,9 +229,38 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .submit-cert-card {
+    max-width: 450px;
+    padding: 1.75rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .submit-cert-page-wrapper {
+    padding: 1.5rem 1rem;
+  }
+
   .submit-cert-container {
-    padding: 1rem;
+    padding: 0;
+  }
+
+  .submit-cert-content {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .submit-cert-card {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+
+  .page-title {
+    font-size: 1.4rem;
   }
 
   .back-btn {
@@ -245,5 +273,180 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .status-message.pending h2,
+  .status-message.success h2 {
+    font-size: 1.2rem;
+  }
+
+  .instructions {
+    font-size: 0.9rem;
+  }
+
+  .submit-btn {
+    padding: 0.85rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .submit-cert-page-wrapper {
+    padding: 1rem 0.75rem;
+  }
+
+  .submit-cert-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+
+  .back-btn {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.7rem;
+  }
+
+  .cert-card-header {
+    margin-bottom: 1rem;
+  }
+
+  .status-message {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .status-message.pending h2,
+  .status-message.success h2 {
+    font-size: 1.1rem;
+  }
+
+  .status-message.pending p,
+  .status-message.success p {
+    font-size: 0.85rem;
+  }
+
+  .info-text {
+    font-size: 0.8rem;
+  }
+
+  .instructions {
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .submit-btn {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .error-message {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .cert-history-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  .history-title {
+    font-size: 1.05rem;
+  }
+
+  .history-item {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  .history-status {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+  .submit-cert-content {
+    padding: 0.75rem;
+  }
+
+  .submit-cert-card {
+    padding: 1rem;
+  }
+
+  .page-title {
+    font-size: 1.15rem;
+  }
+
+  .back-btn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .status-message.pending h2,
+  .status-message.success h2 {
+    font-size: 1rem;
+  }
+
+  .instructions {
+    font-size: 0.8rem;
+  }
+
+  .submit-btn {
+    padding: 0.65rem;
+    font-size: 0.8rem;
+  }
+
+  .history-item {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .submit-btn {
+    min-height: 48px;
+    padding: 1rem;
+  }
+
+  .back-btn {
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+  }
+
+  .history-item {
+    cursor: pointer;
+  }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .submit-cert-content {
+    margin: 1rem;
+  }
+
+  .submit-cert-card {
+    max-width: 550px;
+    padding: 1.25rem 1.75rem;
+  }
+
+  .cert-card-header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .back-btn {
+    position: absolute;
+    display: inline;
+  }
+
+  .status-message {
+    padding: 1rem;
   }
 }

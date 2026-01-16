@@ -311,3 +311,213 @@
     font-size: 1.2rem;
     margin-top: 3rem;
 }
+
+/* --- Responsive Design --- */
+/* Tablet View (768px - 1024px) */
+@media (max-width: 1024px) {
+    .search-container {
+        padding: 1.5rem;
+    }
+
+    .search-title {
+        font-size: 2.5rem;
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .hero-card {
+        max-width: 100%;
+    }
+}
+
+/* Mobile View (up to 768px) */
+@media (max-width: 768px) {
+    .search-container {
+        padding: 1rem;
+    }
+
+    .search-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-card {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+    }
+
+    /* Already handled above */
+    .form-group {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding-bottom: 1rem;
+        margin-bottom: 0.5rem;
+        min-width: 100%;
+    }
+
+    .form-group:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    .search-form {
+        flex-direction: column;
+    }
+
+    .search-button-primary {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .hero-card {
+        margin: 0 auto;
+        max-width: 100%;
+    }
+
+    .hero-image-container {
+        height: 180px;
+    }
+
+    .hero-content {
+        padding: 1.2rem;
+    }
+}
+
+/* Small Mobile View (up to 480px) */
+@media (max-width: 480px) {
+    .search-container {
+        padding: 0.8rem;
+    }
+
+    .search-title {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .search-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .form-label {
+        font-size: 0.8rem;
+    }
+
+    .form-input {
+        padding: 0 0.8rem;
+        font-size: 0.9rem;
+        height: 48px;
+    }
+
+    .search-button-primary {
+        padding: 0 1.5rem;
+        font-size: 0.9rem;
+        height: 48px;
+    }
+
+    .hero-content {
+        padding: 1rem;
+    }
+
+    .hero-name {
+        font-size: 1.2rem;
+    }
+
+    .hero-location {
+        font-size: 0.8rem;
+    }
+
+    .hero-description {
+        font-size: 0.85rem;
+    }
+
+    .hero-stats {
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+    }
+
+    .view-profile-btn,
+    .request-btn {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+    .search-container {
+        padding: 0.5rem;
+    }
+
+    .search-title {
+        font-size: 1.3rem;
+    }
+
+    .search-card {
+        padding: 0.8rem;
+    }
+
+    .form-label {
+        font-size: 0.75rem;
+    }
+
+    .form-input {
+        font-size: 0.85rem;
+    }
+
+    .hero-name {
+        font-size: 1.1rem;
+    }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .form-input,
+    .search-button-primary {
+        min-height: 48px;
+        font-size: 16px; /* Prevents auto-zoom on iOS */
+    }
+
+    .view-profile-btn,
+    .request-btn {
+        min-height: 44px;
+        padding: 0.8rem;
+    }
+
+    .hero-card {
+        cursor: pointer;
+    }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+    .search-title {
+        font-size: 1.8rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .search-card {
+        padding: 1rem;
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .hero-image-container {
+        height: 150px;
+    }
+}

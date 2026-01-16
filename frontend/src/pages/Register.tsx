@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 import { setAuth } from "../auth/authStore";
 import type { Role } from "../auth/authStore";
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./register.css";
 
@@ -59,110 +60,110 @@ export default function Register() {
 
     return (
         <div className="register-container">
-            <div className="register-card">
-                <Link to="/" className="back-button">
-                    ← Back to Home
-                </Link>
+            <Navbar />
+            <div className="register-content">
+                <div className="register-card">
 
-                <h1 className="register-title">Sign Up</h1>
+                    <h1 className="register-title">Sign Up</h1>
 
-                {error && <div className="error-message">{error}</div>}
+                    {error && <div className="error-message">{error}</div>}
 
-                <form onSubmit={onSubmit} className="register-form">
-                    <div className="form-group">
-                        <label className="form-label">Username</label>
-                        <input
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            placeholder="Choose a username"
-                            required
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Email</label>
-                        <input
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="Enter your email"
-                            required
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Password</label>
-                        <input
-                            name="password"
-                            type="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="Create a password"
-                            required
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Location (State)</label>
-                        <select name="state" value={formData.state} onChange={handleChange} required className="form-select">
-                            <option value="" disabled>Select your state...</option>
-                            <option value="WIEN">Vienna (Wien)</option>
-                            <option value="NIEDEROESTERREICH">Lower Austria (Niederösterreich)</option>
-                            <option value="OBEROESTERREICH">Upper Austria (Oberösterreich)</option>
-                            <option value="SALZBURG">Salzburg</option>
-                            <option value="TIROL">Tyrol (Tirol)</option>
-                            <option value="VORARLBERG">Vorarlberg</option>
-                            <option value="KAERNTEN">Carinthia (Kärnten)</option>
-                            <option value="STEIERMARK">Styria (Steiermark)</option>
-                            <option value="BURGENLAND">Burgenland</option>
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">I am a...</label>
-                        <select name="userType" value={formData.userType} onChange={handleChange} className="form-select">
-                            <option value="OWNER">Pet Owner</option>
-                            <option value="SITTER">Pet Sitter</option>
-                            <option value="ADMIN">Admin</option>
-                        </select>
-                    </div>
-
-                    {/* Sitter Specific Options */}
-                    {formData.userType === "SITTER" && (
+                    <form onSubmit={onSubmit} className="register-form">
                         <div className="form-group">
-                            <label className="form-label">Pet Types I can sit</label>
-                            <div className="pet-types-grid">
-                                {petOptions.map((pet) => (
-                                    <label key={pet} className="checkbox-label">
-                                        <input
-                                            type="checkbox"
-                                            value={pet}
-                                            checked={formData.petTypes.includes(pet)}
-                                            onChange={(e) => {
-                                                if (e.target.checked) {
-                                                    setFormData({ ...formData, petTypes: [...formData.petTypes, pet] });
-                                                } else {
-                                                    setFormData({ ...formData, petTypes: formData.petTypes.filter(p => p !== pet) });
-                                                }
-                                            }}
-                                        />
-                                        {pet.charAt(0).toUpperCase() + pet.slice(1).toLowerCase()}
-                                    </label>
-                                ))}
-                            </div>
+                            <label className="form-label">Username</label>
+                            <input
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                placeholder="Choose a username"
+                                required
+                                className="form-input"
+                            />
                         </div>
-                    )}
 
-                    <button type="submit" className="register-button">Register</button>
-                </form>
+                        <div className="form-group">
+                            <label className="form-label">Email</label>
+                            <input
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="Enter your email"
+                                required
+                                className="form-input"
+                            />
+                        </div>
 
-                <div className="login-link">
-                    Already have an account? <Link to="/login">Login</Link>
+                        <div className="form-group">
+                            <label className="form-label">Password</label>
+                            <input
+                                name="password"
+                                type="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Create a password"
+                                required
+                                className="form-input"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Location (State)</label>
+                            <select name="state" value={formData.state} onChange={handleChange} required className="form-select">
+                                <option value="" disabled>Select your state...</option>
+                                <option value="WIEN">Vienna (Wien)</option>
+                                <option value="NIEDEROESTERREICH">Lower Austria (Niederösterreich)</option>
+                                <option value="OBEROESTERREICH">Upper Austria (Oberösterreich)</option>
+                                <option value="SALZBURG">Salzburg</option>
+                                <option value="TIROL">Tyrol (Tirol)</option>
+                                <option value="VORARLBERG">Vorarlberg</option>
+                                <option value="KAERNTEN">Carinthia (Kärnten)</option>
+                                <option value="STEIERMARK">Styria (Steiermark)</option>
+                                <option value="BURGENLAND">Burgenland</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">I am a...</label>
+                            <select name="userType" value={formData.userType} onChange={handleChange} className="form-select">
+                                <option value="OWNER">Pet Owner</option>
+                                <option value="SITTER">Pet Sitter</option>
+                                <option value="ADMIN">Admin</option>
+                            </select>
+                        </div>
+
+                        {/* Sitter Specific Options */}
+                        {formData.userType === "SITTER" && (
+                            <div className="form-group">
+                                <label className="form-label">Pet Types I can sit</label>
+                                <div className="pet-types-grid">
+                                    {petOptions.map((pet) => (
+                                        <label key={pet} className="checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                value={pet}
+                                                checked={formData.petTypes.includes(pet)}
+                                                onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                        setFormData({ ...formData, petTypes: [...formData.petTypes, pet] });
+                                                    } else {
+                                                        setFormData({ ...formData, petTypes: formData.petTypes.filter(p => p !== pet) });
+                                                    }
+                                                }}
+                                            />
+                                            {pet.charAt(0).toUpperCase() + pet.slice(1).toLowerCase()}
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <button type="submit" className="register-button">Register</button>
+                    </form>
+
+                    <div className="login-link">
+                        Already have an account? <Link to="/login">Login</Link>
+                    </div>
                 </div>
             </div>
             <Footer />

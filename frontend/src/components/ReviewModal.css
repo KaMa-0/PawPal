@@ -106,3 +106,155 @@
   cursor: not-allowed;
   opacity: 0.7;
 }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .review-modal-container {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .review-modal-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .review-star-container {
+    gap: 6px;
+  }
+
+  .review-textarea {
+    min-height: 80px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-modal-container {
+    width: 95%;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .review-modal-close {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .review-modal-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .review-star-container {
+    gap: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .review-text-label {
+    font-size: 0.85rem;
+  }
+
+  .review-textarea {
+    padding: 0.6rem;
+    min-height: 70px;
+    font-size: 0.9rem;
+  }
+
+  .review-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .review-btn-cancel,
+  .review-btn-submit {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+  .review-modal-container {
+    width: 95%;
+    padding: 0.8rem;
+  }
+
+  .review-modal-title {
+    font-size: 1rem;
+  }
+
+  .review-star-container {
+    gap: 3px;
+  }
+
+  .review-star-button {
+    font-size: 1.8rem;
+  }
+
+  .review-text-label {
+    font-size: 0.8rem;
+  }
+
+  .review-textarea {
+    padding: 0.5rem;
+    min-height: 60px;
+    font-size: 0.85rem;
+  }
+
+  .review-btn-cancel,
+  .review-btn-submit {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .review-star-button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+  }
+
+  .review-textarea {
+    min-height: 100px;
+    font-size: 16px; /* Prevents auto-zoom on iOS */
+  }
+
+  .review-btn-cancel,
+  .review-btn-submit {
+    min-height: 44px;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .review-modal-close {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .review-modal-container {
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .review-star-container {
+    margin-bottom: 1rem;
+  }
+
+  .review-actions {
+    flex-direction: row;
+  }
+
+  .review-btn-cancel,
+  .review-btn-submit {
+    width: auto;
+    flex: 1;
+  }
+}
+

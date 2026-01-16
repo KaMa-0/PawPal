@@ -114,3 +114,138 @@
     background-color: rgba(239, 68, 68, 0.1);
     border-color: var(--error-color);
 }
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 1rem 1.5rem;
+    }
+
+    .navbar-logo {
+        font-size: 1.3rem;
+    }
+
+    .nav-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .navbar-links {
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.8rem 1rem;
+    }
+
+    .navbar-container {
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .navbar-logo {
+        font-size: 1.2rem;
+        flex: 1;
+    }
+
+    .navbar-links {
+        gap: 0.5rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .user-info {
+        width: 100%;
+        text-align: center;
+        margin: 0 0 0.5rem 0;
+        font-size: 0.85rem;
+        order: 1;
+    }
+
+    .nav-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        flex: 1 1 calc(50% - 0.5rem);
+        min-width: 120px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .navbar-logo {
+        font-size: 1.1rem;
+    }
+
+    .nav-btn {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.03em;
+        min-width: 100px;
+    }
+
+    .user-info {
+        font-size: 0.8rem;
+    }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+    .navbar {
+        padding: 0.5rem;
+    }
+
+    .navbar-logo {
+        font-size: 1rem;
+    }
+
+    .nav-btn {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.7rem;
+        min-width: 90px;
+        flex: 1 1 100%;
+    }
+
+    .navbar-links {
+        gap: 0.4rem;
+    }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .nav-btn {
+        min-height: 44px;
+        padding: 0.6rem 1rem;
+    }
+
+    .navbar {
+        padding: 1rem 1.5rem;
+    }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-container {
+        flex-wrap: nowrap;
+    }
+
+    .navbar-links {
+        width: auto;
+        flex-wrap: nowrap;
+    }
+
+    .user-info {
+        width: auto;
+        order: 0;
+        margin: 0 1rem 0 0;
+    }
+}

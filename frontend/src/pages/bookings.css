@@ -241,3 +241,167 @@ button.action-btn:hover {
 .full-width {
   width: 100%;
 }
+
+/* --- Responsive Design --- */
+/* Tablet View (768px - 1024px) */
+@media (max-width: 1024px) {
+  .mybookings-container {
+    padding: 1.5rem;
+  }
+
+  .mybookings-container h1 {
+    font-size: 2.2rem;
+  }
+
+  .bookings-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+}
+
+/* Mobile View (up to 768px) */
+@media (max-width: 768px) {
+  .mybookings-content {
+    padding: 1rem;
+  }
+
+  .mybookings-container {
+    padding: 1rem;
+  }
+
+  .mybookings-container h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bookings-header-row {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .bookings-header-row h1 {
+    font-size: 1.8rem;
+  }
+
+  .logout-button {
+    width: 100%;
+  }
+
+  .bookings-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .booking-card {
+    padding: 1.2rem;
+  }
+
+  .booking-actions {
+    flex-direction: column;
+  }
+
+  button.action-btn {
+    width: 100%;
+  }
+}
+
+/* Small Mobile View (up to 480px) */
+@media (max-width: 480px) {
+  .mybookings-content {
+    padding: 0.5rem;
+  }
+
+  .mybookings-container {
+    padding: 0.8rem;
+  }
+
+  .mybookings-container h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .booking-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .booking-info p {
+    font-size: 0.9rem;
+  }
+
+  button.action-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .logout-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .review-btn-write {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+  .mybookings-container {
+    padding: 0.5rem;
+  }
+
+  .mybookings-container h1 {
+    font-size: 1.3rem;
+  }
+
+  .booking-card {
+    padding: 0.8rem;
+  }
+
+  .booking-info p {
+    font-size: 0.85rem;
+  }
+
+  button.action-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  button.action-btn,
+  .review-btn-write,
+  .logout-button {
+    min-height: 44px;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .booking-card {
+    cursor: pointer;
+  }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mybookings-container h1 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .bookings-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .booking-actions {
+    flex-direction: row;
+  }
+
+  button.action-btn {
+    width: auto;
+    flex: 1;
+  }
+}
+

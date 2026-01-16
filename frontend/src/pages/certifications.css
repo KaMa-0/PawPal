@@ -196,9 +196,31 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .cert-content {
+    padding: 1.5rem;
+  }
+
+  .cert-title {
+    font-size: 2.2rem;
+  }
+
+  .cert-card {
+    padding: 1.2rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .cert-content {
+    padding: 1rem;
+  }
+
   .cert-header {
     margin-bottom: 2rem;
+  }
+
+  .cert-title {
+    font-size: 1.8rem;
   }
 
   .back-btn {
@@ -218,5 +240,131 @@
   .cert-actions {
     width: 100%;
     justify-content: flex-end;
+  }
+
+  .cert-username {
+    font-size: 1.1rem;
+  }
+
+  .cert-detail {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cert-content {
+    padding: 0.8rem;
+  }
+
+  .cert-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .cert-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .cert-username {
+    font-size: 1rem;
+  }
+
+  .cert-detail {
+    font-size: 0.85rem;
+  }
+
+  .cert-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    min-width: auto;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.4rem;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+  .cert-content {
+    padding: 0.5rem;
+  }
+
+  .cert-title {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .cert-card {
+    padding: 0.8rem;
+  }
+
+  .cert-username {
+    font-size: 0.95rem;
+  }
+
+  .cert-detail {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+  }
+
+  .cert-card {
+    cursor: pointer;
+  }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .cert-content {
+    padding: 1rem;
+  }
+
+  .cert-title {
+    font-size: 1.8rem;
+  }
+
+  .cert-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .cert-card {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cert-actions {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .btn {
+    width: auto;
+    min-width: 100px;
   }
 }

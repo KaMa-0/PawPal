@@ -247,17 +247,260 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .sitter-profile-card {
+        padding: 2rem;
+        margin: 1.5rem auto;
+    }
+
+    .profile-username {
+        font-size: 2.2rem;
+    }
+}
+
 @media (max-width: 768px) {
     .sitter-profile-card {
         padding: 1.5rem;
+        margin: 1rem auto;
+    }
+
+    .profile-image-container {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1.2rem;
+    }
+
+    .profile-avatar-placeholder-large {
+        font-size: 2.5rem;
     }
 
     .profile-username {
         font-size: 1.8rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .verified-badge {
+        font-size: 0.8rem;
     }
 
     .profile-meta-row {
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    .meta-item {
+        font-size: 0.9rem;
+    }
+
+    .profile-actions-row {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .profile-btn {
+        width: 100%;
+        padding: 0.7rem 1.5rem;
+        font-size: 0.85rem;
+    }
+
+    .section-header {
+        font-size: 1.3rem;
+    }
+
+    .about-text {
+        font-size: 0.95rem;
+    }
+
+    .review-item {
+        padding: 1.2rem;
+    }
+
+    .review-author-name {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sitter-profile-card {
+        padding: 1rem;
+        margin: 0.5rem;
+        border-radius: 12px;
+    }
+
+    .profile-header-section {
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-image-container {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1rem;
+    }
+
+    .profile-avatar-placeholder-large {
+        font-size: 2rem;
+    }
+
+    .profile-username {
+        font-size: 1.5rem;
+    }
+
+    .verified-badge {
+        font-size: 0.75rem;
+        padding: 0.15rem 0.5rem;
+    }
+
+    .profile-meta-row {
+        font-size: 0.9rem;
+    }
+
+    .profile-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+
+    .profile-content-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-header {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .about-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .gallery-title {
+        font-size: 1rem;
+    }
+
+    .review-item {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .review-author-name {
+        font-size: 0.95rem;
+    }
+
+    .review-date {
+        font-size: 0.8rem;
+    }
+
+    .review-stars {
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+
+    .review-text {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+    .sitter-profile-card {
+        padding: 0.8rem;
+        margin: 0.4rem;
+    }
+
+    .profile-image-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profile-avatar-placeholder-large {
+        font-size: 1.5rem;
+    }
+
+    .profile-username {
+        font-size: 1.3rem;
+    }
+
+    .verified-badge {
+        font-size: 0.7rem;
+        padding: 0.1rem 0.4rem;
+    }
+
+    .profile-meta-row {
+        font-size: 0.85rem;
+        gap: 1rem;
+    }
+
+    .profile-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+
+    .section-header {
+        font-size: 1rem;
+    }
+
+    .about-text {
+        font-size: 0.85rem;
+    }
+
+    .review-item {
+        padding: 0.8rem;
+    }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .profile-btn {
+        min-height: 44px;
+        padding: 0.8rem 2rem;
+    }
+
+    .review-item {
+        cursor: pointer;
+    }
+
+    /* Improve scrolling on touch devices */
+    .sitter-profile-card {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+    .sitter-profile-card {
+        margin: 1rem auto;
+        max-width: 90%;
+    }
+
+    .profile-header-section {
+        flex-direction: row;
+        text-align: left;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .profile-image-container {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .profile-username {
+        justify-content: flex-start;
+    }
+
+    .profile-meta-row {
+        justify-content: flex-start;
+    }
+
+    .profile-actions-row {
+        flex-direction: row;
+    }
+
+    .profile-btn {
+        width: auto;
+        padding: 0.7rem 1.5rem;
     }
 }

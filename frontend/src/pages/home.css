@@ -317,6 +317,24 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .home-content-area {
+    padding: 1.5rem;
+  }
+
+  .dashboard-hero {
+    padding: 2rem;
+  }
+
+  .hero-greeting {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 900px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
@@ -331,3 +349,231 @@
     margin-top: 1.5rem;
   }
 }
+
+@media (max-width: 768px) {
+  .home-content-area {
+    padding: 1rem;
+  }
+
+  .dashboard-hero {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .hero-greeting {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .hero-stats {
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 0.8rem 1.2rem;
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 140px;
+  }
+
+  .stat-value {
+    font-size: 1.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+  }
+
+  .dashboard-card {
+    padding: 1.5rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .profile-image-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-placeholder {
+    font-size: 2.5rem;
+  }
+
+  .sidebar-link {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-content-area {
+    padding: 0.8rem;
+  }
+
+  .dashboard-container {
+    gap: 1.5rem;
+  }
+
+  .dashboard-hero {
+    padding: 1.2rem;
+    border-radius: 12px;
+  }
+
+  .hero-greeting {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-stats {
+    gap: 0.8rem;
+  }
+
+  .stat-card {
+    padding: 0.6rem 1rem;
+    flex: 1 1 100%;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+  }
+
+  .dashboard-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .card-header h2 {
+    font-size: 1.1rem;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-image-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .edit-icon-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .field-label {
+    font-size: 0.8rem;
+  }
+
+  .profile-textarea {
+    min-height: 120px;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .save-btn,
+  .secondary-btn {
+    width: 100%;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-link {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .mini-review-item {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+  .home-content-area {
+    padding: 0.5rem;
+  }
+
+  .dashboard-hero {
+    padding: 1rem;
+  }
+
+  .hero-greeting {
+    font-size: 1.3rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .stat-card {
+    padding: 0.5rem 0.8rem;
+  }
+
+  .dashboard-card {
+    padding: 0.8rem;
+  }
+
+  .card-header h2 {
+    font-size: 1rem;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .save-btn,
+  .secondary-btn,
+  .sidebar-link {
+    min-height: 44px;
+  }
+
+  .edit-icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .profile-textarea {
+    font-size: 16px; /* Prevents auto-zoom on iOS */
+  }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .dashboard-hero {
+    padding: 1.5rem;
+  }
+
+  .hero-greeting {
+    font-size: 1.8rem;
+  }
+
+  .hero-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .stat-card {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 150px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

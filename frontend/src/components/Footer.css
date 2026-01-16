@@ -36,3 +36,24 @@
     }
 }
 
+@media (max-width: 480px) {
+    .footer {
+        padding: 0.8rem 0.5rem;
+    }
+
+    .footer-text {
+        font-size: 0.75rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 360px) {
+    .footer {
+        padding: 0.6rem 0.4rem;
+    }
+
+    .footer-text {
+        font-size: 0.7rem;
+    }
+}
+
