@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import Navbar from "../components/Navbar"; // Import Navbar
+import Footer from "../components/Footer";
 import "./ChangePassword.css";
 
 export default function ChangePassword() {
@@ -114,6 +115,7 @@ export default function ChangePassword() {
                     </form>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

@@ -3,6 +3,7 @@ import { getAuth } from "../auth/authStore";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import ReviewModal from "../components/ReviewModal";
 import "./bookings.css";
 
@@ -194,6 +195,7 @@ export default function Bookings() {
         onSubmit={submitReview}
         loading={reviewLoading}
       />
+      <Footer />
     </div>
   );
 }

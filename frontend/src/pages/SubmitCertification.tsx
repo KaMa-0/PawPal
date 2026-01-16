@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { getAuth } from "../auth/authStore";
 import Navbar from "../components/Navbar"; // Added Navbar
+import Footer from "../components/Footer";
 import "./submit-certification.css";
 
 export default function SubmitCertification() {
@@ -128,6 +129,7 @@ export default function SubmitCertification() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import "./LandingPage.css";
 
 export default function LandingPage() {
@@ -105,6 +106,7 @@ export default function LandingPage() {
 
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }

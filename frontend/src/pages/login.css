@@ -7,40 +7,49 @@ body {
   background-color: var(--bg-primary) !important;
 }
 
-/* Centering Container (Flexbox) */
+/* Centering Container (Flexbox) - Like Landing Page Wrapper */
 .login-container {
   display: flex;
-  /* Use flexbox layout */
-  justify-content: center;
-  /* Center horizontally */
-  align-items: center;
-  /* Center vertically */
-  height: 100vh;
-  /* Full viewport height */
+  flex-direction: column;
+  min-height: 100vh;
   width: 100%;
+  background-color: var(--bg-primary);
 }
 
-/* Login Card Styling */
+/* Content Area - Like Landing Page Hero Section with flex: 1 */
 .login-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem;
   background-color: var(--bg-secondary);
   width: 100%;
-  max-width: 400px;
-  /* Prevents the card from getting too wide */
-  padding: 2.5rem;
+  max-width: 500px;
+  margin: 0 auto;
   border-radius: 16px;
-  /* Rounded corners */
   text-align: center;
-
-  /* Subtle shadow and border */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.2s;
-  /* Smooth movement animation */
 }
 
-/* Hover effect: Move card slightly up */
-.login-card:hover {
-  transform: translateY(-5px);
+/* Back Button */
+.back-button {
+  align-self: flex-start;
+  color: var(--accent-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
 }
 
 /* Title Styling */
@@ -62,8 +71,8 @@ body {
   display: flex;
   flex-direction: column;
   /* Stack elements vertically */
-  gap: 1.5rem;
-  /* Space between elements */
+  gap: 1.2rem;
+  /* Same as Register - 1.2rem instead of 1.5rem */
 }
 
 .form-group {
@@ -83,12 +92,15 @@ body {
 
 /* Input Field Styling */
 .form-input {
+  width: 100%;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  padding: 10px 15px;
+  padding: 0.9rem;
+  /* Same as Register */
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 1rem;
+  box-sizing: border-box;
   cursor: text !important;
   outline: none;
   /* Remove default browser outline */
@@ -127,7 +139,7 @@ body {
 .error-message {
   background-color: rgba(239, 68, 68, 0.1);
   color: var(--error-color);
-  padding: 10px;
+  padding: 0.8rem;
   border-radius: 6px;
   border: 1px solid rgba(239, 68, 68, 0.2);
   margin-bottom: 1rem;

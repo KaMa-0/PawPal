@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { getAuth } from "../auth/authStore";
 import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import "./search.css";
 
 type AustriaState =
@@ -272,6 +273,7 @@ export default function Search() {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 }

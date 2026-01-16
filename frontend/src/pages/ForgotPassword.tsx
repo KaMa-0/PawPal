@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"; // useNavigate unused here, removed
 import api from "../services/api";
+import Footer from "../components/Footer";
 import "./login.css";
 
 export default function ForgotPassword() {
@@ -29,6 +30,10 @@ export default function ForgotPassword() {
   return (
     <div className="login-container">
       <div className="login-card">
+        <Link to="/" className="back-button">
+          ← Back to Home
+        </Link>
+
         <h1 className="login-title">Reset Password</h1>
 
         {/* Error Message Display */}
@@ -66,6 +71,7 @@ export default function ForgotPassword() {
           Remember your password? <Link to="/login">Back to Login</Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

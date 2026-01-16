@@ -4,6 +4,7 @@ import { API_BASE_URL } from "../services/api";
 import { clearAuth, getAuth } from "../auth/authStore";
 import api from "../services/api";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import "./home.css";
 
 // Type tanımları
@@ -271,6 +272,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

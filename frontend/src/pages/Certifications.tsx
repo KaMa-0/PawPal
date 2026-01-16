@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { getAuth } from "../auth/authStore";
 import Navbar from "../components/Navbar"; // Added Navbar
+import Footer from "../components/Footer";
 import "./certifications.css";
 
 interface CertificationRequest {
@@ -160,6 +161,7 @@ export default function Certifications() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

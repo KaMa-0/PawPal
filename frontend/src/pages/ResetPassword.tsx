@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import api from "../services/api";
 import { setAuth } from "../auth/authStore";
 import type { Role } from "../auth/authStore";
+import Footer from "../components/Footer";
 import "./login.css";
 
 type ResetResponse = {
@@ -95,6 +96,10 @@ export default function ResetPassword() {
   return (
     <div className="login-container">
       <div className="login-card">
+        <Link to="/" className="back-button">
+          ← Back to Home
+        </Link>
+
         <h1 className="login-title">Reset Password</h1>
 
         {error && <div className="error-message">{error}</div>}
@@ -141,6 +146,7 @@ export default function ResetPassword() {
           Remember your password? <Link to="/login">Back to Login</Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

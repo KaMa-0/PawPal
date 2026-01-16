@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api, { API_BASE_URL } from "../services/api";
 import { getAuth } from "../auth/authStore";
 import ImageGallery from "../components/ImageGallery";
+import Footer from "../components/Footer";
 import "./SitterProfile.css";
 
 type Review = {
@@ -194,6 +195,7 @@ export default function SitterProfile() {
                 </div>
 
             </div>
+            <Footer />
         </div>
     );
 }
