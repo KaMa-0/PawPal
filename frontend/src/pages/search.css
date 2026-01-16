@@ -155,8 +155,9 @@
 .results-grid {
     display: grid;
     /* Responsive columns: at least 300px wide */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
+    width: 100%;
 }
 
 /* Hero/Sitter Card Design */
@@ -167,7 +168,8 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s;
+    transition: transform 0.2s, border-color 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .hero-card:hover {
@@ -284,6 +286,12 @@
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.view-profile-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
 .request-btn {
@@ -304,6 +312,11 @@
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+.request-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .empty-state {
     text-align: center;
     color: var(--text-secondary);
@@ -316,7 +329,7 @@
 /* Tablet View (768px - 1024px) */
 @media (max-width: 1024px) {
     .search-container {
-        padding: 1.5rem;
+        padding: 1.5rem 1rem;
     }
 
     .search-title {
@@ -324,7 +337,7 @@
     }
 
     .results-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 1.5rem;
     }
 
@@ -336,18 +349,23 @@
 /* Mobile View (up to 768px) */
 @media (max-width: 768px) {
     .search-container {
-        padding: 1rem;
+        padding: 1rem 0.75rem;
+        max-width: 100%;
+        width: 100%;
     }
 
     .search-title {
         font-size: 2rem;
         margin-bottom: 1.5rem;
+        margin-top: 0.5rem;
     }
 
     .search-card {
-        padding: 1.5rem;
+        padding: 1.5rem 1rem;
         margin-bottom: 2rem;
         border-radius: 12px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* Already handled above */
@@ -358,6 +376,7 @@
         padding-bottom: 1rem;
         margin-bottom: 0.5rem;
         min-width: 100%;
+        width: 100%;
     }
 
     .form-group:last-of-type {
@@ -368,6 +387,8 @@
 
     .search-form {
         flex-direction: column;
+        gap: 1rem;
+        width: 100%;
     }
 
     .search-button-primary {
@@ -377,108 +398,256 @@
 
     .results-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 1.25rem;
+        width: 100%;
     }
 
     .hero-card {
-        margin: 0 auto;
+        margin: 0;
         max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .hero-image-container {
-        height: 180px;
+        height: 200px;
+        width: 100%;
     }
 
     .hero-content {
-        padding: 1.2rem;
+        padding: 1.25rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .hero-name {
+        font-size: 1.3rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .stat-item {
+        width: 100%;
+    }
+
+    .hero-actions {
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .view-profile-btn,
+    .request-btn {
+        padding: 0.9rem;
+        font-size: 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
 /* Small Mobile View (up to 480px) */
 @media (max-width: 480px) {
     .search-container {
-        padding: 0.8rem;
+        padding: 1rem 0.5rem;
+        width: 100%;
     }
 
     .search-title {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         margin-top: 0.5rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
     }
 
     .search-card {
-        padding: 1rem;
+        padding: 1.25rem 0.75rem;
         border-radius: 12px;
+        margin-bottom: 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .search-form {
+        gap: 1rem;
+        width: 100%;
     }
 
     .form-label {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.4rem;
     }
 
     .form-input {
-        padding: 0 0.8rem;
-        font-size: 0.9rem;
-        height: 48px;
+        padding: 0 0.75rem;
+        font-size: 1rem;
+        height: 50px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .search-button-primary {
         padding: 0 1.5rem;
-        font-size: 0.9rem;
-        height: 48px;
+        font-size: 1rem;
+        height: 50px;
+        margin-top: 0.5rem;
+        width: 100%;
+    }
+
+    .results-grid {
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .hero-card {
+        border-radius: 12px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .hero-image-container {
+        height: 180px;
+        width: 100%;
     }
 
     .hero-content {
         padding: 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .hero-name {
         font-size: 1.2rem;
+        margin-bottom: 0.5rem;
     }
 
     .hero-location {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.75rem;
     }
 
     .hero-description {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
     }
 
     .hero-stats {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+        flex-direction: row;
         flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        width: 100%;
+    }
+
+    .hero-actions {
+        gap: 0.75rem;
+        margin-top: 1rem;
+        width: 100%;
     }
 
     .view-profile-btn,
     .request-btn {
-        padding: 0.7rem;
-        font-size: 0.9rem;
+        padding: 0.85rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    .card-badge {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
+
+    .empty-state {
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        padding: 0 1rem;
     }
 }
 
 /* Extra Small Screens */
 @media (max-width: 360px) {
     .search-container {
-        padding: 0.5rem;
+        padding: 0.75rem 0.5rem;
+        width: 100%;
     }
 
     .search-title {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .search-card {
-        padding: 0.8rem;
+        padding: 1rem 0.65rem;
+        border-radius: 10px;
+        width: 100%;
     }
 
     .form-label {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 
     .form-input {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
+        padding: 0 0.65rem;
+        height: 48px;
+        width: 100%;
+    }
+
+    .search-button-primary {
+        font-size: 0.95rem;
+        height: 48px;
+        width: 100%;
+    }
+
+    .hero-card {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero-image-container {
+        height: 160px;
+    }
+
+    .hero-content {
+        padding: 0.85rem;
+        width: 100%;
     }
 
     .hero-name {
         font-size: 1.1rem;
+    }
+
+    .hero-location {
+        font-size: 0.8rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.65rem;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+
+    .hero-description {
+        font-size: 0.85rem;
+    }
+
+    .view-profile-btn,
+    .request-btn {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+        width: 100%;
+    }
+
+    .card-badge {
+        font-size: 0.7rem;
+        padding: 5px 8px;
     }
 }
 
@@ -503,6 +672,11 @@
 
 /* Landscape Mode on Small Devices */
 @media (max-width: 768px) and (orientation: landscape) {
+    .search-container {
+        padding: 1rem;
+        width: 100%;
+    }
+
     .search-title {
         font-size: 1.8rem;
         margin-top: 0.5rem;
@@ -510,14 +684,40 @@
     }
 
     .search-card {
-        padding: 1rem;
+        padding: 1rem 1.5rem;
+        width: 100%;
+    }
+
+    .search-form {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        flex: 1 1 calc(50% - 1rem);
+        min-width: 200px;
+        border-bottom: none;
+    }
+
+    .form-group:nth-last-child(2) {
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        padding-right: 1rem;
     }
 
     .results-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.25rem;
     }
 
     .hero-image-container {
-        height: 150px;
+        height: 160px;
+    }
+
+    .hero-content {
+        padding: 1rem;
+    }
+
+    .hero-stats {
+        flex-direction: row;
     }
 }
