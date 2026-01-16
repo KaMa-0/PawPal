@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { AuthRequest } from '../types/auth.types';
 import { findUserProfileById, findPublicSitterProfile } from '../services/user.service';
 import { searchPetSitters } from '../services/user.service';
@@ -148,7 +148,7 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getPetSitters = async (req, res) => {
+export const getPetSitters = async (req: Request, res: Response) => {
   try {
     const { state, petType, minRating } = req.query;
 

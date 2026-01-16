@@ -139,14 +139,14 @@ export default function Search() {
                             >
                                 <option value="">All Locations</option>
                                 {[
-                                    { value: "VIENNA", label: "Vienna" },
-                                    { value: "LOWER_AUSTRIA", label: "Lower Austria" },
-                                    { value: "UPPER_AUSTRIA", label: "Upper Austria" },
+                                    { value: "WIEN", label: "Vienna" },
+                                    { value: "NIEDEROESTERREICH", label: "Lower Austria" },
+                                    { value: "OBEROESTERREICH", label: "Upper Austria" },
                                     { value: "SALZBURG", label: "Salzburg" },
                                     { value: "TIROL", label: "Tyrol" },
                                     { value: "VORARLBERG", label: "Vorarlberg" },
-                                    { value: "CARINTHIA", label: "Carinthia" },
-                                    { value: "STYRIA", label: "Styria" },
+                                    { value: "KAERNTEN", label: "Carinthia" },
+                                    { value: "STEIERMARK", label: "Styria" },
                                     { value: "BURGENLAND", label: "Burgenland" },
                                 ].map((option) => (
                                     <option key={option.value} value={option.value}>
