@@ -182,6 +182,18 @@ export default function Home() {
                 </button>
               </div>
             </div>
+
+            <div className="profile-section">
+              <label className="profile-label">About Me</label>
+              <textarea
+                value={aboutText}
+                onChange={(e) => setAboutText(e.target.value)}
+                className="about-textarea"
+                rows={5}
+                placeholder="Tell us about yourself..."
+              />
+            </div>
+
             <button onClick={handleSave} className="profile-save-button">
               Save Profile
             </button>
