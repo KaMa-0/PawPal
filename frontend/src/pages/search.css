@@ -64,6 +64,33 @@
     /* Grow to fill empty space */
     min-width: 220px;
     /* Minimum width before wrapping */
+    padding-right: 1.5rem;
+    /* Space for divider */
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    /* Vertical divider line */
+}
+
+/* Remove border from last form-group (before button) */
+.form-group:last-of-type {
+    border-right: none;
+    padding-right: 0;
+}
+
+/* Remove border when wrapping on small screens */
+@media (max-width: 768px) {
+    .form-group {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding-bottom: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-group:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
 }
 
 .form-label {
