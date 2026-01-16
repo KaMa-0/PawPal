@@ -29,6 +29,18 @@
     background-repeat: no-repeat;
 }
 
+/* Add dark overlay using ::before for better text readability */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+    z-index: 1;
+}
+
 /* Dark Overlay for Readability */
 .hero-overlay {
     position: absolute;
@@ -64,7 +76,7 @@
     color: white;
     margin-bottom: 1.5rem;
     line-height: 1.1;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .highlight-text {
@@ -73,6 +85,7 @@
     -webkit-text-fill-color: transparent;
     /* Fallback for non-webkit browsers */
     color: var(--accent-secondary);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .hero-subtitle {
@@ -83,19 +96,20 @@
     margin: 0 auto;
     line-height: 1.6;
     font-weight: 400;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 /* --- Modern Search Widget (Glassmorphism) --- */
 .search-widget {
-    background: rgba(30, 41, 59, 0.65);
-    /* Semi-transparent dark blue */
-    backdrop-filter: blur(16px);
-    /* Frosted glass effect */
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(30, 41, 59, 0.75);
+    /* Semi-transparent dark blue - slightly more opaque */
+    backdrop-filter: blur(20px);
+    /* Frosted glass effect - stronger blur */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 1.5rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.25);
 
     display: flex;
     flex-wrap: wrap;
