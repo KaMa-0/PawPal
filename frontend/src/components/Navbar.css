@@ -78,19 +78,19 @@
 .nav-btn.primary {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     color: white;
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 2px 8px rgba(74, 143, 194, 0.4);
 }
 
 .nav-btn.primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.5);
-    filter: brightness(1.1);
+    box-shadow: 0 4px 12px rgba(74, 143, 194, 0.6);
+    filter: brightness(1.15);
 }
 
 .nav-btn.accent {
-    background: linear-gradient(135deg, var(--accent-secondary), #0891b2);
+    background: linear-gradient(135deg, var(--accent-secondary), #4A8FC2);
     color: white;
-    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+    box-shadow: 0 2px 8px rgba(74, 143, 194, 0.3);
 }
 
 .nav-btn.accent:hover {

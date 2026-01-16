@@ -124,7 +124,7 @@
   cursor: pointer;
   text-transform: uppercase;
   transition: transform 0.2s;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 12px rgba(74, 143, 194, 0.4);
 }
 
 .submit-btn:hover:not(:disabled) {

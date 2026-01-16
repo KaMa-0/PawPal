@@ -77,8 +77,8 @@
   overflow: hidden;
   margin-bottom: 1rem;
   border: 4px solid var(--accent-color);
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-  /* Glow effect */
+  box-shadow: 0 0 20px rgba(74, 143, 194, 0.5);
+  /* Glow effect mit blauem Farbschema */
   margin-left: auto;
   margin-right: auto;
 }
@@ -146,7 +146,7 @@ button {
   cursor: pointer;
   margin-right: 0.75rem;
   margin-bottom: 0.75rem;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 12px rgba(74, 143, 194, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.9rem;
@@ -154,8 +154,8 @@ button {
 
 .profile-save-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
-  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(74, 143, 194, 0.6);
+  filter: brightness(1.15);
 }
 
 .logout-button {
@@ -214,12 +214,12 @@ button {
 }
 
 .home-review-card {
-  background-color: #334155;
-  /* Darker slate */
+  background-color: rgba(45, 95, 127, 0.4);
+  /* Dunkles Blau */
   padding: 1.25rem;
   border-radius: 8px;
   border-left: 4px solid var(--accent-color);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(74, 143, 194, 0.2);
 }
 
 .home-review-header {
@@ -239,7 +239,7 @@ button {
 
 .home-review-date {
   font-size: 0.8rem;
-  color: #94a3b8;
+  color: var(--text-secondary);
   font-weight: normal;
 }
 
@@ -259,7 +259,7 @@ button {
   font-style: italic;
   text-align: center;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(127, 179, 213, 0.05);
   border-radius: 8px;
 }
 

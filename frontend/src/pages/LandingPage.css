@@ -104,10 +104,10 @@
     transition: all 0.2s ease;
 }
 
-.widget-select:focus {
+.form-input:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 0 2px rgba(74, 143, 194, 0.3);
 }
 
 .search-btn {
@@ -122,7 +122,7 @@
     transition: all 0.2s ease;
     height: 48px;
     /* Match input height roughly */
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 12px rgba(74, 143, 194, 0.4);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: 1px;
@@ -130,8 +130,8 @@
 
 .search-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
-    filter: brightness(1.1);
+    box-shadow: 0 6px 20px rgba(74, 143, 194, 0.6);
+    filter: brightness(1.15);
 }
 
 .search-btn:active {

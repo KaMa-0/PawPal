@@ -98,7 +98,7 @@ body {
 /* Input Focus State */
 .form-input:focus {
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 0 2px rgba(74, 143, 194, 0.3);
 }
 
 /* Button Styling */
