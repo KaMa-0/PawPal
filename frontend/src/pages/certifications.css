@@ -4,14 +4,24 @@
 .cert-page-wrapper {
   min-height: 100vh;
   background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
   font-family: 'Inter', sans-serif;
-  padding: 2rem;
   color: var(--text-primary);
 }
 
 .cert-container {
+  width: 100%;
   max-width: 1000px;
-  margin: 0 auto;
+}
+
+/* Centering Content */
+.cert-content {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  flex: 1;
 }
 
 /* Header & Title */

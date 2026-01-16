@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import Navbar from "../components/Navbar"; // Import Navbar
 import "./ChangePassword.css";
 
 export default function ChangePassword() {
@@ -54,63 +55,64 @@ export default function ChangePassword() {
     };
 
     return (
-        <div className="change-password-container">
-            <div className="change-password-card">
+        <div className="change-password-page-wrapper">
+            <Navbar /> {/* Navbar at the top */}
 
-                {/* Header Section */}
-                <div className="cp-header">
-                    <button className="cp-back-btn" onClick={() => navigate("/home")}>
-                        ← Back
-                    </button>
-                    <h1 className="cp-title">Change Password</h1>
+            <div className="change-password-content">
+                <div className="change-password-card">
+
+                    {/* Header Section */}
+                    <div className="cp-header">
+                        <h1 className="cp-title">Change Password</h1>
+                    </div>
+
+                    <p className="cp-subtitle">Ensure your account is secure by using a strong password.</p>
+
+                    {error && <div className="error-message">{error}</div>}
+                    {success && <div className="success-message">{success}</div>}
+
+                    <form onSubmit={handleSubmit} className="cp-form">
+                        <div className="form-group">
+                            <label className="form-label" htmlFor="oldPassword">Current Password</label>
+                            <input
+                                className="form-input"
+                                type="password"
+                                id="oldPassword"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                placeholder="Enter current password"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label" htmlFor="newPassword">New Password</label>
+                            <input
+                                className="form-input"
+                                type="password"
+                                id="newPassword"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                placeholder="Enter new password (min. 8 chars)"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label" htmlFor="confirmPassword">Confirm New Password</label>
+                            <input
+                                className="form-input"
+                                type="password"
+                                id="confirmPassword"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                placeholder="Confirm new password"
+                            />
+                        </div>
+
+                        <button type="submit" className="cp-submit-btn" disabled={loading}>
+                            {loading ? "Updating..." : "Update Password"}
+                        </button>
+                    </form>
                 </div>
-
-                <p className="cp-subtitle">Ensure your account is secure by using a strong password.</p>
-
-                {error && <div className="error-message">{error}</div>}
-                {success && <div className="success-message">{success}</div>}
-
-                <form onSubmit={handleSubmit} className="cp-form">
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="oldPassword">Current Password</label>
-                        <input
-                            className="form-input"
-                            type="password"
-                            id="oldPassword"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            placeholder="Enter current password"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="newPassword">New Password</label>
-                        <input
-                            className="form-input"
-                            type="password"
-                            id="newPassword"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            placeholder="Enter new password (min. 8 chars)"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="confirmPassword">Confirm New Password</label>
-                        <input
-                            className="form-input"
-                            type="password"
-                            id="confirmPassword"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Confirm new password"
-                        />
-                    </div>
-
-                    <button type="submit" className="cp-submit-btn" disabled={loading}>
-                        {loading ? "Updating..." : "Update Password"}
-                    </button>
-                </form>
             </div>
         </div>
     );

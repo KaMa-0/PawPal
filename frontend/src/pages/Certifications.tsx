@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { getAuth } from "../auth/authStore";
+import Navbar from "../components/Navbar"; // Added Navbar
 import "./certifications.css";
 
 interface CertificationRequest {
@@ -34,10 +35,6 @@ export default function Certifications() {
     }
     fetchCertifications();
   }, [auth]);
-
-  const handleBack = () => {
-    navigate("/search");
-  };
 
   const fetchCertifications = async () => {
     try {
@@ -74,87 +71,95 @@ export default function Certifications() {
   };
 
   if (!auth || auth.role !== "ADMIN") {
-    return <div className="cert-container"><p className="unauthorized-msg">Unauthorized</p></div>;
+    return (
+      <div className="cert-page-wrapper">
+        <Navbar />
+        <div className="cert-content">
+          <p className="unauthorized-msg">Unauthorized</p>
+        </div>
+      </div>
+    );
   }
 
-  if (loading) return <div className="cert-container"><p className="loading-msg">Loading...</p></div>;
+  if (loading) return <div className="cert-page-wrapper"><Navbar /><div className="cert-content"><p className="loading-msg">Loading...</p></div></div>;
 
   const pendingRequests = requests.filter(r => r.status === "PENDING");
   const pastRequests = requests.filter(r => r.status !== "PENDING");
 
   return (
     <div className="cert-page-wrapper">
-      <div className="cert-container">
+      <Navbar /> {/* Navbar at the top */}
 
-        <div className="cert-header">
-          <button onClick={handleBack} className="back-button">
-            Back
-          </button>
-          <h1 className="cert-title">Certification Requests</h1>
-        </div>
+      <div className="cert-content">
+        <div className="cert-container">
 
-        {error && <div className="error-message">{error}</div>}
+          <div className="cert-header">
+            <h1 className="cert-title">Certification Requests</h1>
+          </div>
 
-        <div className="cert-section">
-          <h2 className="section-title">Pending Requests ({pendingRequests.length})</h2>
-          {pendingRequests.length === 0 ? (
-            <p className="no-requests">No pending requests</p>
-          ) : (
-            <div className="cert-list">
-              {pendingRequests.map(req => (
-                <div key={req.requestId} className="cert-card">
-                  <div className="cert-info">
-                    <h3 className="cert-username">{req.sitter.user.username}</h3>
-                    <p className="cert-detail">Email: {req.sitter.user.email}</p>
-                    <p className="cert-detail">Submitted: {new Date(req.submissionDate).toLocaleDateString()}</p>
+          {error && <div className="error-message">{error}</div>}
+
+          <div className="cert-section">
+            <h2 className="section-title">Pending Requests ({pendingRequests.length})</h2>
+            {pendingRequests.length === 0 ? (
+              <p className="no-requests">No pending requests</p>
+            ) : (
+              <div className="cert-list">
+                {pendingRequests.map(req => (
+                  <div key={req.requestId} className="cert-card">
+                    <div className="cert-info">
+                      <h3 className="cert-username">{req.sitter.user.username}</h3>
+                      <p className="cert-detail">Email: {req.sitter.user.email}</p>
+                      <p className="cert-detail">Submitted: {new Date(req.submissionDate).toLocaleDateString()}</p>
+                    </div>
+                    <div className="cert-actions">
+                      <button
+                        className="btn btn-approve"
+                        onClick={() => handleApprove(req.requestId)}
+                        disabled={actionLoading === req.requestId}
+                      >
+                        {actionLoading === req.requestId ? "..." : "Approve"}
+                      </button>
+                      <button
+                        className="btn btn-reject"
+                        onClick={() => handleReject(req.requestId)}
+                        disabled={actionLoading === req.requestId}
+                      >
+                        {actionLoading === req.requestId ? "..." : "Reject"}
+                      </button>
+                    </div>
                   </div>
-                  <div className="cert-actions">
-                    <button
-                      className="btn btn-approve"
-                      onClick={() => handleApprove(req.requestId)}
-                      disabled={actionLoading === req.requestId}
-                    >
-                      {actionLoading === req.requestId ? "..." : "Approve"}
-                    </button>
-                    <button
-                      className="btn btn-reject"
-                      onClick={() => handleReject(req.requestId)}
-                      disabled={actionLoading === req.requestId}
-                    >
-                      {actionLoading === req.requestId ? "..." : "Reject"}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </div>
 
-        {/* History Section */}
-        <div className="cert-section history-section">
-          <h2 className="section-title">Request History</h2>
-          {pastRequests.length === 0 ? (
-            <p className="no-requests">No history available</p>
-          ) : (
-            <div className="cert-list-history">
-              {pastRequests.map(req => (
-                <div key={req.requestId} className="cert-card history-card">
-                  <div className="cert-info">
-                    <h3 className="cert-username">{req.sitter.user.username}</h3>
-                    <p className="cert-detail">Date: {new Date(req.submissionDate).toLocaleDateString()}</p>
-                    <p className="cert-detail">
-                      Status:
-                      <span className={`status-badge ${req.status.toLowerCase()}`}>
-                        {req.status}
-                      </span>
-                    </p>
+          {/* History Section */}
+          <div className="cert-section history-section">
+            <h2 className="section-title">Request History</h2>
+            {pastRequests.length === 0 ? (
+              <p className="no-requests">No history available</p>
+            ) : (
+              <div className="cert-list-history">
+                {pastRequests.map(req => (
+                  <div key={req.requestId} className="cert-card history-card">
+                    <div className="cert-info">
+                      <h3 className="cert-username">{req.sitter.user.username}</h3>
+                      <p className="cert-detail">Date: {new Date(req.submissionDate).toLocaleDateString()}</p>
+                      <p className="cert-detail">
+                        Status:
+                        <span className={`status-badge ${req.status.toLowerCase()}`}>
+                          {req.status}
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }

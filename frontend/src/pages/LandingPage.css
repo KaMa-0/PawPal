@@ -1,159 +1,245 @@
 @import '../theme.css';
 
-.landing-container {
+/* Page Wrapper */
+.landing-page-wrapper {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
 }
 
+/* Hero Section with Parallax Image */
 .hero-section {
+    position: relative;
     flex: 1;
+    /* Take remaining height */
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4rem 2rem;
-    text-align: center;
-    background: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-    position: relative;
-    color: white;
+    padding: 6rem 2rem;
+
+    /* Parallax Background */
+    background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Creates the parallax effect */
+    background-repeat: no-repeat;
 }
 
+/* Dark Overlay for Readability */
 .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(15, 23, 42, 0.75);
-    /* Darker blue overlay */
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.85) 100%);
     z-index: 1;
 }
 
-.hero-content {
+/* Container to Center Content */
+.hero-container {
     position: relative;
     z-index: 2;
-    max-width: 800px;
+    /* Place above overlay */
     width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* --- Typography & Text --- */
+.hero-text-content {
+    margin-bottom: 3.5rem;
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 800;
-    margin-bottom: 1rem;
-    background: linear-gradient(to right, #f8fafc, var(--accent-secondary));
-    background-clip: text;
+    color: white;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.highlight-text {
+    background: linear-gradient(120deg, var(--accent-secondary), var(--accent-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-align: center;
-    /* Fallback for readability if gradient fails or on background */
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    /* Fallback for non-webkit browsers */
+    color: var(--accent-secondary);
 }
 
 .hero-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 3rem;
-    font-weight: 300;
-    color: var(--text-secondary);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 1.25rem;
+    color: #cbd5e1;
+    /* Light grey text */
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 400;
 }
 
+/* --- Modern Search Widget (Glassmorphism) --- */
 .search-widget {
-    background: rgba(30, 41, 59, 0.8);
-    /* Dark slate glass */
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(12px);
+    background: rgba(30, 41, 59, 0.65);
+    /* Semi-transparent dark blue */
+    backdrop-filter: blur(16px);
+    /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    align-items: flex-end;
+    gap: 1rem;
+    align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
 }
 
 .widget-group {
+    flex: 1;
+    min-width: 200px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    flex: 1;
-    min-width: 200px;
 }
 
 .widget-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
     color: var(--accent-secondary);
+    font-weight: 700;
     text-transform: uppercase;
+    margin-bottom: 0.5rem;
     letter-spacing: 0.05em;
+    margin-left: 0.5rem;
+}
+
+/* Input Wrapper with Icons */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: rgba(15, 23, 42, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.select-wrapper:hover,
+.select-wrapper:focus-within {
+    border-color: var(--accent-color);
+}
+
+.input-icon {
+    padding-left: 1rem;
+    font-size: 1.2rem;
+    pointer-events: none;
+    /* Let clicks pass through */
 }
 
 .widget-select {
     width: 100%;
-    padding: 0.8rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+    padding: 1rem 1rem 1rem 0.5rem;
+    /* Left padding space for icon */
+    background: transparent;
+    border: none;
+    color: white;
     font-size: 1rem;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    transition: all 0.2s ease;
-}
-
-.form-input:focus {
+    cursor: pointer;
+    appearance: none;
+    /* Remove default arrow */
+    -webkit-appearance: none;
     outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(74, 143, 194, 0.3);
 }
 
-.search-btn {
+/* Custom dropdown arrow could be added here via background-image if needed */
+.widget-select option {
+    background-color: var(--bg-primary);
+    /* Dropdown menu background */
+    color: var(--text-primary);
+}
+
+/* Search Button */
+.search-btn-large {
     background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     color: white;
     border: none;
-    padding: 0.8rem 2.5rem;
+    padding: 1rem 2.5rem;
     font-size: 1.1rem;
     font-weight: 700;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    height: 48px;
-    /* Match input height roughly */
-    box-shadow: 0 4px 12px rgba(74, 143, 194, 0.4);
+    transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1px;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    height: 54px;
+    /* Align height with inputs */
+    margin-top: 1.6rem;
+    /* Align visually with inputs having labels */
+    flex-shrink: 0;
 }
 
-.search-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 143, 194, 0.6);
-    filter: brightness(1.15);
+.search-btn-large:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+    filter: brightness(1.1);
 }
 
-.search-btn:active {
-    transform: scale(0.98);
+/* --- Animations --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+.fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+    opacity: 0;
+    /* Initial state hidden */
+}
+
+.delay-1 {
+    animation-delay: 0.3s;
+}
+
+/* --- Responsive Design --- */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 2.5rem;
     }
 
     .hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        padding: 0 1rem;
     }
 
     .search-widget {
         flex-direction: column;
-        align-items: stretch;
         padding: 1.5rem;
+        gap: 1.5rem;
     }
 
-    .search-btn {
+    .widget-group {
+        width: 100%;
+    }
+
+    .search-btn-large {
         width: 100%;
         margin-top: 1rem;
     }
