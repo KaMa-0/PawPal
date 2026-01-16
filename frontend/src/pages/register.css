@@ -3,6 +3,8 @@
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    /* Prevent horizontal scrollbar globally */
 }
 
 /* Page Container - Like Landing Page Wrapper */
@@ -12,6 +14,8 @@ body {
     min-height: 100vh;
     width: 100%;
     background-color: var(--bg-primary);
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
 }
 
 /* Content Area Wrapper - Takes remaining space */
@@ -22,6 +26,7 @@ body {
     width: 100%;
     padding: 2rem 1rem;
     flex: 1;
+    overflow-x: hidden;
 }
 
 /* Content Area - Compact card without flex stretch */
@@ -40,6 +45,8 @@ body {
     flex-shrink: 0;
     position: relative;
     z-index: 1;
+    box-sizing: border-box;
+    /* Ensure padding is included in width */
 }
 
 /* Back Button */
@@ -100,18 +107,19 @@ body {
     padding: 0.9rem;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
+    /* Remove border to eliminate vertical lines */
     border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
     /* Ensures padding doesn't affect width */
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-input:focus,
 .form-select:focus {
     outline: none;
-    border-color: var(--accent-color);
+    border: 1px solid var(--accent-color);
     box-shadow: 0 0 0 2px rgba(74, 143, 194, 0.3);
 }
 

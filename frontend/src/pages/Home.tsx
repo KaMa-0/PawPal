@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { API_BASE_URL } from "../services/api";
-import { clearAuth, getAuth } from "../auth/authStore";
+import { getAuth } from "../auth/authStore";
 import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -46,11 +46,6 @@ export default function Home() {
   const [auth] = useState(() => getAuth());
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleLogout = () => {
-    clearAuth();
-    navigate("/login");
-  };
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [aboutText, setAboutText] = useState("");
@@ -149,10 +144,6 @@ export default function Home() {
 
               <div className="hero-stats">
                 {/* Quick Stats / Actions */}
-                <Link to="/bookings" className="stat-card">
-                  <span className="stat-value">📅</span>
-                  <span className="stat-label">My Bookings</span>
-                </Link>
 
                 {profile?.userType === "OWNER" ? (
                   <Link to="/search" className="stat-card highlight">
@@ -238,9 +229,6 @@ export default function Home() {
                 <div className="sidebar-links">
                   <button onClick={() => navigate("/change-password")} className="sidebar-link">
                     Change Password
-                  </button>
-                  <button onClick={handleLogout} className="sidebar-link danger">
-                    Logout
                   </button>
                 </div>
               </div>

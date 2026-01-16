@@ -24,9 +24,6 @@ export default function Navbar() {
         setIsMenuOpen(false);
     }, [location.pathname]);
 
-    // Check if we are on the Home (Dashboard) page
-    const isHomePage = location.pathname === "/home";
-
     return (
         <nav className="navbar">
             <div className="navbar-container">
@@ -73,34 +70,29 @@ export default function Navbar() {
                             {auth.email} ({auth.role})
                         </span>
 
-                        {/* Action Buttons: Hide them ONLY on the Home Page */}
-                        {!isHomePage && (
-                            <>
-                                {/* My Bookings Button - Owners & Sitters Only */}
-                                {auth.role !== "ADMIN" && (
-                                    <Link to="/bookings" className="nav-btn accent" onClick={closeMenu}>
-                                        My Bookings
-                                    </Link>
-                                )}
-
-                                {/* Profile Button */}
-                                <Link to="/home" className="nav-btn secondary" onClick={closeMenu}>
-                                    Profile
-                                </Link>
-
-                                {/* Certifications Button - Only for Admin */}
-                                {auth.role === "ADMIN" && (
-                                    <Link to="/certifications" className="nav-btn success" onClick={closeMenu}>
-                                        Certifications
-                                    </Link>
-                                )}
-
-                                {/* Logout Button */}
-                                <button onClick={handleLogout} className="nav-btn danger">
-                                    Logout
-                                </button>
-                            </>
+                        {/* My Bookings Button - Owners & Sitters Only */}
+                        {auth.role !== "ADMIN" && (
+                            <Link to="/bookings" className="nav-btn accent" onClick={closeMenu}>
+                                My Bookings
+                            </Link>
                         )}
+
+                        {/* Profile Button */}
+                        <Link to="/home" className="nav-btn secondary" onClick={closeMenu}>
+                            Profile
+                        </Link>
+
+                        {/* Certifications Button - Only for Admin */}
+                        {auth.role === "ADMIN" && (
+                            <Link to="/certifications" className="nav-btn success" onClick={closeMenu}>
+                                Certifications
+                            </Link>
+                        )}
+
+                        {/* Logout Button */}
+                        <button onClick={handleLogout} className="nav-btn danger">
+                            Logout
+                        </button>
                     </div>
                 )}
             </div>

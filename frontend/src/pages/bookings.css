@@ -59,6 +59,8 @@ body {
   display: flex;
   justify-content: center;
   padding: 2rem;
+  flex: 1;
+  /* Takes remaining space to push footer down */
 }
 
 .mybookings-container {

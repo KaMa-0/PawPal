@@ -5,6 +5,8 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-primary) !important;
+  overflow-x: hidden;
+  /* Prevent horizontal scrollbar globally */
 }
 
 /* Centering Container (Flexbox) - Like Landing Page Wrapper */
@@ -14,6 +16,8 @@ body {
   min-height: 100vh;
   width: 100%;
   background-color: var(--bg-primary);
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
 }
 
 /* Content Area Wrapper - Takes remaining space */
@@ -24,6 +28,7 @@ body {
   width: 100%;
   padding: 2rem 1rem;
   flex: 1;
+  overflow-x: hidden;
 }
 
 /* Content Area - Compact card without flex stretch */
@@ -41,6 +46,8 @@ body {
   flex-shrink: 0;
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
+  /* Ensure padding is included in width */
 }
 
 /* Back Button */
@@ -106,18 +113,19 @@ body {
   padding: 0.9rem;
   /* Same as Register */
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none;
+  /* Remove border to eliminate vertical lines */
   font-size: 1rem;
   box-sizing: border-box;
   cursor: text !important;
   outline: none;
   /* Remove default browser outline */
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 /* Input Focus State */
 .form-input:focus {
-  border-color: var(--accent-color);
+  border: 1px solid var(--accent-color);
   box-shadow: 0 0 0 2px rgba(74, 143, 194, 0.3);
 }
 
