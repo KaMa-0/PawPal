@@ -21,6 +21,7 @@ type SitterProfileData = {
     profileImages: { imageId: number; imageUrl: string; isAvatar: boolean }[];
     petSitter: {
         aboutText?: string;
+        petTypes?: string[];
         certificationRequests: { status: string }[];
         bookings: {
             review?: Review;
@@ -37,7 +38,6 @@ const resolveImageUrl = (url: string) => {
 
 export default function SitterProfile() {
     const { id } = useParams();
-    const navigate = useNavigate();
     const auth = getAuth();
 
     const [sitter, setSitter] = useState<SitterProfileData | null>(null);
@@ -80,15 +80,20 @@ export default function SitterProfile() {
         }
     };
 
-    const handleBack = () => {
-        navigate(-1);
-    };
-
-    if (loading) return <div className="profile-loading">Loading Profile...</div>;
+    if (loading) return (
+        <div className="sitter-profile-page">
+            <Navbar />
+            <div className="profile-loading">Loading Profile...</div>
+            <Footer />
+        </div>
+    );
     if (error) return (
-        <div className="profile-error-container">
-            <p>{error}</p>
-            <button onClick={handleBack} className="back-button">Go Back</button>
+        <div className="sitter-profile-page">
+            <Navbar />
+            <div className="profile-error-container">
+                <p>{error}</p>
+            </div>
+            <Footer />
         </div>
     );
     if (!sitter) return null;
@@ -104,48 +109,75 @@ export default function SitterProfile() {
         : "N/A";
 
     const isCertified = sitter.petSitter.certificationRequests.some(r => r.status === "APPROVED");
+    const petTypes = sitter.petSitter.petTypes || [];
 
     const avatarImage = sitter.profileImages.find(img => img.isAvatar);
     const profileImageUrl = avatarImage
         ? resolveImageUrl(avatarImage.imageUrl)
         : (sitter.profileImages.length > 0 ? resolveImageUrl(sitter.profileImages[0].imageUrl) : null);
 
-    const galleryImages = sitter.profileImages.filter(img => img.imageUrl !== avatarImage?.imageUrl);
+    const galleryImages = avatarImage
+        ? sitter.profileImages.filter(img => img.imageId !== avatarImage.imageId)
+        : sitter.profileImages.slice(1);
 
     return (
         <div className="sitter-profile-page">
             <Navbar />
-            <div className="sitter-profile-card">
-
-                {/* Header Section */}
-                <div className="profile-header-section">
-                    <div className="profile-image-container">
+            <div className="sitter-profile-container">
+                {/* Profile Header Card */}
+                <div className="profile-header-card">
+                    <div className="profile-avatar-wrapper">
                         {profileImageUrl ? (
-                            <img src={profileImageUrl} alt={sitter.username} className="profile-avatar-large" />
+                            <img src={profileImageUrl} alt={sitter.username} className="profile-avatar" />
                         ) : (
-                            <div className="profile-avatar-placeholder-large">
+                            <div className="profile-avatar-placeholder">
                                 {sitter.username.charAt(0).toUpperCase()}
                             </div>
                         )}
                     </div>
 
-                    <div className="profile-info-content">
-                        <h1 className="profile-username">
-                            {sitter.username}
-                            {isCertified && <span className="verified-badge">✓ Certified</span>}
-                        </h1>
-                        <div className="profile-meta-row">
-                            <span className="meta-item">📍 {sitter.state}</span>
-                            <span className="meta-item">⭐ {averageRating} ({totalReviews} Reviews)</span>
+                    <div className="profile-header-info">
+                        <div className="profile-name-row">
+                            <h1 className="profile-name">{sitter.username}</h1>
+                            {isCertified && (
+                                <span className="certified-badge">
+                                    <svg className="certified-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                    </svg>
+                                    Certified
+                                </span>
+                            )}
                         </div>
-                    </div>
 
-                    <div className="profile-actions-row">
-                        <button onClick={handleBack} className="profile-btn secondary">Back</button>
+                        <div className="profile-stats">
+                            <div className="stat-item">
+                                <svg className="stat-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                                </svg>
+                                <span className="stat-label">{sitter.state}</span>
+                            </div>
+                            {petTypes.length > 0 && (
+                                <div className="stat-item">
+                                    <svg className="stat-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+                                    </svg>
+                                    <span className="stat-label">{petTypes.join(", ")}</span>
+                                </div>
+                            )}
+                            <div className="stat-item">
+                                <svg className="stat-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span className="stat-label">
+                                    {averageRating} <span className="stat-subtext">({totalReviews} {totalReviews === 1 ? 'review' : 'reviews'})</span>
+                                </span>
+                            </div>
+                        </div>
+
                         {auth?.role === "OWNER" && (
                             <button
                                 onClick={handleRequestBooking}
-                                className="profile-btn primary"
+                                className="booking-button"
                                 disabled={sendingRequest}
                             >
                                 {sendingRequest ? "Sending..." : "Request Booking"}
@@ -155,48 +187,81 @@ export default function SitterProfile() {
                 </div>
 
                 {/* About Section */}
-                <div className="profile-content-section">
-                    <h2 className="section-header">About Me</h2>
-                    <p className="about-text">
-                        {sitter.petSitter.aboutText || "This sitter hasn't written a description yet."}
-                    </p>
-
-                    {/* Gallery Section */}
-                    {galleryImages.length > 0 && (
-                        <div className="gallery-section">
-                            <h3 className="gallery-title">Photos</h3>
-                            <ImageGallery images={galleryImages} readonly />
-                        </div>
-                    )}
+                <div className="profile-section">
+                    <h2 className="section-title">About Me</h2>
+                    <div className="about-content">
+                        <p className="about-text">
+                            {sitter.petSitter.aboutText || "This sitter hasn't written a description yet."}
+                        </p>
+                    </div>
                 </div>
 
+                {/* Gallery Section */}
+                {galleryImages.length > 0 && (
+                    <div className="profile-section">
+                        <h2 className="section-title">Photos</h2>
+                        <div className="gallery-wrapper">
+                            <ImageGallery images={galleryImages} readonly />
+                        </div>
+                    </div>
+                )}
+
                 {/* Reviews Section */}
-                <div className="profile-content-section">
-                    <h2 className="section-header">Reviews ({totalReviews})</h2>
+                <div className="profile-section">
+                    <h2 className="section-title">Reviews <span className="review-count">({totalReviews})</span></h2>
                     {reviews.length === 0 ? (
-                        <p className="empty-reviews">No reviews yet.</p>
+                        <div className="empty-state">
+                            <p className="empty-reviews-text">No reviews yet.</p>
+                        </div>
                     ) : (
-                        <div className="reviews-list">
+                        <div className="reviews-grid">
                             {reviews.map((review, idx) => (
-                                <div key={idx} className="review-item">
-                                    <div className="review-item-header">
-                                        <div className="review-author-info">
-                                            <span className="review-author-name">{review.ownerName}</span>
-                                            <span className="review-date">
-                                                {new Date(review.createdAt).toLocaleDateString()}
-                                            </span>
+                                <div key={idx} className="review-card">
+                                    <div className="review-header">
+                                        <div className="review-author">
+                                            <div className="review-author-avatar">
+                                                {review.ownerName.charAt(0).toUpperCase()}
+                                            </div>
+                                            <div className="review-author-info">
+                                                <span className="review-author-name">{review.ownerName}</span>
+                                                <div className="review-rating">
+                                                    {Array.from({ length: 5 }).map((_, i) => (
+                                                        <svg
+                                                            key={i}
+                                                            className={`star-icon ${i < review.rating ? 'star-filled' : 'star-empty'}`}
+                                                            viewBox="0 0 20 20"
+                                                            fill="currentColor"
+                                                        >
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                        </svg>
+                                                    ))}
+                                                    <span className="review-date">
+                                                        {(() => {
+                                                            const now = new Date();
+                                                            const reviewDate = new Date(review.createdAt);
+                                                            const diffTime = Math.abs(now.getTime() - reviewDate.getTime());
+                                                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                                            
+                                                            if (diffDays === 0) return 'today';
+                                                            if (diffDays === 1) return '1 day ago';
+                                                            if (diffDays < 7) return `${diffDays} days ago`;
+                                                            if (diffDays < 30) return `${Math.floor(diffDays / 7)} ${Math.floor(diffDays / 7) === 1 ? 'week' : 'weeks'} ago`;
+                                                            if (diffDays < 365) return `${Math.floor(diffDays / 30)} ${Math.floor(diffDays / 30) === 1 ? 'month' : 'months'} ago`;
+                                                            return `${Math.floor(diffDays / 365)} ${Math.floor(diffDays / 365) === 1 ? 'year' : 'years'} ago`;
+                                                        })()}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <span className="review-stars">
-                                            {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
-                                        </span>
                                     </div>
-                                    {review.text && <p className="review-text">"{review.text}"</p>}
+                                    {review.text && (
+                                        <p className="review-content">{review.text}</p>
+                                    )}
                                 </div>
                             ))}
                         </div>
                     )}
                 </div>
-
             </div>
             <Footer />
         </div>

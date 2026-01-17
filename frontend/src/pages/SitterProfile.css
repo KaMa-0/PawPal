@@ -1,506 +1,643 @@
 @import '../theme.css';
 
-/* Page Wrapper - Like Landing Page */
+/* ============================================
+   Page Container
+   ============================================ */
 .sitter-profile-page {
     min-height: 100vh;
     background-color: var(--bg-primary);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     display: flex;
     flex-direction: column;
     color: var(--text-primary);
 }
 
-/* Main Card - Like Hero Section with flex: 1 */
-.sitter-profile-card {
+/* ============================================
+   Main Container
+   ============================================ */
+.sitter-profile-container {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     width: 100%;
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 2.5rem;
-    background-color: var(--bg-secondary);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    overflow: hidden;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
 }
 
-/* --- Header Section --- */
-.profile-header-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 2rem;
+/* ============================================
+   Profile Header Card
+   ============================================ */
+.profile-header-card {
+    background: var(--bg-secondary);
+    border-radius: 1rem;
+    padding: 2rem;
     margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
 }
 
-.profile-image-container {
-    width: 150px;
-    height: 150px;
+.profile-avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid var(--accent-color);
-    box-shadow: 0 0 20px rgba(74, 143, 194, 0.4);
-    margin-bottom: 1.5rem;
-}
-
-.profile-avatar-large {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    border: 4px solid var(--accent-color);
+    box-shadow: 0 4px 12px rgba(74, 143, 194, 0.3);
 }
 
-.profile-avatar-placeholder-large {
+.profile-avatar-placeholder {
     width: 100%;
     height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(45, 95, 127, 0.5);
-    color: var(--text-secondary);
+    color: white;
     font-size: 3rem;
-    font-weight: bold;
+    font-weight: 700;
+    border: 4px solid var(--accent-color);
+    box-shadow: 0 4px 12px rgba(74, 143, 194, 0.3);
 }
 
-.profile-username {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
-    -webkit-background-clip: text;
-    color: transparent;
+.profile-header-info {
+    width: 100%;
+    text-align: center;
+}
+
+.profile-name-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 0.75rem;
     flex-wrap: wrap;
+    margin-bottom: 1rem;
 }
 
-.verified-badge {
-    font-size: 0.9rem;
+.profile-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.certified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
     background-color: var(--success-color);
     color: white;
-    padding: 0.2rem 0.6rem;
-    border-radius: 20px;
-    vertical-align: middle;
-    -webkit-text-fill-color: white;
-    /* Gradient text fix */
-}
-
-.profile-meta-row {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    color: var(--text-secondary);
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.meta-item {
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
     font-weight: 600;
+    white-space: nowrap;
 }
 
-/* Buttons */
-.profile-actions-row {
+.certified-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.profile-stats {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
 }
 
-.profile-btn {
-    padding: 0.8rem 2rem;
-    border-radius: 8px;
-    font-weight: bold;
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+}
+
+.stat-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.stat-label {
+    font-weight: 500;
+}
+
+.stat-subtext {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.booking-button {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    text-transform: uppercase;
-    font-size: 0.9rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.profile-btn.primary {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-    border: none;
-    color: white;
-    box-shadow: 0 4px 12px rgba(74, 143, 194, 0.4);
+.booking-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    filter: brightness(1.05);
 }
 
-.profile-btn.primary:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
+.booking-button:active:not(:disabled) {
+    transform: translateY(0);
 }
 
-.profile-btn.secondary {
-    background: transparent;
-    border: 1px solid var(--text-secondary);
-    color: var(--text-secondary);
+.booking-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
-.profile-btn.secondary:hover {
-    border-color: var(--text-primary);
-    color: var(--text-primary);
+/* ============================================
+   Profile Sections
+   ============================================ */
+.profile-section {
+    background: var(--bg-secondary);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* --- Content Sections --- */
-.profile-content-section {
-    margin-bottom: 3rem;
-}
-
-.section-header {
+.section-title {
     font-size: 1.5rem;
-    color: var(--accent-secondary);
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.review-count {
+    font-weight: 400;
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+}
+
+/* ============================================
+   About Section
+   ============================================ */
+.about-content {
+    color: var(--text-secondary);
 }
 
 .about-text {
-    line-height: 1.8;
-    color: var(--text-secondary);
     font-size: 1rem;
-}
-
-/* Gallery Styles (Replaces inline styles) */
-.gallery-section {
-    margin-top: 2rem;
-}
-
-.gallery-title {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    line-height: 1.75;
+    margin: 0;
     color: var(--text-secondary);
 }
 
-/* --- Reviews --- */
-.reviews-list {
-    display: grid;
-    gap: 1.5rem;
+/* ============================================
+   Gallery Section
+   ============================================ */
+.gallery-wrapper {
+    margin-top: 1rem;
 }
 
-.review-item {
-    background-color: rgba(30, 41, 59, 0.5);
-    /* Semi-transparent dark slate */
-    padding: 1.5rem;
-    border-radius: 12px;
-    border-left: 4px solid var(--accent-color);
-}
-
-.review-item-header {
+/* ============================================
+   Reviews Section
+   ============================================ */
+.reviews-grid {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.8rem;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.review-card {
+    width: 100%;
+    background: rgba(20, 30, 45, 0.6);
+    border-radius: 1rem;
+    padding: 1.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s ease;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.review-card:hover {
+    background: rgba(25, 35, 50, 0.7);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.review-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.review-author {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.review-author-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    display: flex;
     align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.review-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+    flex: 1;
 }
 
 .review-author-name {
-    font-weight: bold;
+    font-weight: 600;
     color: var(--text-primary);
-    font-size: 1.1rem;
-    margin-right: 10px;
+    font-size: 1.0625rem;
+    line-height: 1.2;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 0.25rem;
+}
+
+.star-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+}
+
+.star-filled {
+    color: #fbbf24;
+}
+
+.star-empty {
+    color: rgba(255, 255, 255, 0.2);
 }
 
 .review-date {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--text-secondary);
+    opacity: 0.7;
+    margin-left: 0.5rem;
 }
 
-.review-stars {
-    color: var(--accent-secondary);
-    /* Cyan stars */
-    letter-spacing: 2px;
+.review-content {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-.review-text {
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.empty-reviews-text {
+    color: var(--text-secondary);
+    font-size: 1rem;
     font-style: italic;
-    color: var(--text-secondary);
-    line-height: 1.5;
+    margin: 0;
 }
 
-.empty-reviews {
-    font-style: italic;
-    color: var(--text-secondary);
-}
-
-/* Loading & Error States */
+/* ============================================
+   Loading & Error States
+   ============================================ */
 .profile-loading,
 .profile-error-container {
-    min-height: 100vh;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--bg-primary);
+    padding: 3rem 1.5rem;
     color: var(--text-primary);
-    font-size: 1.2rem;
+    font-size: 1.125rem;
+    text-align: center;
 }
 
-.profile-error-container .back-button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background: transparent;
-    border: 1px solid var(--text-primary);
-    color: var(--text-primary);
-    border-radius: 6px;
-    cursor: pointer;
+.profile-error-container p {
+    margin: 0 0 1rem 0;
+    color: var(--error-color);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-    .sitter-profile-card {
-        padding: 2rem;
-        margin: 1.5rem auto;
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+/* Tablet */
+@media (min-width: 768px) {
+    .sitter-profile-container {
+        padding: 2.5rem 2rem;
     }
 
-    .profile-username {
-        font-size: 2.2rem;
+    .profile-header-card {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        padding: 2.5rem;
+    }
+
+    .profile-header-info {
+        text-align: left;
+        flex: 1;
+    }
+
+    .profile-name-row {
+        justify-content: flex-start;
+    }
+
+    .profile-stats {
+        justify-content: flex-start;
+    }
+
+    .booking-button {
+        margin: 0;
+        width: auto;
+    }
+
+    .profile-avatar-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+
+    .profile-avatar-placeholder {
+        font-size: 3.5rem;
+    }
+
+    .profile-name {
+        font-size: 2.25rem;
     }
 }
 
-@media (max-width: 768px) {
-    .sitter-profile-card {
-        padding: 1.5rem;
-        margin: 1rem auto;
+/* Desktop */
+@media (min-width: 1024px) {
+    .sitter-profile-container {
+        padding: 3rem 2.5rem;
     }
 
-    .profile-image-container {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 1.2rem;
+    .profile-header-card {
+        padding: 3rem;
     }
 
-    .profile-avatar-placeholder-large {
+    .profile-section {
+        padding: 2.5rem;
+    }
+
+    .profile-avatar-wrapper {
+        width: 160px;
+        height: 160px;
+    }
+
+    .profile-avatar-placeholder {
+        font-size: 4rem;
+    }
+
+    .profile-name {
         font-size: 2.5rem;
     }
 
-    .profile-username {
-        font-size: 1.8rem;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .verified-badge {
-        font-size: 0.8rem;
-    }
-
-    .profile-meta-row {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .meta-item {
-        font-size: 0.9rem;
-    }
-
-    .profile-actions-row {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .profile-btn {
-        width: 100%;
-        padding: 0.7rem 1.5rem;
-        font-size: 0.85rem;
-    }
-
-    .section-header {
-        font-size: 1.3rem;
+    .section-title {
+        font-size: 1.75rem;
     }
 
     .about-text {
-        font-size: 0.95rem;
-    }
-
-    .review-item {
-        padding: 1.2rem;
-    }
-
-    .review-author-name {
-        font-size: 1rem;
+        font-size: 1.0625rem;
     }
 }
 
-@media (max-width: 480px) {
-    .sitter-profile-card {
+/* Mobile - Small screens */
+@media (max-width: 640px) {
+    .sitter-profile-container {
         padding: 1rem;
-        margin: 0.5rem;
-        border-radius: 12px;
     }
 
-    .profile-header-section {
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
+    .profile-header-card {
+        padding: 1.5rem;
+        gap: 1.25rem;
     }
 
-    .profile-image-container {
+    .profile-section {
+        padding: 1.5rem;
+    }
+
+    .profile-avatar-wrapper {
         width: 100px;
         height: 100px;
-        margin-bottom: 1rem;
     }
 
-    .profile-avatar-placeholder-large {
-        font-size: 2rem;
+    .profile-avatar-placeholder {
+        font-size: 2.5rem;
     }
 
-    .profile-username {
-        font-size: 1.5rem;
+    .profile-name {
+        font-size: 1.75rem;
     }
 
-    .verified-badge {
-        font-size: 0.75rem;
-        padding: 0.15rem 0.5rem;
-    }
-
-    .profile-meta-row {
-        font-size: 0.9rem;
-    }
-
-    .profile-btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.8rem;
-    }
-
-    .profile-content-section {
-        margin-bottom: 2rem;
-    }
-
-    .section-header {
-        font-size: 1.1rem;
-        margin-bottom: 0.8rem;
-    }
-
-    .about-text {
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-
-    .gallery-title {
-        font-size: 1rem;
-    }
-
-    .review-item {
-        padding: 1rem;
-        border-radius: 10px;
-    }
-
-    .review-author-name {
-        font-size: 0.95rem;
-    }
-
-    .review-date {
-        font-size: 0.8rem;
-    }
-
-    .review-stars {
-        font-size: 0.9rem;
-        letter-spacing: 1px;
-    }
-
-    .review-text {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-}
-
-/* Extra Small Screens */
-@media (max-width: 360px) {
-    .sitter-profile-card {
-        padding: 0.8rem;
-        margin: 0.4rem;
-    }
-
-    .profile-image-container {
-        width: 80px;
-        height: 80px;
-    }
-
-    .profile-avatar-placeholder-large {
-        font-size: 1.5rem;
-    }
-
-    .profile-username {
-        font-size: 1.3rem;
-    }
-
-    .verified-badge {
-        font-size: 0.7rem;
-        padding: 0.1rem 0.4rem;
-    }
-
-    .profile-meta-row {
-        font-size: 0.85rem;
+    .profile-stats {
+        flex-direction: column;
+        align-items: center;
         gap: 1rem;
     }
 
-    .profile-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
+    .stat-item {
+        justify-content: center;
     }
 
-    .section-header {
+    .section-title {
+        font-size: 1.25rem;
+    }
+
+    .review-card {
+        padding: 1.5rem;
+    }
+
+    .review-author-avatar {
+        width: 2.75rem;
+        height: 2.75rem;
         font-size: 1rem;
     }
 
-    .about-text {
-        font-size: 0.85rem;
+    .review-author-name {
+        font-size: 0.9375rem;
     }
 
-    .review-item {
-        padding: 0.8rem;
+    .review-date {
+        font-size: 0.8125rem;
+    }
+
+    .star-icon {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    .review-content {
+        font-size: 0.875rem;
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 480px) {
+    .sitter-profile-container {
+        padding: 0.75rem;
+    }
+
+    .profile-header-card {
+        padding: 1.25rem;
+    }
+
+    .profile-section {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-avatar-wrapper {
+        width: 90px;
+        height: 90px;
+    }
+
+    .profile-avatar-placeholder {
+        font-size: 2rem;
+    }
+
+    .profile-name {
+        font-size: 1.5rem;
+    }
+
+    .certified-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .certified-icon {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    .stat-item {
+        font-size: 0.875rem;
+    }
+
+    .stat-icon {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+
+    .booking-button {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.9375rem;
+    }
+
+    .section-title {
+        font-size: 1.125rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .about-text {
+        font-size: 0.9375rem;
+    }
+
+    .review-card {
+        padding: 1.25rem;
+    }
+
+    .review-author-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 0.9375rem;
+    }
+
+    .review-author-name {
+        font-size: 0.875rem;
+    }
+
+    .review-date {
+        font-size: 0.75rem;
+    }
+
+    .star-icon {
+        width: 0.8125rem;
+        height: 0.8125rem;
+    }
+
+    .review-content {
+        font-size: 0.875rem;
     }
 }
 
 /* Touch Device Optimization */
 @media (hover: none) and (pointer: coarse) {
-    .profile-btn {
+    .booking-button {
         min-height: 44px;
-        padding: 0.8rem 2rem;
     }
 
-    .review-item {
+    .review-card {
         cursor: pointer;
     }
 
-    /* Improve scrolling on touch devices */
-    .sitter-profile-card {
+    .sitter-profile-container {
         -webkit-overflow-scrolling: touch;
     }
 }
 
 /* Landscape Mode on Small Devices */
 @media (max-width: 768px) and (orientation: landscape) {
-    .sitter-profile-card {
-        margin: 1rem auto;
-        max-width: 90%;
-    }
-
-    .profile-header-section {
+    .profile-header-card {
         flex-direction: row;
         text-align: left;
-        gap: 2rem;
-        align-items: center;
     }
 
-    .profile-image-container {
-        margin-bottom: 0;
-        flex-shrink: 0;
+    .profile-header-info {
+        text-align: left;
     }
 
-    .profile-username {
+    .profile-name-row {
         justify-content: flex-start;
     }
 
-    .profile-meta-row {
+    .profile-stats {
         justify-content: flex-start;
-    }
-
-    .profile-actions-row {
-        flex-direction: row;
-    }
-
-    .profile-btn {
-        width: auto;
-        padding: 0.7rem 1.5rem;
     }
 }
