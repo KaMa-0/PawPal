@@ -193,9 +193,34 @@
 }
 
 /* Mobile adjustments */
+@media (max-width: 768px) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .gallery-item:first-child {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .action-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+
+    .modal-close-btn {
+        top: 10px;
+        right: 15px;
+        font-size: 2rem;
+    }
+}
+
 @media (max-width: 600px) {
     .image-gallery {
         grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 10px;
     }
 
     .gallery-item:first-child {
@@ -206,5 +231,117 @@
     .modal-nav-btn {
         padding: 10px;
         font-size: 1.5rem;
+    }
+
+    .modal-nav-btn.prev {
+        left: 10px;
+    }
+
+    .modal-nav-btn.next {
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .action-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.9rem;
+    }
+
+    .avatar-badge {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+
+    .modal-close-btn {
+        top: 5px;
+        right: 10px;
+        font-size: 1.8rem;
+    }
+
+    .modal-nav-btn {
+        padding: 8px;
+        font-size: 1.2rem;
+    }
+
+    .modal-nav-btn.prev {
+        left: 5px;
+    }
+
+    .modal-nav-btn.next {
+        right: 5px;
+    }
+
+    .no-images-text {
+        font-size: 0.85rem;
+    }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 6px;
+    }
+
+    .action-btn {
+        width: 22px;
+        height: 22px;
+        font-size: 0.8rem;
+    }
+
+    .avatar-badge {
+        font-size: 0.65rem;
+        padding: 2px 5px;
+    }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .action-btn {
+        min-width: 44px;
+        min-height: 44px;
+        font-size: 1.2rem;
+    }
+
+    .gallery-overlay-controls {
+        opacity: 1; /* Always visible on touch devices */
+    }
+
+    .modal-nav-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 12px;
+    }
+
+    .modal-close-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .gallery-item {
+        cursor: pointer;
+    }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .modal-content {
+        max-height: 85vh;
+    }
+
+    .modal-image {
+        max-height: 85vh;
     }
 }

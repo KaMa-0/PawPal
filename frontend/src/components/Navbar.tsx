@@ -1,74 +1,112 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { getAuth, clearAuth } from "../auth/authStore";
+import { useState, useEffect } from "react";
+import "./Navbar.css";
 
 export default function Navbar() {
     const auth = getAuth();
     const navigate = useNavigate();
+    const location = useLocation(); // Get current page location
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLogout = () => {
         clearAuth();
         navigate("/login");
+        setIsMenuOpen(false);
     };
 
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
+    // Close menu when route changes
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [location.pathname]);
+
     return (
-        <nav className="navbar" style={{ padding: "1rem 2rem", backgroundColor: "white", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "1200px", margin: "0 auto" }}>
-                <Link to="/" style={{ textDecoration: "none", fontSize: "1.5rem", fontWeight: "bold", color: "#333" }}>
+        <nav className="navbar">
+            <div className="navbar-container">
+                <Link to="/" className="navbar-logo">
                     PawPal
                 </Link>
 
-                {/* 1. If NOT logged in: Show Login/Register buttons */}
-                {!auth && (
-                    <div style={{ display: "flex", gap: "1rem" }}>
-                        <Link to="/login" className="login-button" style={{ textDecoration: "none" }}>
-                            Login
-                        </Link>
-                        <Link to="/register" className="login-button" style={{ textDecoration: "none" }}>
-                            Register
-                        </Link>
-                    </div>
+                {/* Hamburger Menu Button - Only visible on mobile */}
+                <button
+                    className={`hamburger ${isMenuOpen ? 'active' : ''}`}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                {/* Mobile menu overlay */}
+                {isMenuOpen && (
+                    <div
+                        className="navbar-overlay"
+                        onClick={closeMenu}
+                    />
                 )}
 
-                {/* 2. If LOGGED IN: Show User Info + Action Buttons */}
-                {auth && (
-                    <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-                        {/* User Info Display */}
-                        <span style={{ marginRight: "10px", fontWeight: "bold", color: "#555" }}>
-                            {auth.email} ({auth.role})
-                        </span>
+                <div className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
 
-                        {/* My Bookings Button - Owners & Sitters Only */}
-                        {auth.role !== "ADMIN" && (
-                            <Link to="/bookings" className="login-button" style={{ textDecoration: "none", backgroundColor: "#ff9800" }}>
-                                My Bookings
+                    {/* Common Navigation Links (Visible to all or restricted) */}
+
+                    {/* Find a Sitter - Visible to everyone except maybe strict Admin, but usually good for all */}
+                    <NavLink to="/search" className="nav-link" onClick={closeMenu}>
+                        Find a Sitter
+                    </NavLink>
+
+                    {/* 1. If NOT logged in: Show Login/Register buttons */}
+                    {!auth && (
+                        <>
+                            <Link to="/login" className="nav-btn secondary" onClick={closeMenu}>
+                                Login
                             </Link>
-                        )}
-
-                        {/* Favorites Button - Owners Only */}
-                        {auth.role === "OWNER" && (
-                            <Link to="/favorites" className="login-button" style={{ textDecoration: "none", backgroundColor: "#e91e63" }}>
-                                My Favorites
+                            <Link to="/register" className="nav-btn primary" onClick={closeMenu}>
+                                Register
                             </Link>
-                        )}
+                        </>
+                    )}
 
-                        {/* Profile Button - Visible to ALL logged in users */}
-                        <Link to="/home" className="login-button" style={{ textDecoration: "none" }}>
-                            Profile
-                        </Link>
+                    {/* 2. If LOGGED IN */}
+                    {auth && (
+                        <>
+                            {/* Navigation Links (Text based) */}
+                            {auth.role !== "ADMIN" && (
+                                <NavLink to="/bookings" className="nav-link" onClick={closeMenu}>
+                                    My Bookings
+                                </NavLink>
+                            )}
 
-                        {/* Certifications Button - Only for Admin */}
-                        {auth.role === "ADMIN" && (
-                            <Link to="/certifications" className="login-button" style={{ textDecoration: "none", backgroundColor: "#4caf50" }}>
-                                Certifications
-                            </Link>
-                        )}
+                            {auth.role === "ADMIN" && (
+                                <NavLink to="/certifications" className="nav-link" onClick={closeMenu}>
+                                    Certifications
+                                </NavLink>
+                            )}
 
-                        {/* Logout Button */}
-                        <button onClick={handleLogout} className="login-button" style={{ backgroundColor: "#f44336" }}>
-                            Logout
-                        </button>
-                    </div>
-                )}
+                            {/* Profile Link - Treat as Nav Link or Icon in future, simple text for now */}
+                            <NavLink to="/home" className="nav-link" onClick={closeMenu}>
+                                Profile
+                            </NavLink>
+
+                            {/* Separator / User Info */}
+                            <div className="nav-separator"></div>
+
+                            <span className="user-info">
+                                {auth.email}
+                                <span className="user-role-badge">{auth.role}</span>
+                            </span>
+
+                            {/* Actions */}
+                            <button onClick={handleLogout} className="nav-btn ghost">
+                                Logout
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
         </nav>
     );

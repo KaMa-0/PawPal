@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ChevronDown, Star, BadgeCheck, MapPin } from "lucide-react";
 import { getAuth } from "../auth/authStore";
 import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
-import FavoriteButton from "../components/FavoriteButton";
+import Footer from "../components/Footer";
 import "./search.css";
 
 type AustriaState =
@@ -34,6 +35,12 @@ type PetSitter = {
     isFavorited: boolean;
 };
 
+type Booking = {
+    bookingId: number;
+    sitter: { user: { userId: number } };
+    status: string;
+};
+
 const resolveImageUrl = (url: string) => {
     if (!url) return "";
     if (url.startsWith("http")) return url;
@@ -50,6 +57,28 @@ export default function Search() {
     const [minRating, setMinRating] = useState(0);
     const [loading, setLoading] = useState(false);
     const [sendingRequest, setSendingRequest] = useState<number | null>(null);
+    const [activeBookings, setActiveBookings] = useState<Map<number, Booking>>(new Map());
+
+    // Fetch active bookings when user is an owner
+    useEffect(() => {
+        if (!auth || auth.role !== "OWNER") return;
+
+        api.get("/api/bookings/my")
+            .then((res) => {
+                const bookings: Booking[] = res.data;
+                // Create a map of sitterId -> active booking (PENDING or ACCEPTED)
+                const bookingsMap = new Map<number, Booking>();
+                bookings.forEach((booking) => {
+                    if (booking.status === "PENDING" || booking.status === "ACCEPTED") {
+                        bookingsMap.set(booking.sitter.user.userId, booking);
+                    }
+                });
+                setActiveBookings(bookingsMap);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch bookings:", err);
+            });
+    }, [auth]);
 
     // Initialize filters from URL query params
     useEffect(() => {
@@ -108,9 +137,21 @@ export default function Search() {
                 details: "Booking requested via search page"
             });
             alert("Booking request sent!");
-        } catch (err) {
+            
+            // Refresh bookings to update button state
+            const res = await api.get("/api/bookings/my");
+            const bookings: Booking[] = res.data;
+            const bookingsMap = new Map<number, Booking>();
+            bookings.forEach((booking) => {
+                if (booking.status === "PENDING" || booking.status === "ACCEPTED") {
+                    bookingsMap.set(booking.sitter.user.userId, booking);
+                }
+            });
+            setActiveBookings(bookingsMap);
+        } catch (err: any) {
             console.error(err);
-            alert("Failed to send booking request");
+            const errorMessage = err?.response?.data?.message || "Failed to send booking request";
+            alert(errorMessage);
         } finally {
             setSendingRequest(null);
         }
@@ -133,63 +174,72 @@ export default function Search() {
                     >
                         <div className="form-group">
                             <label className="form-label">Location</label>
-                            <select
-                                className="form-input"
-                                value={state}
-                                onChange={(e) => setState(e.target.value)}
-                            >
-                                <option value="">All Locations</option>
-                                {[
-                                    "WIEN",
-                                    "NIEDEROESTERREICH",
-                                    "OBEROESTERREICH",
-                                    "SALZBURG",
-                                    "TIROL",
-                                    "VORARLBERG",
-                                    "KAERNTEN",
-                                    "STEIERMARK",
-                                    "BURGENLAND",
-                                ].map((s) => (
-                                    <option key={s} value={s}>
-                                        {s}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="form-input"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                >
+                                    <option value="">All Locations</option>
+                                    {[
+                                        { value: "WIEN", label: "Vienna" },
+                                        { value: "NIEDEROESTERREICH", label: "Lower Austria" },
+                                        { value: "OBEROESTERREICH", label: "Upper Austria" },
+                                        { value: "SALZBURG", label: "Salzburg" },
+                                        { value: "TIROL", label: "Tyrol" },
+                                        { value: "VORARLBERG", label: "Vorarlberg" },
+                                        { value: "KAERNTEN", label: "Carinthia" },
+                                        { value: "STEIERMARK", label: "Styria" },
+                                        { value: "BURGENLAND", label: "Burgenland" },
+                                    ].map((option) => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="form-group">
                             <label className="form-label">Pet Type</label>
-                            <select
-                                className="form-input"
-                                value={petType}
-                                onChange={(e) => setPetType(e.target.value)}
-                            >
-                                <option value="">All Pet Types</option>
-                                <option value="DOG">Dog</option>
-                                <option value="CAT">Cat</option>
-                                <option value="BIRD">Bird</option>
-                                <option value="FISH">Fish</option>
-                                <option value="REPTILE">Reptile</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="form-input"
+                                    value={petType}
+                                    onChange={(e) => setPetType(e.target.value)}
+                                >
+                                    <option value="">All Pet Types</option>
+                                    <option value="DOG">Dog</option>
+                                    <option value="CAT">Cat</option>
+                                    <option value="BIRD">Bird</option>
+                                    <option value="FISH">Fish</option>
+                                    <option value="REPTILE">Reptile</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="form-group">
                             <label className="form-label">Minimum Rating</label>
-                            <select
-                                className="form-input"
-                                value={minRating}
-                                onChange={(e) => setMinRating(Number(e.target.value))}
-                            >
-                                <option value="0">Any Rating</option>
-                                <option value="1">1+ Stars</option>
-                                <option value="2">2+ Stars</option>
-                                <option value="3">3+ Stars</option>
-                                <option value="4">4+ Stars</option>
-                                <option value="5">5 Stars</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="form-input"
+                                    value={minRating}
+                                    onChange={(e) => setMinRating(Number(e.target.value))}
+                                >
+                                    <option value="0">Any Rating</option>
+                                    <option value="1">1+ Stars</option>
+                                    <option value="2">2+ Stars</option>
+                                    <option value="3">3+ Stars</option>
+                                    <option value="4">4+ Stars</option>
+                                    <option value="5">5 Stars</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
-                        <div className="form-group" style={{ flex: '0 0 auto' }}>
+                        <div className="form-group">
                             <button type="submit" className="search-button-primary">
                                 Search
                             </button>
@@ -226,36 +276,32 @@ export default function Search() {
 
                                         {isCertified && (
                                             <div className="card-badge">
-                                                ✓ Certified
+                                                <BadgeCheck size={14} strokeWidth={3} /> Certified
                                             </div>
                                         )}
                                     </div>
 
                                     {/* Content Section */}
                                     <div className="hero-content">
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                            <Link to={`/sitter/${sitter.userId}`} className="hero-name">
-                                                {sitter.username}
-                                            </Link>
-
-                                            {/* Favorite Button - Only for Owners */}
-                                            {auth?.role === "OWNER" && (
-                                                <FavoriteButton
-                                                    sitterId={sitter.userId}
-                                                    initialIsFavorited={sitter.isFavorited}
-                                                />
-                                            )}
+                                        <Link to={`/sitter/${sitter.userId}`} className="hero-name">
+                                            {sitter.username}
+                                        </Link>
+                                        <div className="hero-meta">
+                                            <div className="hero-location">
+                                                <MapPin size={14} /> {sitter.state}
+                                            </div>
+                                            <div className="hero-rating" title="Rating">
+                                                <Star size={16} fill="#FBBF24" stroke="none" />
+                                                <span>{sitter.petSitter.averageRating.toFixed(1)}</span>
+                                            </div>
                                         </div>
 
-                                        <div className="hero-location">{sitter.state}</div>
-
-                                        <div className="hero-stats">
-                                            <div className="stat-item" title="Rating">
-                                                ⭐ {sitter.petSitter.averageRating.toFixed(1)}
-                                            </div>
-                                            <div className="stat-item" title="Pets">
-                                                🐾 {sitter.petSitter.petTypes.join(", ")}
-                                            </div>
+                                        <div className="pet-tags-container">
+                                            {sitter.petSitter.petTypes.map((type) => (
+                                                <span key={type} className="pet-tag">
+                                                    {type}
+                                                </span>
+                                            ))}
                                         </div>
 
                                         <p className="hero-description">
@@ -271,10 +317,14 @@ export default function Search() {
                                             {auth?.role === "OWNER" && (
                                                 <button
                                                     className="request-btn"
-                                                    disabled={sendingRequest === sitter.userId}
+                                                    disabled={sendingRequest === sitter.userId || activeBookings.has(sitter.userId)}
                                                     onClick={() => handleRequestBooking(sitter.userId)}
                                                 >
-                                                    {sendingRequest === sitter.userId ? "Sending..." : "Request Booking"}
+                                                    {sendingRequest === sitter.userId 
+                                                        ? "Sending..." 
+                                                        : activeBookings.has(sitter.userId)
+                                                            ? "Booking requested"
+                                                            : "Request Booking"}
                                                 </button>
                                             )}
                                         </div>
@@ -285,6 +335,7 @@ export default function Search() {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     );
 }

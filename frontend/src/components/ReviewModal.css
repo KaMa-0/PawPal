@@ -4,21 +4,29 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Darker overlay */
+  backdrop-filter: blur(4px);
+  /* Blur effect */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .review-modal-container {
-  background-color: white;
+  background-color: var(--bg-secondary, #1f2937);
+  /* Fallback to dark gray */
+  color: var(--text-primary, #f9fafb);
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 1rem;
+  /* rounded-xl */
   width: 90%;
   max-width: 500px;
   position: relative;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .review-modal-close {
@@ -28,22 +36,34 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: var(--text-secondary, #9ca3af);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.review-modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary, #fff);
 }
 
 .review-modal-title {
   margin-top: 0;
-  margin-bottom: 1.5rem;
-  color: #333;
+  margin-bottom: 2rem;
+  color: var(--text-primary, #fff);
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-align: center;
 }
 
 .review-star-container {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 0.75rem;
 }
 
 .review-star-button {
@@ -51,58 +71,120 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: transform 0.1s;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fbbf24;
+  /* Star color */
+}
+
+.review-star-button:hover {
+  transform: scale(1.2);
 }
 
 .review-text-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .review-text-label {
   display: block;
-  margin-bottom: 0.5rem;
-  color: #666;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary, #9ca3af);
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .review-textarea {
   width: 100%;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  min-height: 100px;
-  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #ffffff;
+  color: var(--text-primary, #fff);
+  min-height: 120px;
+  font-size: 0.95rem;
   font-family: inherit;
   resize: vertical;
+  transition: all 0.2s;
+}
+
+.review-textarea:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.08);
+
+}
+
+.review-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .review-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  justify-content: flex-end;
 }
 
 .review-btn-cancel {
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  background-color: white;
-  color: #666;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: transparent;
+  color: var(--text-primary, #fff);
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.review-btn-cancel:hover {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .review-btn-submit {
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border: none;
-  background-color: #f57c00;
-  color: white;
+  background-color: #ffffff;
+  color: #1a1a1a;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+}
+
+.review-btn-submit:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px -1px rgba(255, 255, 255, 0.15);
 }
 
 .review-btn-submit:disabled {
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 640px) {
+  .review-modal-container {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .review-star-container {
+    gap: 0.5rem;
+  }
 }

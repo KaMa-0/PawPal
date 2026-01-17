@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { getAuth } from "../auth/authStore";
+import Navbar from "../components/Navbar"; // Added Navbar
+import Footer from "../components/Footer";
 import "./submit-certification.css";
-
 
 export default function SubmitCertification() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function SubmitCertification() {
     setSubmitLoading(true);
     try {
       await api.post("/api/certifications/submit");
-      await fetchHistory(); // Refresh list and status
+      await fetchHistory();
       setError("");
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to submit certification");
@@ -47,83 +48,88 @@ export default function SubmitCertification() {
   };
 
   if (!auth || auth.role !== "SITTER") {
-    return <div className="submit-cert-container"><p>Only sitters can access this page</p></div>;
+    return (
+      <div className="submit-cert-page-wrapper">
+        <Navbar />
+        <div className="submit-cert-content">
+          <p className="auth-warning">Only sitters can access this page</p>
+        </div>
+      </div>
+    );
   }
 
-  if (loading) return <div className="submit-cert-container">Loading...</div>;
+  if (loading) return <div className="submit-cert-page-wrapper"><Navbar /><div className="submit-cert-content">Loading...</div></div>;
 
-  // Determine current status based on history
-  // If ANY request is APPROVED, then certified.
-  // If ANY request is PENDING, then pending.
   const approvedRequest = history.find(h => h.status === "APPROVED");
   const pendingRequest = history.find(h => h.status === "PENDING");
   const isCertified = !!approvedRequest;
   const isPending = !!pendingRequest;
 
   return (
-    <div className="submit-cert-container">
-      <div className="submit-cert-card">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          ← Back
-        </button>
-        <h1>Certification Status</h1>
+    <div className="submit-cert-page-wrapper">
+      <Navbar /> {/* Navbar at the top */}
 
-        {/* Status Messages */}
-        {isCertified ? (
-          <div className="success-message">
-            <h2>✓ You are Verified!</h2>
-            <p>Your certification request has been approved. A badge is now displayed on your profile.</p>
-            <p className="info-text">Approved on: {new Date(approvedRequest.updatedAt).toLocaleDateString()}</p>
-          </div>
-        ) : isPending ? (
-          <div className="pending-message" style={{ backgroundColor: '#e3f2fd', color: '#0d47a1', padding: '15px', borderRadius: '8px', marginBottom: '20px' }}>
-            <h2>⧖ Verification Pending</h2>
-            <p>Your request is currently under review by an admin.</p>
-            <p className="info-text">Submitted on: {new Date(pendingRequest.submissionDate).toLocaleDateString()}</p>
-          </div>
-        ) : (
-          /* Show Submit Form if not certified and not pending (e.g. new or rejected) */
-          <>
-            <p className="instructions">
-              Submit your professional certifications for verification. Once approved, you'll earn a verified badge.
-            </p>
-            {error && <div className="error-message">{error}</div>}
-            <button
-              onClick={handleSubmit}
-              disabled={submitLoading}
-              className="submit-btn"
-            >
-              {submitLoading ? "Submitting..." : "Submit Certification Request"}
-            </button>
-          </>
-        )}
+      <div className="submit-cert-content">
+        <div className="submit-cert-card">
 
-        {/* History List */}
-        {history.length > 0 && (
-          <div className="cert-history" style={{ marginTop: '30px', borderTop: '1px solid #eee', paddingTop: '20px' }}>
-            <h3>Request History</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {history.map((req: any) => (
-                <div key={req.requestId} style={{
-                  padding: '10px',
-                  borderRadius: '6px',
-                  backgroundColor: req.status === 'APPROVED' ? '#e8f5e9' : req.status === 'REJECTED' ? '#ffebee' : '#f5f5f5',
-                  border: '1px solid #ddd',
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}>
-                  <span>{new Date(req.submissionDate).toLocaleDateString()}</span>
-                  <span style={{ fontWeight: 'bold', color: req.status === 'APPROVED' ? 'green' : req.status === 'REJECTED' ? 'red' : 'gray' }}>
-                    {req.status}
-                  </span>
-                </div>
-              ))}
+          <div className="cert-card-header">
+            <h1 className="page-title">Certification Status</h1>
+          </div>
+
+          {/* Status Messages */}
+          {isCertified ? (
+            <div className="status-message success">
+              <h2>✓ You are Verified!</h2>
+              <p>Your certification request has been approved. A badge is now displayed on your profile.</p>
+              <p className="info-text">Approved on: {new Date(approvedRequest.updatedAt).toLocaleDateString()}</p>
             </div>
-          </div>
-        )}
+          ) : isPending ? (
+            <div className="status-message pending">
+              <h2>⧖ Verification Pending</h2>
+              <p>Your request is currently under review by an admin.</p>
+              <p className="info-text">Submitted on: {new Date(pendingRequest.submissionDate).toLocaleDateString()}</p>
+            </div>
+          ) : (
+            /* Submit Form */
+            <div className="submit-section">
+              <p className="instructions">
+                Submit your professional certifications for verification. Once approved, you'll earn a verified badge.
+              </p>
+              {error && <div className="error-message">{error}</div>}
+              <button
+                onClick={handleSubmit}
+                disabled={submitLoading}
+                className="submit-btn"
+              >
+                {submitLoading ? "Submitting..." : "Submit Certification Request"}
+              </button>
+            </div>
+          )}
+
+          {/* History List */}
+          {history.length > 0 && (
+            <div className="cert-history-section">
+              <h3 className="history-title">Request History</h3>
+              <div className="history-list">
+                {history.map((req: any) => (
+                  <div
+                    key={req.requestId}
+                    className={`history-item ${req.status.toLowerCase()}`}
+                  >
+                    <span className="history-date">
+                      {new Date(req.submissionDate).toLocaleDateString()}
+                    </span>
+                    <span className="history-status">
+                      {req.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }
-
-

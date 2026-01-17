@@ -1,178 +1,370 @@
-/* Theme Variables - Matching App Style */
-:root {
-  --primary-orange: #ffb74d;
-  --dark-orange: #f57c00;
-  --light-bg: #fff3e0;
-  --text-color: #333;
-  --white: #ffffff;
-  --success-color: #2e7d32;
-  --error-color: #d32f2f;
-}
+@import '../theme.css';
 
-body {
-  margin: 0;
+/* Page Wrapper similar to other pages */
+.cert-page-wrapper {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
   font-family: 'Inter', sans-serif;
-  background-color: var(--light-bg);
+  color: var(--text-primary);
 }
 
 .cert-container {
+  width: 100%;
   max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  min-height: 100vh;
+}
+
+/* Centering Content */
+.cert-content {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  flex: 1;
+}
+
+/* Header & Title */
+.cert-header {
   position: relative;
-}
-
-.cert-container h1 {
+  margin-bottom: 3rem;
   text-align: center;
-  color: var(--dark-orange);
-  margin-bottom: 30px;
-  font-size: 2rem;
-  font-weight: 700;
 }
 
-.error-message {
-  background-color: #ffebee;
-  color: var(--error-color);
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 0.9rem;
-  border-left: 4px solid var(--error-color);
+.cert-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  color: transparent;
+  margin: 0;
 }
 
-.back-btn {
+
+/* Section Styling */
+.section-title {
+  color: var(--accent-secondary);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.history-section {
+  margin-top: 4rem;
+  /* Replaces inline style */
+}
+
+.back-button {
   position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  background: none;
-  border: none;
-  color: var(--dark-orange);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  top: 2rem;
+  left: 2rem;
 }
 
-.back-btn:hover {
-  background-color: rgba(245, 124, 0, 0.1);
-  transform: translateX(-3px);
-}
-
-.back-btn:active {
-  transform: translateX(-1px);
-}
-
-.no-requests {
-  text-align: center;
-  color: #666;
-  font-size: 1.1rem;
-  padding: 40px 20px;
-}
-
-.cert-list {
+/* Request Cards */
+.cert-list,
+.cert-list-history {
   display: grid;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
 .cert-card {
-  background: var(--white);
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px;
+  background-color: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
 .cert-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  border-color: var(--accent-color);
 }
 
-.cert-info h3 {
-  margin: 0 0 10px 0;
-  color: var(--text-color);
+/* History Card Specifics */
+.history-card {
+  opacity: 0.7;
+  /* Replaces inline opacity */
+  background-color: rgba(30, 41, 59, 0.5);
+  /* Slightly darker/transparent */
+}
+
+.history-card:hover {
+  opacity: 1;
+}
+
+/* Card Content */
+.cert-username {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
   font-size: 1.2rem;
-  font-weight: 600;
 }
 
-.cert-info p {
-  margin: 5px 0;
-  color: #666;
+.cert-detail {
+  margin: 0.25rem 0;
+  color: var(--text-secondary);
   font-size: 0.95rem;
 }
 
+/* Status Badges */
+.status-badge {
+  font-weight: bold;
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.status-badge.approved {
+  color: var(--success-color);
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.rejected {
+  color: var(--error-color);
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Action Buttons */
 .cert-actions {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .btn {
-  padding: 10px 20px;
+  padding: 0.6rem 1.2rem;
   border: none;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  cursor: pointer;
+  border-radius: 8px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
 }
 
 .btn-approve {
-  background: linear-gradient(135deg, var(--success-color), #1b5e20);
-  color: var(--white);
+  background: linear-gradient(135deg, var(--success-color), #059669);
+  color: white;
 }
 
 .btn-approve:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .btn-reject {
-  background: linear-gradient(135deg, var(--error-color), #b71c1c);
-  color: var(--white);
+  background: transparent;
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
 }
 
 .btn-reject:hover:not(:disabled) {
-  opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
 }
 
 .btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
+}
+
+/* Messages */
+.error-message {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  text-align: center;
+}
+
+.no-requests,
+.loading-msg,
+.unauthorized-msg {
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .cert-content {
+    padding: 1.5rem;
+  }
+
+  .cert-title {
+    font-size: 2.2rem;
+  }
+
+  .cert-card {
+    padding: 1.2rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .cert-content {
+    padding: 1rem;
+  }
+
+  .cert-header {
+    margin-bottom: 2rem;
+  }
+
+  .cert-title {
+    font-size: 1.8rem;
+  }
+
+  .back-btn {
+    position: static;
+    display: block;
+    width: fit-content;
+    margin-bottom: 1rem;
+    transform: none;
+  }
+
   .cert-card {
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
   }
 
   .cert-actions {
     width: 100%;
-    margin-top: 15px;
+    justify-content: flex-end;
   }
 
-  .btn {
-    flex: 1;
+  .cert-username {
+    font-size: 1.1rem;
   }
 
-  .cert-container h1 {
-    font-size: 1.5rem;
-  }
-
-  .back-btn {
-    top: 1rem;
-    left: 1rem;
+  .cert-detail {
     font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
   }
 }
 
+@media (max-width: 480px) {
+  .cert-content {
+    padding: 0.8rem;
+  }
+
+  .cert-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .cert-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .cert-username {
+    font-size: 1rem;
+  }
+
+  .cert-detail {
+    font-size: 0.85rem;
+  }
+
+  .cert-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    min-width: auto;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.4rem;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+  .cert-content {
+    padding: 0.5rem;
+  }
+
+  .cert-title {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .cert-card {
+    padding: 0.8rem;
+  }
+
+  .cert-username {
+    font-size: 0.95rem;
+  }
+
+  .cert-detail {
+    font-size: 0.8rem;
+  }
+
+  .btn {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+  }
+
+  .cert-card {
+    cursor: pointer;
+  }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+  .cert-content {
+    padding: 1rem;
+  }
+
+  .cert-title {
+    font-size: 1.8rem;
+  }
+
+  .cert-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .cert-card {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cert-actions {
+    flex-direction: row;
+    width: auto;
+  }
+
+  .btn {
+    width: auto;
+    min-width: 100px;
+  }
+}
