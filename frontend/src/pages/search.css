@@ -426,9 +426,11 @@
 }
 
 .request-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: not-allowed;
-    border-color: transparent;
+    border-color: rgba(74, 143, 194, 0.3);
+    background-color: rgba(74, 143, 194, 0.15);
+    color: var(--text-secondary);
 }
 
 .empty-state {

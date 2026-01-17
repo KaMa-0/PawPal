@@ -197,6 +197,8 @@
 .booking-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    background: rgba(74, 143, 194, 0.3);
+    color: var(--text-secondary);
 }
 
 /* ============================================

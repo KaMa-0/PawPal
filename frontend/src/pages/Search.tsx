@@ -34,6 +34,12 @@ type PetSitter = {
     profileImages: { imageUrl: string; isAvatar: boolean }[];
 };
 
+type Booking = {
+    bookingId: number;
+    sitter: { user: { userId: number } };
+    status: string;
+};
+
 const resolveImageUrl = (url: string) => {
     if (!url) return "";
     if (url.startsWith("http")) return url;
@@ -50,6 +56,28 @@ export default function Search() {
     const [minRating, setMinRating] = useState(0);
     const [loading, setLoading] = useState(false);
     const [sendingRequest, setSendingRequest] = useState<number | null>(null);
+    const [activeBookings, setActiveBookings] = useState<Map<number, Booking>>(new Map());
+
+    // Fetch active bookings when user is an owner
+    useEffect(() => {
+        if (!auth || auth.role !== "OWNER") return;
+
+        api.get("/api/bookings/my")
+            .then((res) => {
+                const bookings: Booking[] = res.data;
+                // Create a map of sitterId -> active booking (PENDING or ACCEPTED)
+                const bookingsMap = new Map<number, Booking>();
+                bookings.forEach((booking) => {
+                    if (booking.status === "PENDING" || booking.status === "ACCEPTED") {
+                        bookingsMap.set(booking.sitter.user.userId, booking);
+                    }
+                });
+                setActiveBookings(bookingsMap);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch bookings:", err);
+            });
+    }, [auth]);
 
     // Initialize filters from URL query params
     useEffect(() => {
@@ -108,6 +136,17 @@ export default function Search() {
                 details: "Booking requested via search page"
             });
             alert("Booking request sent!");
+            
+            // Refresh bookings to update button state
+            const res = await api.get("/api/bookings/my");
+            const bookings: Booking[] = res.data;
+            const bookingsMap = new Map<number, Booking>();
+            bookings.forEach((booking) => {
+                if (booking.status === "PENDING" || booking.status === "ACCEPTED") {
+                    bookingsMap.set(booking.sitter.user.userId, booking);
+                }
+            });
+            setActiveBookings(bookingsMap);
         } catch (err: any) {
             console.error(err);
             const errorMessage = err?.response?.data?.message || "Failed to send booking request";
@@ -278,10 +317,14 @@ export default function Search() {
                                             {auth?.role === "OWNER" && (
                                                 <button
                                                     className="request-btn"
-                                                    disabled={sendingRequest === sitter.userId}
+                                                    disabled={sendingRequest === sitter.userId || activeBookings.has(sitter.userId)}
                                                     onClick={() => handleRequestBooking(sitter.userId)}
                                                 >
-                                                    {sendingRequest === sitter.userId ? "Sending..." : "Request Booking"}
+                                                    {sendingRequest === sitter.userId 
+                                                        ? "Sending..." 
+                                                        : activeBookings.has(sitter.userId)
+                                                            ? "Booking requested"
+                                                            : "Request Booking"}
                                                 </button>
                                             )}
                                         </div>

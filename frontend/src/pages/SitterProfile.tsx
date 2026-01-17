@@ -36,6 +36,12 @@ const resolveImageUrl = (url: string) => {
     return `${API_BASE_URL}${url}`;
 };
 
+type Booking = {
+    bookingId: number;
+    sitter: { user: { userId: number } };
+    status: string;
+};
+
 export default function SitterProfile() {
     const { id } = useParams();
     const auth = getAuth();
@@ -44,6 +50,7 @@ export default function SitterProfile() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [sendingRequest, setSendingRequest] = useState(false);
+    const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
 
     useEffect(() => {
         if (!id) return;
@@ -56,6 +63,26 @@ export default function SitterProfile() {
             })
             .finally(() => setLoading(false));
     }, [id]);
+
+    // Check for active bookings when sitter is loaded and user is an owner
+    useEffect(() => {
+        if (!sitter || !auth || auth.role !== "OWNER") return;
+
+        api.get("/api/bookings/my")
+            .then((res) => {
+                const bookings: Booking[] = res.data;
+                // Find active booking (PENDING or ACCEPTED) with this sitter
+                const booking = bookings.find(
+                    (b) =>
+                        b.sitter.user.userId === sitter.userId &&
+                        (b.status === "PENDING" || b.status === "ACCEPTED")
+                );
+                setActiveBooking(booking || null);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch bookings:", err);
+            });
+    }, [sitter, auth]);
 
     const handleRequestBooking = async () => {
         if (!auth || auth.role !== "OWNER") {
@@ -71,6 +98,16 @@ export default function SitterProfile() {
                 details: "Booking requested via profile page"
             });
             alert("Booking request sent successfully!");
+            
+            // Refresh bookings to update button state
+            const res = await api.get("/api/bookings/my");
+            const bookings: Booking[] = res.data;
+            const booking = bookings.find(
+                (b) =>
+                    b.sitter.user.userId === sitter.userId &&
+                    (b.status === "PENDING" || b.status === "ACCEPTED")
+            );
+            setActiveBooking(booking || null);
         } catch (err: any) {
             console.error(err);
             const errorMessage = err?.response?.data?.message || "Failed to send booking request.";
@@ -179,9 +216,13 @@ export default function SitterProfile() {
                             <button
                                 onClick={handleRequestBooking}
                                 className="booking-button"
-                                disabled={sendingRequest}
+                                disabled={sendingRequest || !!activeBooking}
                             >
-                                {sendingRequest ? "Sending..." : "Request Booking"}
+                                {sendingRequest 
+                                    ? "Sending..." 
+                                    : activeBooking 
+                                        ? "Booking requested" 
+                                        : "Request Booking"}
                             </button>
                         )}
                     </div>
