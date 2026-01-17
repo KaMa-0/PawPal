@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Star, BadgeCheck, MapPin } from "lucide-react";
 import { getAuth } from "../auth/authStore";
 import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
@@ -236,7 +236,7 @@ export default function Search() {
 
                                         {isCertified && (
                                             <div className="card-badge">
-                                                ✓ Certified
+                                                <BadgeCheck size={14} strokeWidth={3} /> Certified
                                             </div>
                                         )}
                                     </div>
@@ -246,15 +246,23 @@ export default function Search() {
                                         <Link to={`/sitter/${sitter.userId}`} className="hero-name">
                                             {sitter.username}
                                         </Link>
-                                        <div className="hero-location">{sitter.state}</div>
 
-                                        <div className="hero-stats">
-                                            <div className="stat-item" title="Rating">
-                                                ⭐ {sitter.petSitter.averageRating.toFixed(1)}
+                                        <div className="hero-meta">
+                                            <div className="hero-location">
+                                                <MapPin size={14} /> {sitter.state}
                                             </div>
-                                            <div className="stat-item" title="Pets">
-                                                🐾 {sitter.petSitter.petTypes.join(", ")}
+                                            <div className="hero-rating" title="Rating">
+                                                <Star size={16} fill="#FBBF24" stroke="none" />
+                                                <span>{sitter.petSitter.averageRating.toFixed(1)}</span>
                                             </div>
+                                        </div>
+
+                                        <div className="pet-tags-container">
+                                            {sitter.petSitter.petTypes.map((type) => (
+                                                <span key={type} className="pet-tag">
+                                                    {type}
+                                                </span>
+                                            ))}
                                         </div>
 
                                         <p className="hero-description">

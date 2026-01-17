@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import api from "../services/api";
 import { setAuth } from "../auth/authStore";
 import type { Role } from "../auth/authStore";
@@ -109,27 +110,32 @@ export default function Register() {
 
                         <div className="form-group">
                             <label className="form-label">Location (State)</label>
-                            <select name="state" value={formData.state} onChange={handleChange} required className="form-select">
-                                <option value="" disabled>Select your state...</option>
-                                <option value="WIEN">Vienna (Wien)</option>
-                                <option value="NIEDEROESTERREICH">Lower Austria (Niederösterreich)</option>
-                                <option value="OBEROESTERREICH">Upper Austria (Oberösterreich)</option>
-                                <option value="SALZBURG">Salzburg</option>
-                                <option value="TIROL">Tyrol (Tirol)</option>
-                                <option value="VORARLBERG">Vorarlberg</option>
-                                <option value="KAERNTEN">Carinthia (Kärnten)</option>
-                                <option value="STEIERMARK">Styria (Steiermark)</option>
-                                <option value="BURGENLAND">Burgenland</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select name="state" value={formData.state} onChange={handleChange} required className="form-select">
+                                    <option value="" disabled>Select your state...</option>
+                                    <option value="WIEN">Vienna (Wien)</option>
+                                    <option value="NIEDEROESTERREICH">Lower Austria (Niederösterreich)</option>
+                                    <option value="OBEROESTERREICH">Upper Austria (Oberösterreich)</option>
+                                    <option value="SALZBURG">Salzburg</option>
+                                    <option value="TIROL">Tyrol (Tirol)</option>
+                                    <option value="VORARLBERG">Vorarlberg</option>
+                                    <option value="KAERNTEN">Carinthia (Kärnten)</option>
+                                    <option value="STEIERMARK">Styria (Steiermark)</option>
+                                    <option value="BURGENLAND">Burgenland</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="form-group">
                             <label className="form-label">I am a...</label>
-                            <select name="userType" value={formData.userType} onChange={handleChange} className="form-select">
-                                <option value="OWNER">Pet Owner</option>
-                                <option value="SITTER">Pet Sitter</option>
-                                <option value="ADMIN">Admin</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select name="userType" value={formData.userType} onChange={handleChange} className="form-select">
+                                    <option value="OWNER">Pet Owner</option>
+                                    <option value="SITTER">Pet Sitter</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         {/* Sitter Specific Options */}

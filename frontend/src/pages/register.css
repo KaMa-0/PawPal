@@ -76,7 +76,8 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    color: var(--text-primary); /* Fallback */
+    color: var(--text-primary);
+    /* Fallback */
 }
 
 .register-form {
@@ -100,19 +101,57 @@ body {
     text-transform: uppercase;
 }
 
+/* Select Wrapper for Chevron Icon */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.select-wrapper .form-select {
+    padding-right: 2.5rem;
+    /* Make room for chevron icon */
+}
+
+/* Chevron Icon Styling */
+.select-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--accent-secondary);
+    transition: color 0.2s ease;
+}
+
+.select-wrapper:hover .select-icon,
+.select-wrapper:focus-within .select-icon {
+    color: var(--accent-color);
+}
+
+
 /* Inputs and Select Dropdowns */
 .form-input,
 .form-select {
     width: 100%;
-    padding: 0.9rem;
+    height: 52px;
+    /* Fixed height for perfect alignment */
+    padding: 12px 1rem;
+    /* Increased vertical padding to prevent text clipping */
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    border: none;
-    /* Remove border to eliminate vertical lines */
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     font-size: 1rem;
+    line-height: 1.4;
+    /* Normal line height for better text rendering */
     box-sizing: border-box;
     /* Ensures padding doesn't affect width */
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
@@ -122,6 +161,25 @@ body {
     border: 1px solid var(--accent-color);
     box-shadow: 0 0 0 2px rgba(74, 143, 194, 0.3);
 }
+
+/* Placeholder styling for inputs */
+.form-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+/* Make select text color match placeholder color */
+.form-select {
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+/* Option text styling */
+.form-select option {
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}
+
 
 /* Register Button */
 .register-button {
@@ -354,10 +412,12 @@ body {
 
 /* Touch Device Optimization */
 @media (hover: none) and (pointer: coarse) {
+
     .form-input,
     .form-select {
         min-height: 48px;
-        font-size: 16px; /* Prevents auto-zoom on iOS */
+        font-size: 16px;
+        /* Prevents auto-zoom on iOS */
     }
 
     .register-button {
@@ -407,4 +467,3 @@ body {
         gap: 0.5rem;
     }
 }
-
