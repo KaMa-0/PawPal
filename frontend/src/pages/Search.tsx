@@ -108,9 +108,10 @@ export default function Search() {
                 details: "Booking requested via search page"
             });
             alert("Booking request sent!");
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert("Failed to send booking request");
+            const errorMessage = err?.response?.data?.message || "Failed to send booking request";
+            alert(errorMessage);
         } finally {
             setSendingRequest(null);
         }
