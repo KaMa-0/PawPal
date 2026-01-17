@@ -35,7 +35,7 @@ export default function ReviewModal({ isOpen, onClose, onSubmit, loading }: Revi
                     onClick={onClose}
                     className="review-modal-close"
                 >
-                    <X size={24} color="#666" />
+                    <X size={20} />
                 </button>
 
                 <h2 className="review-modal-title">
@@ -54,10 +54,10 @@ export default function ReviewModal({ isOpen, onClose, onSubmit, loading }: Revi
                                 className="review-star-button"
                             >
                                 <Star
-                                    size={32}
-                                    fill={star <= (hoveredRating || rating) ? "#FFB74D" : "none"}
-                                    color={star <= (hoveredRating || rating) ? "#FFB74D" : "#CBD5E1"}
-                                    strokeWidth={2}
+                                    size={36}
+                                    fill={star <= (hoveredRating || rating) ? "#fbbf24" : "rgba(255, 255, 255, 0.1)"}
+                                    color="#ffffff"
+                                    strokeWidth={1.5}
                                 />
                             </button>
                         ))}

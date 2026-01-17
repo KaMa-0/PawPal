@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./LandingPage.css";
@@ -43,58 +44,67 @@ export default function LandingPage() {
 
                         <div className="widget-group">
                             <label className="widget-label">Location</label>
-                            <select
-                                className="widget-select"
-                                value={state}
-                                onChange={(e) => setState(e.target.value)}
-                            >
-                                <option value="">Select Location</option>
-                                {[
-                                    "WIEN",
-                                    "NIEDEROESTERREICH",
-                                    "OBEROESTERREICH",
-                                    "SALZBURG",
-                                    "TIROL",
-                                    "VORARLBERG",
-                                    "KAERNTEN",
-                                    "STEIERMARK",
-                                    "BURGENLAND",
-                                ].map((s) => (
-                                    <option key={s} value={s}>{s}</option>
-                                ))}
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="widget-select"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                >
+                                    <option value="">Select Location</option>
+                                    {[
+                                        "WIEN",
+                                        "NIEDEROESTERREICH",
+                                        "OBEROESTERREICH",
+                                        "SALZBURG",
+                                        "TIROL",
+                                        "VORARLBERG",
+                                        "KAERNTEN",
+                                        "STEIERMARK",
+                                        "BURGENLAND",
+                                    ].map((s) => (
+                                        <option key={s} value={s}>{s}</option>
+                                    ))}
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="widget-group">
                             <label className="widget-label">Pet Type</label>
-                            <select
-                                className="widget-select"
-                                value={petType}
-                                onChange={(e) => setPetType(e.target.value)}
-                            >
-                                <option value="">Any Pet</option>
-                                <option value="DOG">Dog</option>
-                                <option value="CAT">Cat</option>
-                                <option value="BIRD">Bird</option>
-                                <option value="FISH">Fish</option>
-                                <option value="REPTILE">Reptile</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="widget-select"
+                                    value={petType}
+                                    onChange={(e) => setPetType(e.target.value)}
+                                >
+                                    <option value="">Any Pet</option>
+                                    <option value="DOG">Dog</option>
+                                    <option value="CAT">Cat</option>
+                                    <option value="BIRD">Bird</option>
+                                    <option value="FISH">Fish</option>
+                                    <option value="REPTILE">Reptile</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="widget-group">
                             <label className="widget-label">Rating</label>
-                            <select
-                                className="widget-select"
-                                value={minRating}
-                                onChange={(e) => setMinRating(Number(e.target.value))}
-                            >
-                                <option value="0">Any Rating</option>
-                                <option value="1">1+ Stars</option>
-                                <option value="2">2+ Stars</option>
-                                <option value="3">3+ Stars</option>
-                                <option value="4">4+ Stars</option>
-                                <option value="5">5 Stars</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="widget-select"
+                                    value={minRating}
+                                    onChange={(e) => setMinRating(Number(e.target.value))}
+                                >
+                                    <option value="0">Any Rating</option>
+                                    <option value="1">1+ Stars</option>
+                                    <option value="2">2+ Stars</option>
+                                    <option value="3">3+ Stars</option>
+                                    <option value="4">4+ Stars</option>
+                                    <option value="5">5 Stars</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="widget-action">
@@ -106,7 +116,7 @@ export default function LandingPage() {
 
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

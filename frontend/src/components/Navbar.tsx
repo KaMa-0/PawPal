@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { getAuth, clearAuth } from "../auth/authStore";
 import { useState, useEffect } from "react";
 import "./Navbar.css";
@@ -50,51 +50,63 @@ export default function Navbar() {
                     />
                 )}
 
-                {/* 1. If NOT logged in: Show Login/Register buttons */}
-                {!auth && (
-                    <div className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
-                        <Link to="/login" className="nav-btn secondary" onClick={closeMenu}>
-                            Login
-                        </Link>
-                        <Link to="/register" className="nav-btn primary" onClick={closeMenu}>
-                            Register
-                        </Link>
-                    </div>
-                )}
+                <div className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
 
-                {/* 2. If LOGGED IN */}
-                {auth && (
-                    <div className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
-                        {/* User Info Display (Always visible) */}
-                        <span className="user-info">
-                            {auth.email} ({auth.role})
-                        </span>
+                    {/* Common Navigation Links (Visible to all or restricted) */}
 
-                        {/* My Bookings Button - Owners & Sitters Only */}
-                        {auth.role !== "ADMIN" && (
-                            <Link to="/bookings" className="nav-btn accent" onClick={closeMenu}>
-                                My Bookings
+                    {/* Find a Sitter - Visible to everyone except maybe strict Admin, but usually good for all */}
+                    <NavLink to="/search" className="nav-link" onClick={closeMenu}>
+                        Find a Sitter
+                    </NavLink>
+
+                    {/* 1. If NOT logged in: Show Login/Register buttons */}
+                    {!auth && (
+                        <>
+                            <Link to="/login" className="nav-btn secondary" onClick={closeMenu}>
+                                Login
                             </Link>
-                        )}
-
-                        {/* Profile Button */}
-                        <Link to="/home" className="nav-btn secondary" onClick={closeMenu}>
-                            Profile
-                        </Link>
-
-                        {/* Certifications Button - Only for Admin */}
-                        {auth.role === "ADMIN" && (
-                            <Link to="/certifications" className="nav-btn success" onClick={closeMenu}>
-                                Certifications
+                            <Link to="/register" className="nav-btn primary" onClick={closeMenu}>
+                                Register
                             </Link>
-                        )}
+                        </>
+                    )}
 
-                        {/* Logout Button */}
-                        <button onClick={handleLogout} className="nav-btn danger">
-                            Logout
-                        </button>
-                    </div>
-                )}
+                    {/* 2. If LOGGED IN */}
+                    {auth && (
+                        <>
+                            {/* Navigation Links (Text based) */}
+                            {auth.role !== "ADMIN" && (
+                                <NavLink to="/bookings" className="nav-link" onClick={closeMenu}>
+                                    My Bookings
+                                </NavLink>
+                            )}
+
+                            {auth.role === "ADMIN" && (
+                                <NavLink to="/certifications" className="nav-link" onClick={closeMenu}>
+                                    Certifications
+                                </NavLink>
+                            )}
+
+                            {/* Profile Link - Treat as Nav Link or Icon in future, simple text for now */}
+                            <NavLink to="/home" className="nav-link" onClick={closeMenu}>
+                                Profile
+                            </NavLink>
+
+                            {/* Separator / User Info */}
+                            <div className="nav-separator"></div>
+
+                            <span className="user-info">
+                                {auth.email}
+                                <span className="user-role-badge">{auth.role}</span>
+                            </span>
+
+                            {/* Actions */}
+                            <button onClick={handleLogout} className="nav-btn ghost">
+                                Logout
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
         </nav>
     );

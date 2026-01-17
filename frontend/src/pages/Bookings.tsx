@@ -5,6 +5,7 @@ import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ReviewModal from "../components/ReviewModal";
+import { Calendar, User, User as UserStart, Star, Check, X, CheckCircle } from "lucide-react";
 import "./bookings.css";
 
 type Booking = {
@@ -59,9 +60,7 @@ export default function Bookings() {
     fetchBookings();
   }, []);
 
-  const handleBack = () => {
-    navigate("/search");
-  };
+
 
   // --- ACTION FUNCTIONS ---
   // I defined separate functions for each action to make it easier to explain
@@ -143,45 +142,85 @@ export default function Bookings() {
             <div className="bookings-grid">
               {bookings.map((booking) => (
                 <div key={booking.bookingId} className="booking-card">
-                  {/* ... Kart içeriği aynı (önceki cevaptaki gibi temizlenmiş hali) ... */}
-                  <div className="booking-info">
-                    <p><strong>ID:</strong> {booking.bookingId}</p>
-                    <p><strong>Owner:</strong> {booking.owner.user.username}</p>
-                    <p><strong>Sitter:</strong> {booking.sitter.user.username}</p>
-                    <p><strong>Date:</strong> {new Date(booking.requestDate).toLocaleDateString()}</p>
-                    <p><strong>Details:</strong> {booking.details}</p>
-                    <p><strong>Status:</strong>
+                  {/* Card Header for Context */}
+                  <div className="card-header">
+                    <div className="header-top-row">
+                      <span className="booking-id-text">Booking #{booking.bookingId}</span>
                       <span className={`status-badge ${booking.status.toLowerCase()}`}>
                         {booking.status}
                       </span>
-                    </p>
-                    {booking.review && <p className="review-rating">Rating: {booking.review.rating}/5 ⭐</p>}
+                    </div>
+                    <div className="booking-date-row">
+                      <Calendar size={14} className="icon" />
+                      <span>{new Date(booking.requestDate).toLocaleDateString(undefined, {
+                        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+                      })}</span>
+                    </div>
                   </div>
 
-                  {/* ... Butonlar aynı ... */}
-                  {auth.role === "SITTER" && booking.status === "PENDING" && (
-                    <div className="booking-actions">
-                      <button onClick={() => acceptBooking(booking.bookingId)} className="action-btn accept">Accept</button>
-                      <button onClick={() => declineBooking(booking.bookingId)} className="action-btn decline">Decline</button>
+                  {/* Card Body with Vertical List */}
+                  <div className="card-body">
+                    <div className="participants-list">
+                      <div className="participant-item">
+                        <div className="avatar-placeholder">
+                          <User size={18} />
+                        </div>
+                        <div className="participant-info">
+                          <span className="participant-name">{booking.owner.user.username}</span>
+                          <span className="participant-role">Owner</span>
+                        </div>
+                      </div>
+                      <div className="participant-item">
+                        <div className="avatar-placeholder">
+                          <UserStart size={18} />
+                        </div>
+                        <div className="participant-info">
+                          <span className="participant-name">{booking.sitter.user.username}</span>
+                          <span className="participant-role">Sitter</span>
+                        </div>
+                      </div>
                     </div>
-                  )}
 
-                  {auth.role === "OWNER" && booking.status === "ACCEPTED" && (
-                    <div className="owner-actions">
-                      <button onClick={() => completeBooking(booking.bookingId)} className="action-btn complete full-width">Mark as Completed</button>
-                    </div>
-                  )}
+                    {booking.review && (
+                      <div className="review-display">
+                        <div className="review-stars-row">
+                          <Star size={14} className="fill-current" />
+                          <span>{booking.review.rating}/5</span>
+                        </div>
+                        {booking.review.text && <p className="review-preview">"{booking.review.text}"</p>}
+                      </div>
+                    )}
+                  </div>
 
-                  {/* ... Review kısmı aynı ... */}
-                  {booking.status === "COMPLETED" && (
-                    <div className="review-section">
-                      {/* ... */}
-                      {auth.role === "OWNER" && !booking.review && (
-                        <button onClick={() => openReviewModal(booking.bookingId)} className="review-btn-write">Write a Review</button>
-                      )}
-                      {/* ... */}
-                    </div>
-                  )}
+                  {/* Card Footer with Actions */}
+                  <div className="card-footer">
+                    {auth.role === "SITTER" && booking.status === "PENDING" && (
+                      <div className="button-group">
+                        <button onClick={() => acceptBooking(booking.bookingId)} className="btn btn-accept">
+                          <Check size={16} /> Accept
+                        </button>
+                        <button onClick={() => declineBooking(booking.bookingId)} className="btn btn-decline">
+                          <X size={16} /> Decline
+                        </button>
+                      </div>
+                    )}
+
+                    {auth.role === "OWNER" && booking.status === "ACCEPTED" && (
+                      <div className="button-group">
+                        <button onClick={() => completeBooking(booking.bookingId)} className="btn btn-primary full-width">
+                          <CheckCircle size={16} /> Mark as Completed
+                        </button>
+                      </div>
+                    )}
+
+                    {booking.status === "COMPLETED" && auth.role === "OWNER" && !booking.review && (
+                      <div className="button-group">
+                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-secondary full-width">
+                          <Star size={16} /> Write a Review
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

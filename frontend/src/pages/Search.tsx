@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import { getAuth } from "../auth/authStore";
 import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
@@ -132,60 +133,69 @@ export default function Search() {
                     >
                         <div className="form-group">
                             <label className="form-label">Location</label>
-                            <select
-                                className="form-input"
-                                value={state}
-                                onChange={(e) => setState(e.target.value)}
-                            >
-                                <option value="">All Locations</option>
-                                {[
-                                    { value: "WIEN", label: "Vienna" },
-                                    { value: "NIEDEROESTERREICH", label: "Lower Austria" },
-                                    { value: "OBEROESTERREICH", label: "Upper Austria" },
-                                    { value: "SALZBURG", label: "Salzburg" },
-                                    { value: "TIROL", label: "Tyrol" },
-                                    { value: "VORARLBERG", label: "Vorarlberg" },
-                                    { value: "KAERNTEN", label: "Carinthia" },
-                                    { value: "STEIERMARK", label: "Styria" },
-                                    { value: "BURGENLAND", label: "Burgenland" },
-                                ].map((option) => (
-                                    <option key={option.value} value={option.value}>
-                                        {option.label}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="form-input"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                >
+                                    <option value="">All Locations</option>
+                                    {[
+                                        { value: "WIEN", label: "Vienna" },
+                                        { value: "NIEDEROESTERREICH", label: "Lower Austria" },
+                                        { value: "OBEROESTERREICH", label: "Upper Austria" },
+                                        { value: "SALZBURG", label: "Salzburg" },
+                                        { value: "TIROL", label: "Tyrol" },
+                                        { value: "VORARLBERG", label: "Vorarlberg" },
+                                        { value: "KAERNTEN", label: "Carinthia" },
+                                        { value: "STEIERMARK", label: "Styria" },
+                                        { value: "BURGENLAND", label: "Burgenland" },
+                                    ].map((option) => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="form-group">
                             <label className="form-label">Pet Type</label>
-                            <select
-                                className="form-input"
-                                value={petType}
-                                onChange={(e) => setPetType(e.target.value)}
-                            >
-                                <option value="">All Pet Types</option>
-                                <option value="DOG">Dog</option>
-                                <option value="CAT">Cat</option>
-                                <option value="BIRD">Bird</option>
-                                <option value="FISH">Fish</option>
-                                <option value="REPTILE">Reptile</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="form-input"
+                                    value={petType}
+                                    onChange={(e) => setPetType(e.target.value)}
+                                >
+                                    <option value="">All Pet Types</option>
+                                    <option value="DOG">Dog</option>
+                                    <option value="CAT">Cat</option>
+                                    <option value="BIRD">Bird</option>
+                                    <option value="FISH">Fish</option>
+                                    <option value="REPTILE">Reptile</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="form-group">
                             <label className="form-label">Minimum Rating</label>
-                            <select
-                                className="form-input"
-                                value={minRating}
-                                onChange={(e) => setMinRating(Number(e.target.value))}
-                            >
-                                <option value="0">Any Rating</option>
-                                <option value="1">1+ Stars</option>
-                                <option value="2">2+ Stars</option>
-                                <option value="3">3+ Stars</option>
-                                <option value="4">4+ Stars</option>
-                                <option value="5">5 Stars</option>
-                            </select>
+                            <div className="select-wrapper">
+                                <select
+                                    className="form-input"
+                                    value={minRating}
+                                    onChange={(e) => setMinRating(Number(e.target.value))}
+                                >
+                                    <option value="0">Any Rating</option>
+                                    <option value="1">1+ Stars</option>
+                                    <option value="2">2+ Stars</option>
+                                    <option value="3">3+ Stars</option>
+                                    <option value="4">4+ Stars</option>
+                                    <option value="5">5 Stars</option>
+                                </select>
+                                <ChevronDown className="select-icon" size={20} />
+                            </div>
                         </div>
 
                         <div className="form-group">

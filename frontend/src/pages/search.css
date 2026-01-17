@@ -102,6 +102,34 @@
 }
 
 /* Inputs and Selects */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.select-wrapper .form-input {
+    padding-right: 2.5rem;
+    /* Make room for chevron icon */
+}
+
+/* Chevron Icon Styling */
+.select-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--accent-secondary);
+    transition: color 0.2s ease;
+}
+
+.select-wrapper:hover .select-icon,
+.select-wrapper:focus-within .select-icon {
+    color: var(--accent-color);
+}
+
 .form-input {
     height: 52px;
     /* Fixed height for perfect alignment */
@@ -114,6 +142,9 @@
     box-sizing: border-box;
     /* Padding doesn't add to width */
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 .form-input:focus {
@@ -336,6 +367,14 @@
         font-size: 2.5rem;
     }
 
+    .search-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .select-wrapper {
+        width: 100%;
+    }
+
     .results-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 1.5rem;
@@ -391,9 +430,30 @@
         width: 100%;
     }
 
+    .select-wrapper {
+        width: 100%;
+        min-height: 52px;
+    }
+
+    .form-input {
+        font-size: 16px;
+        /* Prevents auto-zoom on iOS */
+        min-height: 52px;
+        width: 100%;
+    }
+
+    .select-wrapper .form-input {
+        padding-right: 2.5rem;
+    }
+
+    .select-icon {
+        right: 0.875rem;
+    }
+
     .search-button-primary {
         width: 100%;
         margin-top: 0.5rem;
+        min-height: 52px;
     }
 
     .results-grid {
@@ -653,10 +713,12 @@
 
 /* Touch Device Optimization */
 @media (hover: none) and (pointer: coarse) {
+
     .form-input,
     .search-button-primary {
         min-height: 48px;
-        font-size: 16px; /* Prevents auto-zoom on iOS */
+        font-size: 16px;
+        /* Prevents auto-zoom on iOS */
     }
 
     .view-profile-btn,
