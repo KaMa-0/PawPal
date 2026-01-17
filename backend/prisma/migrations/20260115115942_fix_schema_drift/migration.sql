@@ -1,3 +1,3 @@
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "resetToken" TEXT,
-ADD COLUMN     "resetTokenExpires" TIMESTAMP(3);
+-- This migration was a no-op as the columns already existed in previous migrations
+-- No database changes needed
+

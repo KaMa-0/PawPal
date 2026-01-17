@@ -32,6 +32,7 @@ type PetSitter = {
         }>;
     };
     profileImages: { imageUrl: string; isAvatar: boolean }[];
+    isFavorited: boolean;
 };
 
 type Booking = {
@@ -285,7 +286,6 @@ export default function Search() {
                                         <Link to={`/sitter/${sitter.userId}`} className="hero-name">
                                             {sitter.username}
                                         </Link>
-
                                         <div className="hero-meta">
                                             <div className="hero-location">
                                                 <MapPin size={14} /> {sitter.state}

@@ -61,7 +61,6 @@ export default function Bookings() {
   }, []);
 
 
-
   // --- ACTION FUNCTIONS ---
   // I defined separate functions for each action to make it easier to explain
 

@@ -28,6 +28,7 @@ type SitterProfileData = {
             owner: { user: { username: string } };
         }[];
     };
+    isFavorited: boolean;
 };
 
 const resolveImageUrl = (url: string) => {
