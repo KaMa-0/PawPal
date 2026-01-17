@@ -15,8 +15,6 @@ import api from "./services/api";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import Home from "./pages/Home";
 import Bookings from "./pages/Bookings";
 import Search from "./pages/Search";
@@ -24,6 +22,7 @@ import SitterProfile from "./pages/SitterProfile";
 import Certifications from "./pages/Certifications";
 import SubmitCertification from "./pages/SubmitCertification";
 import ChangePassword from "./pages/ChangePassword";
+import Favorites from "./pages/Favorites";
 import { getAuth } from "./auth/authStore";
 import "./App.css";
 
@@ -97,6 +96,16 @@ function App() {
           }
         />
 
+        {/* User Favorites Page */}
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <Favorites />
+            </ProtectedRoute>
+          }
+        />
+
         {/* User Home Route (Profile Page) */}
         <Route
           path="/home"
@@ -150,23 +159,6 @@ function App() {
           }
         />
 
-        <Route
-          path="/forgot-password"
-          element={
-            <LoginGate>
-              <ForgotPassword />
-            </LoginGate>
-          }
-        />
-
-        <Route
-          path="/reset-password"
-          element={
-            <LoginGate>
-              <ResetPassword />
-            </LoginGate>
-          }
-        />
 
         <Route
           path="/register"

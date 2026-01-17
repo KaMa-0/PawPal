@@ -17,6 +17,9 @@ export const sendBookingRequest = async (req: AuthRequest, res: Response) => {
     res.json(booking);
   } catch (err) {
     console.error(err);
+    if (err instanceof Error && (err.message.includes('already have') || err.message.includes('booking'))) {
+      return res.status(400).json({ message: err.message });
+    }
     res.status(500).json({ message: 'Failed to create booking' });
   }
 };

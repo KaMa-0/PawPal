@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import api from "../services/api";
 import { setAuth } from "../auth/authStore";
 import type { Role } from "../auth/authStore";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import "./login.css";
 
 type AuthResponse = {
@@ -44,48 +46,53 @@ export default function Login() {
 
   return (
     <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">Welcome Back</h1>
+      <Navbar />
+      <div className="login-content">
+        <div className="login-card">
 
-        {error && <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+          <h1 className="login-title">Welcome Back</h1>
 
-        <form onSubmit={onSubmit} className="login-form">
-          <div className="form-group">
-            <label className="form-label">Email</label>
-            <input
-              className="form-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-            />
+          {error && <div className="error-message">{error}</div>}
+
+          <form onSubmit={onSubmit} className="login-form">
+            <div className="form-group">
+              <label className="form-label">Email</label>
+              <input
+                className="form-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input
+                className="form-input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <button type="submit" className="login-button">Login</button>
+          </form>
+
+          <div className="register-link">
+            <Link to="/forgot-password">
+              Forgot password?
+            </Link>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Password</label>
-            <input
-              className="form-input"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-            />
+          <div className="register-link">
+            Don't have an account? <Link to="/register">Sign up</Link>
           </div>
-
-          <button type="submit" className="login-button">Login</button>
-        </form>
-
-        <div style={{ textAlign: 'center', margin: '1rem 0' }}>
-          <Link to="/forgot-password" style={{ color: '#f57c00', textDecoration: 'none', fontSize: '0.9rem' }}>
-            Forgot password?
-          </Link>
-        </div>
-
-        <div className="register-link">
-          Don't have an account? <Link to="/register">Sign up</Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

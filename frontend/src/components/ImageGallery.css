@@ -1,0 +1,347 @@
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-auto-flow: dense;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    border: 2px solid transparent;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Bento effect: First item is larger */
+.gallery-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Overlays */
+.gallery-overlay-controls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 2;
+}
+
+.gallery-item:hover .gallery-overlay-controls {
+    opacity: 1;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-size: 1.2rem;
+    transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: white;
+    color: #000;
+}
+
+.action-btn.delete:hover {
+    background-color: #ffebee;
+    color: #d32f2f;
+}
+
+.action-btn.avatar:hover {
+    background-color: #fff3e0;
+    color: #f57c00;
+}
+
+.avatar-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #f57c00;
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Carousel */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 1001;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.modal-close-btn:hover {
+    opacity: 1;
+}
+
+.modal-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 20px 10px;
+    z-index: 1001;
+    transition: background 0.2s;
+    border-radius: 4px;
+}
+
+.modal-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-nav-btn.prev {
+    left: 20px;
+}
+
+.modal-nav-btn.next {
+    right: 20px;
+}
+
+.no-images-text {
+    color: #777;
+    font-style: italic;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .gallery-item:first-child {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .action-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+
+    .modal-close-btn {
+        top: 10px;
+        right: 15px;
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 10px;
+    }
+
+    .gallery-item:first-child {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .modal-nav-btn {
+        padding: 10px;
+        font-size: 1.5rem;
+    }
+
+    .modal-nav-btn.prev {
+        left: 10px;
+    }
+
+    .modal-nav-btn.next {
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .action-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 0.9rem;
+    }
+
+    .avatar-badge {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+
+    .modal-close-btn {
+        top: 5px;
+        right: 10px;
+        font-size: 1.8rem;
+    }
+
+    .modal-nav-btn {
+        padding: 8px;
+        font-size: 1.2rem;
+    }
+
+    .modal-nav-btn.prev {
+        left: 5px;
+    }
+
+    .modal-nav-btn.next {
+        right: 5px;
+    }
+
+    .no-images-text {
+        font-size: 0.85rem;
+    }
+}
+
+/* Extra Small Screens */
+@media (max-width: 360px) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 6px;
+    }
+
+    .action-btn {
+        width: 22px;
+        height: 22px;
+        font-size: 0.8rem;
+    }
+
+    .avatar-badge {
+        font-size: 0.65rem;
+        padding: 2px 5px;
+    }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .action-btn {
+        min-width: 44px;
+        min-height: 44px;
+        font-size: 1.2rem;
+    }
+
+    .gallery-overlay-controls {
+        opacity: 1; /* Always visible on touch devices */
+    }
+
+    .modal-nav-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 12px;
+    }
+
+    .modal-close-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .gallery-item {
+        cursor: pointer;
+    }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+    .image-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .modal-content {
+        max-height: 85vh;
+    }
+
+    .modal-image {
+        max-height: 85vh;
+    }
+}

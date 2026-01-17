@@ -1,6 +1,6 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { AuthRequest } from '../types/auth.types';
-import { findUserProfileById, findPublicSitterProfile } from '../services/user.service';
+import { findUserProfileById, findPublicSitterProfile, addFavoriteSitter, removeFavoriteSitter, getOwnerFavorites } from '../services/user.service';
 import { searchPetSitters } from '../services/user.service';
 import { AustriaState } from '@prisma/client';
 import prisma from '../config/prisma';
@@ -16,11 +16,22 @@ export const uploadProfileImage = [
       if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
 
       const imageUrl = `/uploads/${req.file.filename}`;
+      const userId = req.user.userId;
+      const isAvatar = req.body.isAvatar === 'true';
+
+      if (isAvatar) {
+        // If this is an avatar, unset previous avatars
+        await prisma.profileImage.updateMany({
+          where: { userId },
+          data: { isAvatar: false }
+        });
+      }
 
       const image = await prisma.profileImage.create({
         data: {
-          userId: req.user.userId,
+          userId,
           imageUrl,
+          isAvatar,
         },
       });
 
@@ -31,6 +42,59 @@ export const uploadProfileImage = [
     }
   }
 ];
+
+export const setAvatar = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+    const imageId = parseInt(req.params.id);
+    const userId = req.user.userId;
+
+    // Verify image ownership
+    const image = await prisma.profileImage.findUnique({ where: { imageId } });
+    if (!image || image.userId !== userId) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+
+    // Transaction to update all images
+    await prisma.$transaction([
+      prisma.profileImage.updateMany({
+        where: { userId },
+        data: { isAvatar: false }
+      }),
+      prisma.profileImage.update({
+        where: { imageId },
+        data: { isAvatar: true }
+      })
+    ]);
+
+    res.json({ message: 'Avatar updated' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to set avatar' });
+  }
+};
+
+export const deleteProfileImage = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
+    const imageId = parseInt(req.params.id);
+    const userId = req.user.userId;
+
+    const image = await prisma.profileImage.findUnique({ where: { imageId } });
+    if (!image || image.userId !== userId) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+
+    await prisma.profileImage.delete({ where: { imageId } });
+
+    // No auto-promotion logic. If avatar is deleted, user has no avatar.
+
+    res.json({ message: 'Image deleted' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to delete image' });
+  }
+};
 
 export const updateAboutText = async (req: AuthRequest, res: Response) => {
   try {
@@ -84,14 +148,15 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getPetSitters = async (req, res) => {
+export const getPetSitters = async (req: Request, res: Response) => {
   try {
     const { state, petType, minRating } = req.query;
 
     const sitters = await searchPetSitters(
       state as AustriaState | undefined,
       petType as string | undefined,
-      minRating ? parseFloat(minRating as string) : undefined
+      minRating ? parseFloat(minRating as string) : undefined,
+      req.user?.userId // Optional user ID for favorite check
     );
 
     res.json(sitters);
@@ -101,14 +166,14 @@ export const getPetSitters = async (req, res) => {
   }
 };
 
-export const getSitterProfile = async (req: any, res: Response) => {
+export const getSitterProfile = async (req: AuthRequest, res: Response) => {
   try {
     const sitterId = parseInt(req.params.id);
     if (isNaN(sitterId)) {
       return res.status(400).json({ message: 'Invalid sitter ID' });
     }
 
-    const sitter = await findPublicSitterProfile(sitterId);
+    const sitter = await findPublicSitterProfile(sitterId, req.user?.userId);
 
     if (!sitter) {
       return res.status(404).json({ message: 'Sitter not found' });
@@ -118,5 +183,45 @@ export const getSitterProfile = async (req: any, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to fetch sitter profile' });
+  }
+};
+
+// Favorites
+export const addFavorite = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user || req.user.role !== 'OWNER') return res.status(403).json({ message: 'Only Owners can add favorites' });
+    const sitterId = parseInt(req.params.sitterId);
+
+    await addFavoriteSitter(req.user.userId, sitterId);
+    res.json({ message: 'Added to favorites' });
+  } catch (err: any) {
+    console.error(err);
+    if (err.message === 'Sitter not found') return res.status(404).json({ message: 'Sitter not found' });
+    res.status(500).json({ message: 'Failed to add favorite' });
+  }
+};
+
+export const removeFavorite = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user || req.user.role !== 'OWNER') return res.status(403).json({ message: 'Only Owners can remove favorites' });
+    const sitterId = parseInt(req.params.sitterId);
+
+    await removeFavoriteSitter(req.user.userId, sitterId);
+    res.json({ message: 'Removed from favorites' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to remove favorite' });
+  }
+};
+
+export const getMyFavorites = async (req: AuthRequest, res: Response) => {
+  try {
+    if (!req.user || req.user.role !== 'OWNER') return res.status(403).json({ message: 'Only Owners have favorites' });
+
+    const favorites = await getOwnerFavorites(req.user.userId);
+    res.json(favorites);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to get favorites' });
   }
 };

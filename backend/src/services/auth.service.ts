@@ -3,8 +3,6 @@ import prisma from '../config/prisma';
 import { UserType } from '@prisma/client';
 import { generateToken } from '../utils/jwt';
 import { RegisterData, LoginData, AuthResponse } from '../types/auth.types';
-import { sendPasswordResetEmail, sendPasswordResetSuccessEmail } from './email.service';
-import crypto from 'crypto';
 
 const SALT_ROUNDS = 10;
 
@@ -14,6 +12,17 @@ export const registerUser = async (data: RegisterData): Promise<AuthResponse> =>
     // 1. Email Check
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) throw new Error('Email already exists');
+
+    // Email format check
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        throw new Error('Invalid email format');
+    }
+
+    // Password length check
+    if (password.length < 8) {
+        throw new Error('Password must be at least 8 characters long');
+    }
 
     // 2. Hash Password
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
@@ -104,76 +113,6 @@ export const loginUser = async (data: LoginData): Promise<AuthResponse> => {
     };
 };
 
-// Forgot Password - Generate Reset Token
-export const forgotPassword = async (email: string): Promise<void> => {
-    const user = await prisma.user.findUnique({ where: { email } });
-
-    if (!user) {
-        throw new Error('User with this email not found');
-    }
-
-    // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
-    const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
-    const resetTokenExpires = new Date(Date.now() + 1 * 60 * 60 * 1000); // 1 hour
-
-    // Save hashed token to database
-    await prisma.user.update({
-        where: { userId: user.userId },
-        data: {
-            resetToken: resetTokenHash,
-            resetTokenExpires,
-        },
-    });
-
-    // Send reset email
-    await sendPasswordResetEmail(email, resetToken);
-};
-
-// Reset Password - Verify Token and Update Password
-export const resetPassword = async (resetToken: string, newPassword: string): Promise<AuthResponse> => {
-    const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
-
-    const user = await prisma.user.findFirst({
-        where: {
-            resetToken: resetTokenHash,
-            resetTokenExpires: { gt: new Date() },
-        },
-    });
-
-    if (!user) {
-        throw new Error('Invalid or expired reset token');
-    }
-
-    // Hash new password
-    const passwordHash = await bcrypt.hash(newPassword, 10);
-
-    // Update password and clear reset token
-    const updatedUser = await prisma.user.update({
-        where: { userId: user.userId },
-        data: {
-            passwordHash,
-            resetToken: null,
-            resetTokenExpires: null,
-        },
-    });
-
-    // Send success email
-    await sendPasswordResetSuccessEmail(updatedUser.email);
-
-    // Generate new token
-    const token = generateToken(updatedUser.userId, updatedUser.email, updatedUser.userType);
-
-    return {
-        user: {
-            id: updatedUser.userId,
-            email: updatedUser.email,
-            username: updatedUser.username,
-            role: updatedUser.userType
-        },
-        token
-    };
-};
 
 export const changePassword = async (userId: number, oldPassword: string, newPassword: string): Promise<void> => {
     const user = await prisma.user.findUnique({ where: { userId } });

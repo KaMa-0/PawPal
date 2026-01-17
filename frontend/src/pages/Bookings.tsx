@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { getAuth } from "../auth/authStore";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import ReviewModal from "../components/ReviewModal";
+import { Calendar, User, User as UserStart, Star, Check, X, CheckCircle } from "lucide-react";
 import "./bookings.css";
-
-// Keep types simple for the presentation
 
 type Booking = {
   bookingId: number;
@@ -31,7 +32,17 @@ export default function Bookings() {
 
   // Show warning if not logged in
   if (!auth) {
-    return <p style={{ padding: "2rem" }}>Please login first.</p>;
+    return (
+      <div className="mybookings-page-wrapper">
+        <Navbar />
+        <div className="mybookings-container">
+          <p className="empty-state">Please login first.</p>
+          <button onClick={() => navigate("/login")} className="logout-button mt-1">
+            Go to Login
+          </button>
+        </div>
+      </div>
+    );
   }
 
   // Function to fetch data from the database
@@ -49,9 +60,6 @@ export default function Bookings() {
     fetchBookings();
   }, []);
 
-  const handleBack = () => {
-    navigate("/search");
-  };
 
   // --- ACTION FUNCTIONS ---
   // I defined separate functions for each action to make it easier to explain
@@ -117,89 +125,107 @@ export default function Bookings() {
   };
 
   return (
-    <div className="mybookings-container">
-      <h1>My Bookings</h1>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1.5rem" }}>
-        <button onClick={handleBack} className="logout-button">
-          Back
-        </button>
-      </div>
+    <div className="mybookings-page-wrapper">
+      <Navbar /> {/* Navbar En Üstte */}
 
-      {bookings.length === 0 ? (
-        <p>No bookings found.</p>
-      ) : (
-        <div className="bookings-grid">
-          {bookings.map((booking) => (
-            <div key={booking.bookingId} className="booking-card">
+      <div className="mybookings-content">
+        <div className="mybookings-container">
+          <div className="bookings-header-row">
+            <h1>My Bookings</h1>
+            {/* Back butonu opsiyonel oldu çünkü Navbar var, ama istersen tutabilirsin */}
+          </div>
 
-              {/* Simple info section */}
-              <div className="booking-info">
-                <p><strong>ID:</strong> {booking.bookingId}</p>
-                <p><strong>Owner:</strong> {booking.owner.user.username}</p>
-                <p><strong>Sitter:</strong> {booking.sitter.user.username}</p>
-                <p><strong>Date:</strong> {new Date(booking.requestDate).toLocaleDateString()}</p>
-                <p><strong>Details:</strong> {booking.details}</p>
-                <p><strong>Status:</strong> {booking.status}</p>
-                {booking.review && (
-                  <p className="review-rating">
-                    Rating: {booking.review.rating}/5 ⭐
-                  </p>
-                )}
-              </div>
+          {bookings.length === 0 ? (
+            <p className="empty-state">No bookings found.</p>
+          ) : (
+            <div className="bookings-grid">
+              {bookings.map((booking) => (
+                <div key={booking.bookingId} className="booking-card">
+                  {/* Card Header for Context */}
+                  <div className="card-header">
+                    <div className="header-top-row">
+                      <span className="booking-id-text">Booking #{booking.bookingId}</span>
+                      <span className={`status-badge ${booking.status.toLowerCase()}`}>
+                        {booking.status}
+                      </span>
+                    </div>
+                    <div className="booking-date-row">
+                      <Calendar size={14} className="icon" />
+                      <span>{new Date(booking.requestDate).toLocaleDateString(undefined, {
+                        weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+                      })}</span>
+                    </div>
+                  </div>
 
-              {/* Sitter Buttons: Visible only if User is Sitter AND Status is PENDING */}
-              {auth.role === "SITTER" && booking.status === "PENDING" && (
-                <div style={{ marginTop: "10px", display: "flex", gap: "10px", justifyContent: "center" }}>
-                  <button
-                    onClick={() => acceptBooking(booking.bookingId)}
-                    style={{ backgroundColor: "green", color: "white", padding: "5px 10px" }}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => declineBooking(booking.bookingId)}
-                    style={{ backgroundColor: "red", color: "white", padding: "5px 10px" }}
-                  >
-                    Decline
-                  </button>
+                  {/* Card Body with Vertical List */}
+                  <div className="card-body">
+                    <div className="participants-list">
+                      <div className="participant-item">
+                        <div className="avatar-placeholder">
+                          <User size={18} />
+                        </div>
+                        <div className="participant-info">
+                          <span className="participant-name">{booking.owner.user.username}</span>
+                          <span className="participant-role">Owner</span>
+                        </div>
+                      </div>
+                      <div className="participant-item">
+                        <div className="avatar-placeholder">
+                          <UserStart size={18} />
+                        </div>
+                        <div className="participant-info">
+                          <span className="participant-name">{booking.sitter.user.username}</span>
+                          <span className="participant-role">Sitter</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {booking.review && (
+                      <div className="review-display">
+                        <div className="review-stars-row">
+                          <Star size={14} className="fill-current" />
+                          <span>{booking.review.rating}/5</span>
+                        </div>
+                        {booking.review.text && <p className="review-preview">"{booking.review.text}"</p>}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card Footer with Actions */}
+                  <div className="card-footer">
+                    {auth.role === "SITTER" && booking.status === "PENDING" && (
+                      <div className="button-group">
+                        <button onClick={() => acceptBooking(booking.bookingId)} className="btn btn-accept">
+                          <Check size={16} /> Accept
+                        </button>
+                        <button onClick={() => declineBooking(booking.bookingId)} className="btn btn-decline">
+                          <X size={16} /> Decline
+                        </button>
+                      </div>
+                    )}
+
+                    {auth.role === "OWNER" && booking.status === "ACCEPTED" && (
+                      <div className="button-group">
+                        <button onClick={() => completeBooking(booking.bookingId)} className="btn btn-primary full-width">
+                          <CheckCircle size={16} /> Mark as Completed
+                        </button>
+                      </div>
+                    )}
+
+                    {booking.status === "COMPLETED" && auth.role === "OWNER" && !booking.review && (
+                      <div className="button-group">
+                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-secondary full-width">
+                          <Star size={16} /> Write a Review
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              )}
-
-              {/* Owner Button: Visible only if User is Owner AND Status is ACCEPTED */}
-              {auth.role === "OWNER" && booking.status === "ACCEPTED" && (
-                <div style={{ marginTop: "10px" }}>
-                  <button
-                    onClick={() => completeBooking(booking.bookingId)}
-                    style={{ backgroundColor: "blue", color: "white", padding: "5px 10px", width: "100%" }}
-                  >
-                    Mark as Completed
-                  </button>
-                </div>
-              )}
-
-              {/* Completion message & Review Button */}
-              {booking.status === "COMPLETED" && (
-                <div className="review-section">
-                  <p className="review-completed-msg">Service Completed ✅</p>
-
-                  {auth.role === "OWNER" && !booking.review && (
-                    <button
-                      onClick={() => openReviewModal(booking.bookingId)}
-                      className="review-btn-write"
-                    >
-                      Write a Review
-                    </button>
-                  )}
-                  {auth.role === "OWNER" && booking.review && (
-                    <p className="review-submitted-msg">You reviewed this booking.</p>
-                  )}
-                </div>
-              )}
-
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
+      </div>
 
       <ReviewModal
         isOpen={isReviewOpen}
@@ -207,6 +233,7 @@ export default function Bookings() {
         onSubmit={submitReview}
         loading={reviewLoading}
       />
+      <Footer />
     </div>
   );
 }

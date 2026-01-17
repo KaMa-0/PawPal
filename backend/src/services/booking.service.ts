@@ -6,6 +6,25 @@ export const createBooking = async (
   sitterId: number,
   details?: string
 ) => {
+  // Check if there's already an active booking (PENDING or ACCEPTED) between this owner and sitter
+  const existingActiveBooking = await prisma.booking.findFirst({
+    where: {
+      ownerId,
+      sitterId,
+      status: {
+        in: [BookingStatus.PENDING, BookingStatus.ACCEPTED],
+      },
+    },
+  });
+
+  if (existingActiveBooking) {
+    if (existingActiveBooking.status === BookingStatus.PENDING) {
+      throw new Error('You already have a pending booking request with this sitter.');
+    } else {
+      throw new Error('You already have an accepted booking with this sitter. Please wait until it is completed.');
+    }
+  }
+
   return prisma.booking.create({
     data: {
       ownerId,

@@ -1,131 +1,524 @@
-/* Reuse the same faded orange theme */
-:root {
-  --primary-orange: #ffb74d;
-  --dark-orange: #f57c00;
-  --light-bg: #fff3e0;
-  --text-color: #333;
-  --white: #ffffff;
-  --error-color: #d32f2f;
-}
+@import '../theme.css';
 
+/* 1. Page Layout - Like Landing Page */
 .search-page {
-  min-height: 100vh;
-  background-color: var(--light-bg);
-  display: flex;
-  flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
 }
 
+/* 2. Main Container */
 .search-container {
-  flex: 1;
-  padding: 3rem 1rem;
-  display: flex;
-  justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Center the container */
+    padding: 2rem;
+    flex: 1;
+    /* Takes remaining space to push footer down */
 }
 
-.search-content {
-  width: 100%;
-  max-width: 1100px;
-}
-
+/* 3. Page Title "Find a Pet Sitter" */
 .search-title {
-  text-align: center;
-  color: var(--dark-orange);
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
+    text-align: center;
+    font-size: 3rem;
+    /* Make it big and bold */
+    font-weight: 800;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+
+    /* Gradient Text Effect */
+    background: linear-gradient(to right, var(--text-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
-/* Filter Card */
+/* 4. Search Filter Card */
 .search-card {
-  background-color: var(--white);
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2.5rem;
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin-bottom: 3rem;
 }
 
+/* Form Layout - Flexbox to align items */
 .search-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    /* Move to next line on small screens */
+    gap: 1.5rem;
+    /* Space between inputs */
+    align-items: flex-end;
+    /* Align inputs and button at the bottom */
 }
 
+/* Input Groups */
 .search-form .form-group {
-  flex: 1;
-  min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* Grow to fill empty space */
+    min-width: 220px;
+    /* Minimum width before wrapping */
+    padding-right: 1.5rem;
+    /* Space for divider */
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
+    /* Vertical divider line */
 }
 
-/* Results Grid */
+/* Remove border from last form-group (before button) */
+.search-form .form-group:last-of-type {
+    border-right: none;
+    padding-right: 0;
+}
+
+/* Remove border when wrapping on small screens */
+@media (max-width: 768px) {
+    .search-form .form-group {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding-bottom: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .search-form .form-group:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--accent-secondary);
+    text-transform: uppercase;
+}
+
+/* Inputs and Selects */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.select-wrapper .form-input {
+    padding-right: 2.5rem;
+    /* Make room for chevron icon */
+}
+
+/* Chevron Icon Styling */
+.select-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--accent-secondary);
+    transition: color 0.2s ease;
+}
+
+.select-wrapper:hover .select-icon,
+.select-wrapper:focus-within .select-icon {
+    color: var(--accent-color);
+}
+
+.form-input {
+    height: 52px;
+    /* Fixed height for perfect alignment */
+    padding: 12px 1rem;
+    /* Increased vertical padding to prevent text clipping */
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.4;
+    /* Normal line height for better text rendering */
+    box-sizing: border-box;
+    /* Padding doesn't add to width */
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(74, 143, 194, 0.3);
+}
+
+/* Search Button */
+.search-button-primary {
+    height: 52px;
+    /* Same height as inputs */
+    padding: 0 2.5rem;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(74, 143, 194, 0.4);
+
+    /* Flex settings to prevent shrinking */
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    /* Push to bottom if needed */
+}
+
+.search-button-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* 5. Results Grid - Modern Clean Layout */
 .results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
 }
 
-/* Sitter Card */
-.sitter-card {
-  background-color: var(--white);
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
-  position: relative;
+/* Modern Card Design - Solid & Clean */
+.hero-card {
+    background-color: var(--bg-secondary);
+    border-radius: 24px;
+    overflow: hidden;
+    /* No border, just clean elevation */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    /* Extremely subtle definition */
 }
 
-.sitter-card:hover {
-  transform: translateY(-3px);
+.hero-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.certification-ribbon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: linear-gradient(135deg, #4caf50, #388e3c);
-  color: var(--white);
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+/* Image Section */
+.hero-image-container {
+    height: 220px;
+    /* Slightly taller */
+    width: 100%;
+    position: relative;
+    background-color: #0f172a;
+    overflow: hidden;
 }
 
-.sitter-name {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--dark-orange);
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
-.sitter-location {
-  font-size: 0.9rem;
-  color: #777;
-  margin-bottom: 0.5rem;
+.hero-card:hover .hero-image {
+    transform: scale(1.05);
 }
 
-.sitter-text {
-  font-size: 0.95rem;
-  color: var(--text-color);
-  margin: 0.5rem 0;
+/* Placeholder */
+.hero-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
 }
 
-.sitter-meta {
-  font-size: 0.85rem;
-  color: #555;
+/* "Certified" Badge - Premium Look */
+.card-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background-color: var(--success-color);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    /* Pill shape */
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Content Section - Clean Typography */
+.hero-content {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.hero-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: white;
+    /* Pure white for contrast */
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.5px;
+    text-align: left;
+    /* Explicitly left aligned */
+    width: 100%;
+}
+
+.hero-name:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-secondary);
+    text-underline-offset: 4px;
+}
+
+/* Meta Row (Location + Rating) */
+.hero-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.hero-location {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    /* Removed margin as parent handles it */
+}
+
+/* Rating in Meta Row */
+.hero-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--accent-secondary);
+    /* Light Blue */
+}
+
+.hero-rating svg {
+    color: #FBBF24;
+    /* Keep the star yellow for accent/convention */
+}
+
+/* Tags Container */
+.pet-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Uniform Light Blue Tags */
+.pet-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 0.85rem;
+    border-radius: 8px;
+    /* Slightly softer pill */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+
+    /* Light Blue Theme */
+    background-color: rgba(127, 179, 213, 0.15);
+    /* var(--accent-secondary) with opacity */
+    color: var(--accent-secondary);
+    border: 1px solid rgba(127, 179, 213, 0.3);
+    box-shadow: none;
+    /* Cleaner flat look */
+}
+
+.hero-description {
+    color: #cbd5e1;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    font-weight: 400;
+    flex: 1;
+    text-align: left;
+    /* Explicitly left bound */
+
+    /* Truncate text */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Action Buttons - Modern Pills */
+.hero-actions {
+    margin-top: auto;
+    /* Push to bottom */
+    display: grid;
+    gap: 1rem;
+}
+
+.view-profile-btn {
+    text-align: center;
+    background-color: white;
+    color: var(--bg-primary);
+    /* Dark text on white button */
+    padding: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.view-profile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    background-color: #f8fafc;
+}
+
+.request-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.request-btn:hover {
+    border-color: var(--accent-secondary);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.request-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: rgba(74, 143, 194, 0.3);
+    background-color: rgba(74, 143, 194, 0.15);
+    color: var(--text-secondary);
 }
 
 .empty-state {
-  text-align: center;
-  color: #666;
-  font-size: 1rem;
-  margin-top: 2rem;
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    margin-top: 4rem;
+    font-weight: 500;
 }
 
-.search-auth-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+/* --- Responsive Adjustments - Cleaned Up --- */
+@media (max-width: 1024px) {
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
 }
 
-.search-auth-actions a {
-  text-decoration: none;
+@media (max-width: 768px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-card:hover {
+        transform: none;
+        /* Disable hover lift on touch */
+    }
+
+    .hero-image-container {
+        height: 200px;
+    }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+    .hero-card {
+        transform: none !important;
+    }
+}
+
+/* Landscape Mode on Small Devices */
+@media (max-width: 768px) and (orientation: landscape) {
+    .search-container {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .search-title {
+        font-size: 1.8rem;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .search-card {
+        padding: 1rem 1.5rem;
+        width: 100%;
+    }
+
+    .search-form {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .search-form .form-group {
+        flex: 1 1 calc(50% - 1rem);
+        min-width: 200px;
+        border-bottom: none;
+    }
+
+    .search-form .form-group:nth-last-child(2) {
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        padding-right: 1rem;
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .hero-image-container {
+        height: 160px;
+    }
+
+    .hero-content {
+        padding: 1rem;
+    }
+
+    .hero-stats {
+        flex-direction: row;
+    }
 }
