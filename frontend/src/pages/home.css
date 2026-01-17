@@ -296,6 +296,92 @@
   flex-shrink: 0;
 }
 
+/* === About Me Section === */
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-header-row .card-title {
+  margin: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.btn-edit-header {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--accent-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.btn-edit-header:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.about-edit-form {
+  margin-top: 1rem;
+}
+
+.about-textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  resize: vertical;
+  background-color: var(--bg-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition: border-color 0.2s ease;
+}
+
+.about-textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.about-textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.about-display {
+  margin-top: 1rem;
+}
+
+.about-text {
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.about-empty-state {
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+  margin: 0;
+}
+
 /* === Reviews Section === */
 .empty-state {
   color: var(--text-secondary);
@@ -492,6 +578,26 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
+  }
+
+  .card-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .btn-edit-header {
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn-primary,
+  .form-actions .btn-secondary {
+    width: 100%;
   }
 }
 

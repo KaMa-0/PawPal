@@ -244,13 +244,12 @@ export default function Home() {
           {/* About Me Section - Hidden for Admin */}
           {!isAdmin && (
             <div className="settings-card">
-              <div className="card-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="card-header-row">
                 <h2 className="card-title">About Me</h2>
                 {!isEditingAbout && (
                   <button
                     onClick={() => setIsEditingAbout(true)}
-                    className="btn-secondary"
-                    style={{ padding: '0.25rem 0.75rem', fontSize: '0.9rem' }}
+                    className="btn-edit-header"
                   >
                     Edit
                   </button>
@@ -262,12 +261,11 @@ export default function Home() {
                   <textarea
                     value={aboutText}
                     onChange={(e) => setAboutText(e.target.value)}
-                    className="form-input"
+                    className="about-textarea"
                     rows={6}
                     placeholder="Tell others about yourself..."
-                    style={{ width: '100%', marginTop: '1rem', marginBottom: '1rem', resize: 'vertical' }}
                   />
-                  <div className="form-actions" style={{ display: 'flex', gap: '1rem' }}>
+                  <div className="form-actions">
                     <button
                       onClick={handleSaveAbout}
                       className="btn-primary"
@@ -288,12 +286,12 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <div className="about-display" style={{ marginTop: '1rem' }}>
+                <div className="about-display">
                   {profile && getInitialAboutText() ? (
-                    <p style={{ lineHeight: '1.6', color: 'var(--text-color)' }}>{getInitialAboutText()}</p>
+                    <p className="about-text">{getInitialAboutText()}</p>
                   ) : (
-                    <p className="empty-state" style={{ fontStyle: 'italic', color: 'var(--text-muted)' }}>
-                      No information provided yet. Click edit to add something about yourself.
+                    <p className="about-empty-state">
+                      No information provided yet. Click the Edit button above to add something about yourself.
                     </p>
                   )}
                 </div>

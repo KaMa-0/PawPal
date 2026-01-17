@@ -157,11 +157,12 @@ export default function SitterProfile() {
                                 <span className="stat-label">{sitter.state}</span>
                             </div>
                             {petTypes.length > 0 && (
-                                <div className="stat-item">
-                                    <svg className="stat-icon" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-.5a1.5 1.5 0 00-3 0v.5a1 1 0 01-1 1H6a1 1 0 01-1-1v-3a1 1 0 00-1-1h-.5a1.5 1.5 0 010-3H4a1 1 0 001-1V6a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
-                                    </svg>
-                                    <span className="stat-label">{petTypes.join(", ")}</span>
+                                <div className="stat-item pet-types-container">
+                                    <div className="pet-types-tags">
+                                        {petTypes.map((type, idx) => (
+                                            <span key={idx} className="pet-type-tag">{type}</span>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                             <div className="stat-item">
@@ -218,45 +219,15 @@ export default function SitterProfile() {
                             {reviews.map((review, idx) => (
                                 <div key={idx} className="review-card">
                                     <div className="review-header">
-                                        <div className="review-author">
-                                            <div className="review-author-avatar">
-                                                {review.ownerName.charAt(0).toUpperCase()}
-                                            </div>
-                                            <div className="review-author-info">
-                                                <span className="review-author-name">{review.ownerName}</span>
-                                                <div className="review-rating">
-                                                    {Array.from({ length: 5 }).map((_, i) => (
-                                                        <svg
-                                                            key={i}
-                                                            className={`star-icon ${i < review.rating ? 'star-filled' : 'star-empty'}`}
-                                                            viewBox="0 0 20 20"
-                                                            fill="currentColor"
-                                                        >
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                    ))}
-                                                    <span className="review-date">
-                                                        {(() => {
-                                                            const now = new Date();
-                                                            const reviewDate = new Date(review.createdAt);
-                                                            const diffTime = Math.abs(now.getTime() - reviewDate.getTime());
-                                                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                                                            
-                                                            if (diffDays === 0) return 'today';
-                                                            if (diffDays === 1) return '1 day ago';
-                                                            if (diffDays < 7) return `${diffDays} days ago`;
-                                                            if (diffDays < 30) return `${Math.floor(diffDays / 7)} ${Math.floor(diffDays / 7) === 1 ? 'week' : 'weeks'} ago`;
-                                                            if (diffDays < 365) return `${Math.floor(diffDays / 30)} ${Math.floor(diffDays / 30) === 1 ? 'month' : 'months'} ago`;
-                                                            return `${Math.floor(diffDays / 365)} ${Math.floor(diffDays / 365) === 1 ? 'year' : 'years'} ago`;
-                                                        })()}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <span className="review-author">{review.ownerName}</span>
+                                        <span className="review-stars">
+                                            {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+                                        </span>
                                     </div>
-                                    {review.text && (
-                                        <p className="review-content">{review.text}</p>
-                                    )}
+                                    {review.text && <p className="review-text">"{review.text}"</p>}
+                                    <span className="review-date">
+                                        {new Date(review.createdAt).toLocaleDateString()}
+                                    </span>
                                 </div>
                             ))}
                         </div>
