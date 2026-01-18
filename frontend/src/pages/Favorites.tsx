@@ -7,10 +7,10 @@ import Footer from "../components/Footer";
 import FavoriteButton from "../components/FavoriteButton";
 import { getAuth } from "../auth/authStore";
 import { translateState, type AustriaState } from "../lib/stateTranslations";
-import "./search.css"; // Reuse search card styles
-import "./Favorites.css"; // Grid layout styles
+import "./search.css"; 
+import "./Favorites.css"; 
 
-// Define types locally if not shared, or import from common types
+
 interface FavoriteSitter {
     userId: number;
     username: string;
@@ -44,7 +44,6 @@ export default function Favorites() {
         }
         if (auth.role !== "OWNER") {
             navigate("/"); // Or some error page
-            return;
         }
 
         fetchFavorites();
@@ -64,7 +63,6 @@ export default function Favorites() {
     };
 
     const handleRemove = (sitterId: number) => {
-        // Optimistically remove from list upon successful toggle (which is actually Remove action in this context)
         setFavorites(prev => prev.filter(f => f.userId !== sitterId));
     };
 

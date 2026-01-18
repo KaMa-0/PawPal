@@ -129,6 +129,11 @@
         box-shadow var(--duration-normal) var(--ease-default);
 }
 
+.form-input option {
+    background-color: #ffffff;
+    color: #333333;
+}
+
 .form-input:hover {
     border-color: var(--border-strong);
 }
@@ -255,8 +260,8 @@
 
 .card-badge {
     position: absolute;
-    top: var(--space-4);
-    left: var(--space-4);
+    top: var(--space-3);
+    left: var(--space-3);
     background-color: var(--color-success);
     color: white;
     padding: var(--space-2) var(--space-3);

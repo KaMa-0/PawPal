@@ -55,14 +55,17 @@
 .hamburger {
     display: none;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 5px;
     width: 24px;
-    height: 18px;
+    height: auto;
+    min-height: 18px;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
     z-index: 1001;
+    position: relative;
 }
 
 .hamburger span {
@@ -72,6 +75,13 @@
     border-radius: 2px;
     transition: all var(--duration-slow) var(--ease-default);
     transform-origin: center;
+    flex-shrink: 0;
+    display: block;
+}
+
+.hamburger.active {
+    gap: 0;
+    justify-content: center;
 }
 
 .hamburger.active span:nth-child(1) {
@@ -80,6 +90,7 @@
 
 .hamburger.active span:nth-child(2) {
     opacity: 0;
+    transform: scale(0);
 }
 
 .hamburger.active span:nth-child(3) {
@@ -201,12 +212,10 @@
 .nav-btn.secondary:hover:not(:disabled) {
     border-color: var(--text-primary);
     background-color: rgba(255, 255, 255, 0.05);
-    
+
 }
 
-.nav-btn.secondary:active:not(:disabled) {
-    
-}
+.nav-btn.secondary:active:not(:disabled) {}
 
 /* Primary Button */
 .nav-btn.primary {
@@ -218,12 +227,10 @@
 .nav-btn.primary:hover {
     background-color: var(--color-primary-600);
     border-color: var(--color-primary-600);
-    
+
 }
 
-.nav-btn.primary:active {
-    
-}
+.nav-btn.primary:active {}
 
 /* Ghost Button */
 .nav-btn.ghost {
@@ -233,14 +240,12 @@
 }
 
 .nav-btn.ghost:hover:not(:disabled) {
-    
+
     color: var(--color-error);
     background-color: rgba(239, 68, 68, 0.1);
 }
 
-.nav-btn.ghost:active:not(:disabled) {
-    
-}
+.nav-btn.ghost:active:not(:disabled) {}
 
 /* ===========================
    RESPONSIVE: TABLET & MOBILE
@@ -329,6 +334,7 @@
         align-items: flex-start;
         gap: var(--space-1);
         padding: var(--space-4);
+        margin-top: var(--space-8);
         margin-bottom: var(--space-4);
         background-color: var(--bg-secondary);
         border-radius: var(--radius-md);
@@ -385,6 +391,8 @@
     .hamburger {
         min-width: 44px;
         min-height: 44px;
+        align-items: center;
+        justify-content: center;
         padding: 13px 10px;
     }
 }

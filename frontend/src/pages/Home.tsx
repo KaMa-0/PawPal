@@ -156,7 +156,7 @@ export default function Home() {
     try {
       await api.put("/api/users/me/about", { aboutText });
       setIsEditingAbout(false);
-      fetchProfile(); // Refresh to ensure sync
+      fetchProfile();
     } catch (err) {
       console.error(err);
       setError("Failed to update about me.");

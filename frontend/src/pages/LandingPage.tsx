@@ -41,7 +41,6 @@ export default function LandingPage() {
 
                     {/* Clean & Simple Search Widget */}
                     <form className="search-widget" onSubmit={handleSearch}>
-
                         <div className="widget-group">
                             <label className="widget-label">Location</label>
                             <div className="select-wrapper">

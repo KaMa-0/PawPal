@@ -191,11 +191,11 @@
 
 .booking-button:hover:not(:disabled) {
     background-color: var(--color-primary-600);
-    
+
 }
 
 .booking-button:active:not(:disabled) {
-    
+
 }
 
 .booking-button:focus-visible {

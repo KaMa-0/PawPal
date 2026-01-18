@@ -116,14 +116,14 @@
 }
 
 .avatar-placeholder {
-  width: 120px;
-  height: 120px;
+  width: 120px !important;
+  height: 120px !important;
   border-radius: var(--radius-full);
   background-color: var(--bg-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-5xl);
+  font-size: var(--text-base);
   font-weight: var(--font-bold);
   color: var(--text-secondary);
   border: 3px solid var(--border-default);
@@ -260,7 +260,7 @@
   width: 32px;
   height: 32px;
   font-size: var(--text-xl);
-  line-height: 1;
+  line-height: 0;
   cursor: pointer;
   opacity: 0;
   transition:
@@ -268,9 +268,10 @@
     background-color var(--duration-normal) var(--ease-default),
     transform var(--duration-fast) var(--ease-out);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   padding: 0;
+  padding-bottom: 4px;
 }
 
 .delete-btn:hover {
@@ -551,9 +552,9 @@
 
   .avatar-image,
   .avatar-placeholder {
-    width: 100px;
-    height: 100px;
-    font-size: var(--text-4xl);
+    width: 100px !important;
+    height: 100px !important;
+    font-size: var(--text-base);
   }
 
   .gallery-grid {
@@ -603,9 +604,9 @@
 
   .avatar-image,
   .avatar-placeholder {
-    width: 80px;
-    height: 80px;
-    font-size: var(--text-3xl);
+    width: 80px !important;
+    height: 80px !important;
+    font-size: var(--text-base);
   }
 
   .btn-primary,

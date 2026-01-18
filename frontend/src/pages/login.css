@@ -105,12 +105,14 @@
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
   font-size: var(--text-base);
+  cursor: text !important;
   transition:
     border-color var(--duration-normal) var(--ease-default),
     box-shadow var(--duration-normal) var(--ease-default);
 }
 
 .form-input:hover {
+  cursor: text !important;
   border-color: var(--border-strong);
 }
 
@@ -148,12 +150,10 @@
 
 .login-button:hover {
   background-color: var(--color-primary-600);
-  
+
 }
 
-.login-button:active {
-  
-}
+.login-button:active {}
 
 .login-button:focus-visible {
   outline: none;

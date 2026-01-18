@@ -1,8 +1,3 @@
-/* Datei: `public/index.html` (Head)
-   Füge diese Zeile in den <head> ein oder verschiebe deine favicon-Datei nach /public.
-   <link rel="icon" href="/favicon/favicon.ico" />
-*/
-
 import { useEffect, useState, type ReactNode } from "react";
 import {
   BrowserRouter,

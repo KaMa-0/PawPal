@@ -62,7 +62,6 @@ export default function Bookings() {
 
 
   // --- ACTION FUNCTIONS ---
-  // I defined separate functions for each action to make it easier to explain
 
   async function acceptBooking(id: number) {
     try {
@@ -126,13 +125,12 @@ export default function Bookings() {
 
   return (
     <div className="mybookings-page-wrapper">
-      <Navbar /> {/* Navbar En Üstte */}
+      <Navbar />
 
       <div className="mybookings-content">
         <div className="mybookings-container">
           <div className="bookings-header-row">
             <h1>My Bookings</h1>
-            {/* Back butonu opsiyonel oldu çünkü Navbar var, ama istersen tutabilirsin */}
           </div>
 
           {bookings.length === 0 ? (
@@ -161,8 +159,8 @@ export default function Bookings() {
                   <div className="card-body">
                     <div className="participants-list">
                       <div className="participant-item">
-                        <div className="avatar-placeholder">
-                          <User size={18} />
+                        <div className="booking-avatar">
+                          <User />
                         </div>
                         <div className="participant-info">
                           <span className="participant-name">{booking.owner.user.username}</span>
@@ -170,8 +168,8 @@ export default function Bookings() {
                         </div>
                       </div>
                       <div className="participant-item">
-                        <div className="avatar-placeholder">
-                          <UserStart size={18} />
+                        <div className="booking-avatar">
+                          <UserStart />
                         </div>
                         <div className="participant-info">
                           <span className="participant-name">{booking.sitter.user.username}</span>
@@ -214,7 +212,7 @@ export default function Bookings() {
 
                     {booking.status === "COMPLETED" && auth.role === "OWNER" && !booking.review && (
                       <div className="button-group">
-                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-review full-width">
+                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-secondary full-width">
                           <Star size={16} /> Write a Review
                         </button>
                       </div>
