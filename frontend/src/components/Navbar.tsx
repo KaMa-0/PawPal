@@ -81,6 +81,13 @@ export default function Navbar() {
                                 </NavLink>
                             )}
 
+                            {/* Favorites Link - Only for Pet Owners */}
+                            {auth.role === "OWNER" && (
+                                <NavLink to="/favorites" className="nav-link" onClick={closeMenu}>
+                                    Favorites
+                                </NavLink>
+                            )}
+
                             {auth.role === "ADMIN" && (
                                 <NavLink to="/certifications" className="nav-link" onClick={closeMenu}>
                                     Certifications
