@@ -69,7 +69,7 @@
 
 .hamburger span {
     width: 100%;
-    height: 2px;
+    height: 3px;
     background-color: var(--text-primary);
     border-radius: 2px;
     transition: all var(--duration-slow) var(--ease-default);
@@ -164,6 +164,11 @@
     height: 24px;
     background-color: var(--border-default);
     margin: 0 var(--space-2);
+}
+
+/* Hidden on desktop, visible on mobile/tablet */
+.nav-divider {
+    display: none;
 }
 
 /* ===========================
@@ -297,23 +302,29 @@
     }
 
     .nav-link {
-        padding: var(--space-3) 0;
-        border-bottom: 1px solid var(--border-default);
+        padding: var(--space-3);
         width: 100%;
         color: var(--text-primary);
-        border-radius: 0;
+        border-radius: var(--radius-md);
     }
 
     .nav-link:hover {
-        background-color: transparent;
+        background-color: rgba(255, 255, 255, 0.05);
         color: var(--color-primary-400);
     }
 
     .nav-link.active {
-        color: var(--color-primary-500);
-        background-color: transparent;
-        padding-left: var(--space-2);
-        border-left: 3px solid var(--color-primary-500);
+        color: var(--text-primary);
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-divider {
+        display: block;
+        width: 100%;
+        height: 1px;
+        border: none;
+        background-color: var(--border-default);
+        margin: var(--space-1) 0;
     }
 
     .nav-separator {
