@@ -24,6 +24,11 @@ export const registerUser = async (data: RegisterData): Promise<AuthResponse> =>
         throw new Error('Password must be at least 8 characters long');
     }
 
+    // Role-specific validation
+    if (userType === UserType.SITTER && (!petTypes || petTypes.length === 0)) {
+        throw new Error('Pet Sitters must select at least one pet type');
+    }
+
     // 2. Hash Password
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
@@ -89,14 +94,14 @@ export const loginUser = async (data: LoginData): Promise<AuthResponse> => {
 
     // Wenn User nicht gefunden wird -> Fehler
     if (!user) {
-        throw new Error('Email oder Passwort falsch');
+        throw new Error('Incorrect email or password');
     }
 
     // 2. Passwort prüfen (Vergleich: Eingegebenes PW vs. Hash in DB)
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isPasswordValid) {
-        throw new Error('Email oder Passwort falsch');
+        throw new Error('Incorrect email or password');
     }
 
     // 3. Token generieren

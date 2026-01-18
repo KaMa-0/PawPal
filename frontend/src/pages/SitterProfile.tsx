@@ -5,6 +5,8 @@ import { getAuth } from "../auth/authStore";
 import ImageGallery from "../components/ImageGallery";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import FavoriteButton from "../components/FavoriteButton";
+import { translateState, type AustriaState } from "../lib/stateTranslations";
 import "./SitterProfile.css";
 
 type Review = {
@@ -17,7 +19,7 @@ type Review = {
 type SitterProfileData = {
     userId: number;
     username: string;
-    state: string;
+    state: AustriaState;
     profileImages: { imageId: number; imageUrl: string; isAvatar: boolean }[];
     petSitter: {
         aboutText?: string;
@@ -185,6 +187,20 @@ export default function SitterProfile() {
                                     Certified
                                 </span>
                             )}
+                            {/* Favorite Button - Only for Pet Owners */}
+                            {auth?.role === "OWNER" && (
+                                <FavoriteButton
+                                    sitterId={sitter.userId}
+                                    initialIsFavorited={sitter.isFavorited}
+                                    variant="inline"
+                                    onToggle={(newStatus) => {
+                                        // Update local state
+                                        if (sitter) {
+                                            setSitter({ ...sitter, isFavorited: newStatus });
+                                        }
+                                    }}
+                                />
+                            )}
                         </div>
 
                         <div className="profile-stats">
@@ -192,7 +208,7 @@ export default function SitterProfile() {
                                 <svg className="stat-icon" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                                 </svg>
-                                <span className="stat-label">{sitter.state}</span>
+                                <span className="stat-label">{translateState(sitter.state)}</span>
                             </div>
                             {petTypes.length > 0 && (
                                 <div className="stat-item pet-types-container">

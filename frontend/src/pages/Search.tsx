@@ -5,18 +5,9 @@ import { getAuth } from "../auth/authStore";
 import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import FavoriteButton from "../components/FavoriteButton";
+import { translateState, type AustriaState } from "../lib/stateTranslations";
 import "./search.css";
-
-type AustriaState =
-    | "WIEN"
-    | "NIEDEROESTERREICH"
-    | "OBEROESTERREICH"
-    | "SALZBURG"
-    | "TIROL"
-    | "VORARLBERG"
-    | "KAERNTEN"
-    | "STEIERMARK"
-    | "BURGENLAND";
 
 type PetSitter = {
     userId: number;
@@ -279,6 +270,23 @@ export default function Search() {
                                                 <BadgeCheck size={14} strokeWidth={3} /> Certified
                                             </div>
                                         )}
+
+                                        {/* Favorite Button - Only for Pet Owners */}
+                                        {auth?.role === "OWNER" && (
+                                            <FavoriteButton
+                                                sitterId={sitter.userId}
+                                                initialIsFavorited={sitter.isFavorited}
+                                                variant="card"
+                                                onToggle={(newStatus) => {
+                                                    // Update local state
+                                                    setSitters(prev => prev.map(s => 
+                                                        s.userId === sitter.userId 
+                                                            ? { ...s, isFavorited: newStatus }
+                                                            : s
+                                                    ));
+                                                }}
+                                            />
+                                        )}
                                     </div>
 
                                     {/* Content Section */}
@@ -288,7 +296,7 @@ export default function Search() {
                                         </Link>
                                         <div className="hero-meta">
                                             <div className="hero-location">
-                                                <MapPin size={14} /> {sitter.state}
+                                                <MapPin size={14} /> {translateState(sitter.state)}
                                             </div>
                                             <div className="hero-rating" title="Rating">
                                                 <Star size={16} fill="#FBBF24" stroke="none" />

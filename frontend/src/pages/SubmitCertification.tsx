@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { getAuth } from "../auth/authStore";
-import Navbar from "../components/Navbar"; // Added Navbar
+import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./submit-certification.css";
 

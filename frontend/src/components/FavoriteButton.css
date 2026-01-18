@@ -1,0 +1,83 @@
+@import '../theme.css';
+
+/* ===========================
+   FAVORITE BUTTON
+   =========================== */
+
+.favorite-button {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2);
+    transition: all var(--duration-normal) var(--ease-default);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(4px);
+}
+
+.favorite-button:hover:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+    background: rgba(255, 255, 255, 1);
+}
+
+.favorite-button:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.favorite-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Card variant - for search cards */
+.favorite-button--card {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+}
+
+/* Inline variant - for profile pages */
+.favorite-button--inline {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+/* Icon styling */
+.favorite-button__icon {
+    color: var(--text-muted);
+    transition: all var(--duration-normal) var(--ease-default);
+    stroke-width: 2;
+}
+
+.favorite-button__icon--filled {
+    color: var(--color-error);
+}
+
+.favorite-button:hover:not(:disabled) .favorite-button__icon {
+    color: var(--color-error);
+}
+
+.favorite-button:hover:not(:disabled) .favorite-button__icon--filled {
+    color: var(--color-error);
+    transform: scale(1.1);
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+    .favorite-button {
+        background: rgba(0, 0, 0, 0.6);
+        border-color: var(--border-default);
+    }
+    
+    .favorite-button:hover:not(:disabled) {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}

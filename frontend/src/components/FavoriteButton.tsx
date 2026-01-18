@@ -1,19 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Heart } from 'lucide-react';
 import api from '../services/api';
+import './FavoriteButton.css';
 
 interface FavoriteButtonProps {
     sitterId: number;
     initialIsFavorited: boolean;
     onToggle?: (newStatus: boolean) => void;
-    className?: string; // Allow custom styling
+    variant?: 'card' | 'inline'; // Different styles for different contexts
+    className?: string;
 }
 
-export default function FavoriteButton({ sitterId, initialIsFavorited, onToggle, className }: FavoriteButtonProps) {
+export default function FavoriteButton({ 
+    sitterId, 
+    initialIsFavorited, 
+    onToggle, 
+    variant = 'card',
+    className = '' 
+}: FavoriteButtonProps) {
     const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
     const [loading, setLoading] = useState(false);
 
+    // Sync state when prop changes (e.g., after data refresh)
+    useEffect(() => {
+        setIsFavorited(initialIsFavorited);
+    }, [initialIsFavorited]);
+
     const handleClick = async (e: React.MouseEvent) => {
-        e.preventDefault(); // Prevent navigating if inside a link
+        e.preventDefault();
         e.stopPropagation();
 
         if (loading) return;
@@ -40,23 +54,16 @@ export default function FavoriteButton({ sitterId, initialIsFavorited, onToggle,
     return (
         <button
             onClick={handleClick}
-            className={`favorite-button ${className || ''}`}
+            className={`favorite-button favorite-button--${variant} ${className}`}
             disabled={loading}
             title={isFavorited ? "Remove from Favorites" : "Add to Favorites"}
-            style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1.5rem',
-                color: isFavorited ? '#e91e63' : '#ccc',
-                padding: '5px',
-                transition: 'transform 0.2s',
-                ...((loading ? { opacity: 0.5 } : {}))
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            aria-label={isFavorited ? "Remove from Favorites" : "Add to Favorites"}
         >
-            {isFavorited ? '❤️' : '🤍'}
+            <Heart 
+                size={variant === 'card' ? 20 : 24} 
+                className={`favorite-button__icon ${isFavorited ? 'favorite-button__icon--filled' : ''}`}
+                fill={isFavorited ? 'currentColor' : 'none'}
+            />
         </button>
     );
 }

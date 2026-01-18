@@ -58,6 +58,7 @@ export default function Navbar() {
                     <NavLink to="/search" className="nav-link" onClick={closeMenu}>
                         Find a Sitter
                     </NavLink>
+                    <hr className="nav-divider" />
 
                     {/* 1. If NOT logged in: Show Login/Register buttons */}
                     {!auth && (
@@ -76,15 +77,31 @@ export default function Navbar() {
                         <>
                             {/* Navigation Links (Text based) */}
                             {auth.role !== "ADMIN" && (
-                                <NavLink to="/bookings" className="nav-link" onClick={closeMenu}>
-                                    My Bookings
-                                </NavLink>
+                                <>
+                                    <NavLink to="/bookings" className="nav-link" onClick={closeMenu}>
+                                        My Bookings
+                                    </NavLink>
+                                    <hr className="nav-divider" />
+                                </>
+                            )}
+
+                            {/* Favorites Link - Only for Pet Owners */}
+                            {auth.role === "OWNER" && (
+                                <>
+                                    <NavLink to="/favorites" className="nav-link" onClick={closeMenu}>
+                                        Favorites
+                                    </NavLink>
+                                    <hr className="nav-divider" />
+                                </>
                             )}
 
                             {auth.role === "ADMIN" && (
-                                <NavLink to="/certifications" className="nav-link" onClick={closeMenu}>
-                                    Certifications
-                                </NavLink>
+                                <>
+                                    <NavLink to="/certifications" className="nav-link" onClick={closeMenu}>
+                                        Certifications
+                                    </NavLink>
+                                    <hr className="nav-divider" />
+                                </>
                             )}
 
                             {/* Profile Link - Treat as Nav Link or Icon in future, simple text for now */}

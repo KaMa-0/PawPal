@@ -41,7 +41,6 @@ export default function LandingPage() {
 
                     {/* Clean & Simple Search Widget */}
                     <form className="search-widget" onSubmit={handleSearch}>
-
                         <div className="widget-group">
                             <label className="widget-label">Location</label>
                             <div className="select-wrapper">
@@ -52,17 +51,17 @@ export default function LandingPage() {
                                 >
                                     <option value="">Select Location</option>
                                     {[
-                                        "WIEN",
-                                        "NIEDEROESTERREICH",
-                                        "OBEROESTERREICH",
-                                        "SALZBURG",
-                                        "TIROL",
-                                        "VORARLBERG",
-                                        "KAERNTEN",
-                                        "STEIERMARK",
-                                        "BURGENLAND",
-                                    ].map((s) => (
-                                        <option key={s} value={s}>{s}</option>
+                                        { value: "WIEN", label: "Vienna" },
+                                        { value: "NIEDEROESTERREICH", label: "Lower Austria" },
+                                        { value: "OBEROESTERREICH", label: "Upper Austria" },
+                                        { value: "SALZBURG", label: "Salzburg" },
+                                        { value: "TIROL", label: "Tyrol" },
+                                        { value: "VORARLBERG", label: "Vorarlberg" },
+                                        { value: "KAERNTEN", label: "Carinthia" },
+                                        { value: "STEIERMARK", label: "Styria" },
+                                        { value: "BURGENLAND", label: "Burgenland" },
+                                    ].map((opt) => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
                                     ))}
                                 </select>
                                 <ChevronDown className="select-icon" size={20} />

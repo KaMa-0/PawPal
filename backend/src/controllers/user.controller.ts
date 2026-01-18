@@ -87,8 +87,6 @@ export const deleteProfileImage = async (req: AuthRequest, res: Response) => {
 
     await prisma.profileImage.delete({ where: { imageId } });
 
-    // No auto-promotion logic. If avatar is deleted, user has no avatar.
-
     res.json({ message: 'Image deleted' });
   } catch (err) {
     console.error(err);
@@ -128,7 +126,7 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
     const role = req.user?.role;
 
     if (!userId || !role) {
-      return res.status(401).json({ message: 'Nicht authentifiziert' });
+      return res.status(401).json({ message: 'Not authenticated' });
     }
 
     // 1. Die Logik an den Service abgeben
@@ -140,15 +138,15 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
       return res.json(safeProfile);
     }
 
-    res.status(404).json({ message: 'Profil nicht gefunden' });
+    res.status(404).json({ message: 'Profile not found' });
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Fehler beim Laden des Profils' });
+    res.status(500).json({ message: 'Error loading profile' });
   }
 };
 
-export const getPetSitters = async (req: Request, res: Response) => {
+export const getPetSitters = async (req: AuthRequest, res: Response) => {
   try {
     const { state, petType, minRating } = req.query;
 
@@ -156,7 +154,7 @@ export const getPetSitters = async (req: Request, res: Response) => {
       state as AustriaState | undefined,
       petType as string | undefined,
       minRating ? parseFloat(minRating as string) : undefined,
-      req.user?.userId // Optional user ID for favorite check
+      req.user?.userId
     );
 
     res.json(sitters);

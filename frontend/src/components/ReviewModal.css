@@ -1,3 +1,9 @@
+@import '../theme.css';
+
+/* ===========================
+   MODAL OVERLAY
+   =========================== */
+
 .review-modal-overlay {
   position: fixed;
   top: 0;
@@ -5,65 +11,79 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
-  /* Darker overlay */
   backdrop-filter: blur(4px);
-  /* Blur effect */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn var(--duration-normal) var(--ease-out);
 }
 
+/* ===========================
+   MODAL CONTAINER
+   =========================== */
+
 .review-modal-container {
-  background-color: var(--bg-secondary, #1f2937);
-  /* Fallback to dark gray */
-  color: var(--text-primary, #f9fafb);
-  padding: 2rem;
-  border-radius: 1rem;
-  /* rounded-xl */
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
   width: 90%;
   max-width: 500px;
   position: relative;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-default);
 }
+
+/* ===========================
+   CLOSE BUTTON
+   =========================== */
 
 .review-modal-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: var(--space-4);
+  right: var(--space-4);
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  color: var(--text-secondary, #9ca3af);
-  transition: all 0.2s;
+  padding: var(--space-2);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
+  transition:
+    background-color var(--duration-normal) var(--ease-default),
+    color var(--duration-normal) var(--ease-default);
 }
 
 .review-modal-close:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary, #fff);
+  color: var(--text-primary);
 }
+
+/* ===========================
+   TITLE
+   =========================== */
 
 .review-modal-title {
   margin-top: 0;
-  margin-bottom: 2rem;
-  color: var(--text-primary, #fff);
-  font-size: 1.5rem;
-  font-weight: 700;
+  margin-bottom: var(--space-8);
+  color: var(--text-primary);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
   text-align: center;
 }
 
+/* ===========================
+   STAR RATING
+   =========================== */
+
 .review-star-container {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .review-star-button {
@@ -71,101 +91,127 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fbbf24;
-  /* Star color */
+  color: var(--color-warning);
+  transition: transform var(--duration-normal) var(--ease-bounce);
 }
 
 .review-star-button:hover {
   transform: scale(1.2);
 }
 
+/* ===========================
+   TEXT INPUT
+   =========================== */
+
 .review-text-group {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
 }
 
 .review-text-label {
   display: block;
-  margin-bottom: 0.75rem;
-  color: var(--text-secondary, #9ca3af);
-  font-size: 0.9rem;
-  font-weight: 500;
+  margin-bottom: var(--space-3);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
 }
 
 .review-textarea {
   width: 100%;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid #ffffff;
-  color: var(--text-primary, #fff);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
   min-height: 120px;
-  font-size: 0.95rem;
-  font-family: inherit;
+  font-size: var(--text-sm);
+  font-family: var(--font-family);
   resize: vertical;
-  transition: all 0.2s;
+  transition:
+    border-color var(--duration-normal) var(--ease-default),
+    box-shadow var(--duration-normal) var(--ease-default);
+}
+
+.review-textarea:hover {
+  border-color: var(--border-strong);
 }
 
 .review-textarea:focus {
   outline: none;
-  border-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
-  background-color: rgba(255, 255, 255, 0.08);
-
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(74, 143, 194, 0.2);
 }
 
 .review-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
 }
+
+/* ===========================
+   ACTION BUTTONS
+   =========================== */
 
 .review-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .review-btn-cancel {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
   background-color: transparent;
-  color: var(--text-primary, #fff);
+  color: var(--text-primary);
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s;
+  font-weight: var(--font-semibold);
+  transition:
+    background-color var(--duration-normal) var(--ease-default),
+    border-color var(--duration-normal) var(--ease-default);
 }
 
 .review-btn-cancel:hover {
   background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-secondary);
 }
 
 .review-btn-submit {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
   border: none;
-  background-color: #ffffff;
-  color: #1a1a1a;
+  background-color: var(--color-primary-500);
+  color: white;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s;
-  box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+  font-weight: var(--font-semibold);
+  transition:
+    background-color var(--duration-normal) var(--ease-default),
+    transform var(--duration-fast) var(--ease-out);
 }
 
-.review-btn-submit:hover {
-  background-color: #f3f4f6;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 12px -1px rgba(255, 255, 255, 0.15);
+.review-btn-submit:hover:not(:disabled) {
+  background-color: var(--color-primary-600);
+  
+}
+
+.review-btn-submit:active:not(:disabled) {
+  
+}
+
+.review-btn-submit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 143, 194, 0.4);
 }
 
 .review-btn-submit:disabled {
   cursor: not-allowed;
   opacity: 0.5;
   transform: none;
-  box-shadow: none;
 }
+
+/* ===========================
+   ANIMATION
+   =========================== */
 
 @keyframes fadeIn {
   from {
@@ -177,14 +223,54 @@
   }
 }
 
-/* --- Responsive Design --- */
-@media (max-width: 640px) {
+/* ===========================
+   RESPONSIVE: MOBILE (<640px)
+   =========================== */
+
+@media (max-width: 639px) {
   .review-modal-container {
-    padding: 1.5rem;
+    padding: var(--space-6);
     width: 95%;
   }
 
+  .review-modal-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-6);
+  }
+
   .review-star-container {
-    gap: 0.5rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .review-text-group {
+    margin-bottom: var(--space-6);
+  }
+
+  .review-actions {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
+/* ===========================
+   TOUCH DEVICE OPTIMIZATION
+   =========================== */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .review-btn-cancel,
+  .review-btn-submit {
+    min-height: 44px;
+  }
+
+  .review-star-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .review-modal-close {
+    min-width: 44px;
+    min-height: 44px;
   }
 }
