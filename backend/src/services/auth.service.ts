@@ -89,14 +89,14 @@ export const loginUser = async (data: LoginData): Promise<AuthResponse> => {
 
     // Wenn User nicht gefunden wird -> Fehler
     if (!user) {
-        throw new Error('Email oder Passwort falsch');
+        throw new Error('Incorrect email or password');
     }
 
     // 2. Passwort prüfen (Vergleich: Eingegebenes PW vs. Hash in DB)
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
 
     if (!isPasswordValid) {
-        throw new Error('Email oder Passwort falsch');
+        throw new Error('Incorrect email or password');
     }
 
     // 3. Token generieren

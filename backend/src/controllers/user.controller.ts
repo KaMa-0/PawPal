@@ -128,7 +128,7 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
     const role = req.user?.role;
 
     if (!userId || !role) {
-      return res.status(401).json({ message: 'Nicht authentifiziert' });
+      return res.status(401).json({ message: 'Not authenticated' });
     }
 
     // 1. Die Logik an den Service abgeben
@@ -140,11 +140,11 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
       return res.json(safeProfile);
     }
 
-    res.status(404).json({ message: 'Profil nicht gefunden' });
+    res.status(404).json({ message: 'Profile not found' });
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Fehler beim Laden des Profils' });
+    res.status(500).json({ message: 'Error loading profile' });
   }
 };
 

@@ -7,19 +7,19 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ message: 'Kein Token gefunden. Zugriff verweigert.' });
+        return res.status(401).json({ message: 'No token found. Access denied.' });
     }
 
     const secret = process.env.JWT_SECRET;
 
     if (!secret) {
         console.error("FATAL ERROR: JWT_SECRET ist nicht in der .env Datei definiert!");
-        return res.status(500).json({ message: 'Server-Konfiguration fehlerhaft.' });
+        return res.status(500).json({ message: 'Server configuration error.' });
     }
 
     jwt.verify(token, secret, (err, user) => {
         if (err) {
-            return res.status(403).json({ message: 'Token ungültig oder abgelaufen.' });
+            return res.status(403).json({ message: 'Token invalid or expired.' });
         }
 
         req.user = user as any;

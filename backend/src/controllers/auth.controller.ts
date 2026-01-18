@@ -35,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
     } catch (error: any) {
         // 401 = Unauthorized (Zugriff verweigert)
         res.status(401).json({
-            message: error.message || 'Login fehlgeschlagen'
+            message: error.message || 'Login failed'
         });
     }
 };
