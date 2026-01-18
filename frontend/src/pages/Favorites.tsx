@@ -4,13 +4,14 @@ import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
 import FavoriteButton from "../components/FavoriteButton";
 import { getAuth } from "../auth/authStore";
+import { translateState, type AustriaState } from "../lib/stateTranslations";
 import "./search.css"; // Reuse search card styles
 
 // Define types locally if not shared, or import from common types
 interface FavoriteSitter {
     userId: number;
     username: string;
-    state: string;
+    state: AustriaState;
     profileImages: { imageUrl: string; isAvatar: boolean }[];
     petSitter: {
         aboutText?: string;
@@ -117,7 +118,7 @@ export default function Favorites() {
                                             />
                                         </div>
 
-                                        <div className="hero-location">{sitter.state}</div>
+                                        <div className="hero-location">{translateState(sitter.state)}</div>
 
                                         <div className="hero-stats">
                                             <div className="stat-item">⭐ {sitter.petSitter.averageRating.toFixed(1)}</div>
