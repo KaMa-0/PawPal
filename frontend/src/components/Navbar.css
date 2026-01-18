@@ -75,13 +75,6 @@
     border-radius: 2px;
     transition: all var(--duration-slow) var(--ease-default);
     transform-origin: center;
-    flex-shrink: 0;
-    display: block;
-}
-
-.hamburger.active {
-    gap: 0;
-    justify-content: center;
 }
 
 .hamburger.active span:nth-child(1) {
@@ -391,8 +384,6 @@
     .hamburger {
         min-width: 44px;
         min-height: 44px;
-        align-items: center;
-        justify-content: center;
         padding: 13px 10px;
     }
 }
