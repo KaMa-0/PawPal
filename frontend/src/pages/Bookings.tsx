@@ -214,7 +214,7 @@ export default function Bookings() {
 
                     {booking.status === "COMPLETED" && auth.role === "OWNER" && !booking.review && (
                       <div className="button-group">
-                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-secondary full-width">
+                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-review full-width">
                           <Star size={16} /> Write a Review
                         </button>
                       </div>
