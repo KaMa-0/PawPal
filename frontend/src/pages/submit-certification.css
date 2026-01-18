@@ -270,12 +270,8 @@
    =========================== */
 
 @media (max-width: 767px) {
-  .submit-cert-page-wrapper {
-    padding: var(--space-6) var(--space-4);
-  }
-
   .submit-cert-content {
-    padding: 0;
+    padding: var(--space-6) var(--space-4);
     max-width: 100%;
   }
 
@@ -312,7 +308,7 @@
    =========================== */
 
 @media (max-width: 639px) {
-  .submit-cert-page-wrapper {
+  .submit-cert-content {
     padding: var(--space-4) var(--space-3);
   }
 
