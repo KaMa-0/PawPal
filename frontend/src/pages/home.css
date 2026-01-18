@@ -553,7 +553,7 @@
   .avatar-placeholder {
     width: 100px;
     height: 100px;
-    font-size: var(--text-4xl);
+    font-size: var(--text-base);
   }
 
   .gallery-grid {
@@ -605,7 +605,7 @@
   .avatar-placeholder {
     width: 80px;
     height: 80px;
-    font-size: var(--text-3xl);
+    font-size: var(--text-base);
   }
 
   .btn-primary,
