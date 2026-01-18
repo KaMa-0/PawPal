@@ -148,7 +148,7 @@ export const getMyProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const getPetSitters = async (req: Request, res: Response) => {
+export const getPetSitters = async (req: AuthRequest, res: Response) => {
   try {
     const { state, petType, minRating } = req.query;
 

@@ -126,13 +126,12 @@ export default function Bookings() {
 
   return (
     <div className="mybookings-page-wrapper">
-      <Navbar /> {/* Navbar En Üstte */}
+      <Navbar />
 
       <div className="mybookings-content">
         <div className="mybookings-container">
           <div className="bookings-header-row">
             <h1>My Bookings</h1>
-            {/* Back butonu opsiyonel oldu çünkü Navbar var, ama istersen tutabilirsin */}
           </div>
 
           {bookings.length === 0 ? (
@@ -214,7 +213,7 @@ export default function Bookings() {
 
                     {booking.status === "COMPLETED" && auth.role === "OWNER" && !booking.review && (
                       <div className="button-group">
-                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-review full-width">
+                        <button onClick={() => openReviewModal(booking.bookingId)} className="btn btn-secondary full-width">
                           <Star size={16} /> Write a Review
                         </button>
                       </div>
