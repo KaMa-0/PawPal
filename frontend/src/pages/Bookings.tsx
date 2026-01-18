@@ -159,8 +159,8 @@ export default function Bookings() {
                   <div className="card-body">
                     <div className="participants-list">
                       <div className="participant-item">
-                        <div className="avatar-placeholder">
-                          <User size={18} />
+                        <div className="booking-avatar">
+                          <User />
                         </div>
                         <div className="participant-info">
                           <span className="participant-name">{booking.owner.user.username}</span>
@@ -168,8 +168,8 @@ export default function Bookings() {
                         </div>
                       </div>
                       <div className="participant-item">
-                        <div className="avatar-placeholder">
-                          <UserStart size={18} />
+                        <div className="booking-avatar">
+                          <UserStart />
                         </div>
                         <div className="participant-info">
                           <span className="participant-name">{booking.sitter.user.username}</span>

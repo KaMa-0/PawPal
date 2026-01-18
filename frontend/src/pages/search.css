@@ -260,8 +260,8 @@
 
 .card-badge {
     position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
+    top: var(--space-3);
+    left: var(--space-3);
     background-color: var(--color-success);
     color: white;
     padding: var(--space-2) var(--space-3);
