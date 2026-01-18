@@ -3,7 +3,6 @@
 /* ===========================
    PAGE WRAPPER
    =========================== */
-
 .landing-page-wrapper {
     min-height: 100vh;
     display: flex;
@@ -15,14 +14,14 @@
 /* ===========================
    HERO SECTION
    =========================== */
-
 .hero-section {
     position: relative;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-16) var(--space-8);
+    /* Default (Mobile) Padding */
+    padding: var(--space-8) var(--space-4);
     background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
     background-size: cover;
     background-position: center;
@@ -32,33 +31,18 @@
 .hero-section::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
+    /* top, right, bottom, left shorthand */
     background: linear-gradient(180deg, rgba(26, 61, 92, 0.6) 0%, rgba(26, 61, 92, 0.85) 100%);
     z-index: 1;
 }
-
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(26, 61, 92, 0.7);
-    z-index: 1;
-}
-
-/* ===========================
-   HERO CONTAINER
-   =========================== */
 
 .hero-container {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1000px;
+    /* Mobile Default Max Width */
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,17 +52,17 @@
 /* ===========================
    HERO TEXT
    =========================== */
-
 .hero-text-content {
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-8);
 }
 
 .hero-title {
-    font-size: var(--text-5xl);
+    font-size: var(--text-3xl);
+    /* Mobile default */
     font-weight: var(--font-bold);
     color: white;
-    margin-bottom: var(--space-6);
-    line-height: var(--leading-tight);
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
 }
 
 .highlight-text {
@@ -86,45 +70,45 @@
 }
 
 .hero-subtitle {
-    font-size: var(--text-xl);
+    font-size: var(--text-base);
+    /* Mobile default */
     color: var(--text-secondary);
     max-width: 600px;
     margin: 0 auto;
     line-height: var(--leading-relaxed);
-    font-weight: var(--font-normal);
+    padding: 0 var(--space-2);
 }
 
 /* ===========================
-   SEARCH WIDGET
+   SEARCH WIDGET (BASE / MOBILE DEFAULT < 640px)
    =========================== */
-
 .search-widget {
     background-color: var(--bg-primary);
     border: 1px solid var(--border-default);
     border-radius: var(--radius-lg);
-    padding: var(--space-6);
+    padding: var(--space-5);
     box-shadow: var(--shadow-lg);
+
+    /* Layout: Stacked for Mobile */
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    gap: var(--space-5);
     width: 100%;
 }
 
 .widget-group {
-    flex: 1;
-    min-width: 200px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-right: var(--space-4);
-    border-right: 1px solid var(--border-default);
+    width: 100%;
+    border-bottom: 1px solid var(--border-default);
+    padding-bottom: var(--space-5);
 }
 
+/* Remove border from the last item in the stack */
 .widget-group:last-of-type {
-    border-right: none;
-    padding-right: 0;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .widget-label {
@@ -134,13 +118,10 @@
     text-transform: uppercase;
     margin-bottom: var(--space-2);
     letter-spacing: 0.05em;
-    margin-left: var(--space-2);
+    margin-left: var(--space-1);
 }
 
-/* ===========================
-   SELECT WRAPPER
-   =========================== */
-
+/* SELECT INPUTS */
 .select-wrapper {
     position: relative;
     width: 100%;
@@ -149,29 +130,19 @@
     background-color: var(--bg-secondary);
     border-radius: var(--radius-md);
     border: 1px solid var(--border-default);
-    transition:
-        border-color var(--duration-normal) var(--ease-default),
-        box-shadow var(--duration-normal) var(--ease-default);
+    transition: all var(--duration-normal) var(--ease-default);
 }
 
-.select-wrapper:hover {
-    border-color: var(--color-primary-500);
-}
-
+.select-wrapper:hover,
 .select-wrapper:focus-within {
     border-color: var(--color-primary-500);
-    box-shadow: 0 0 0 3px rgba(74, 143, 194, 0.2);
-}
-
-.input-icon {
-    padding-left: var(--space-4);
-    font-size: var(--text-xl);
-    pointer-events: none;
 }
 
 .widget-select {
     width: 100%;
-    padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
+    padding: var(--space-4);
+    padding-right: var(--space-10);
+    /* Space for chevron */
     background: transparent;
     border: none;
     color: var(--text-primary);
@@ -179,127 +150,52 @@
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
-    -moz-appearance: none;
     outline: none;
+    min-height: 50px;
+    /* Touch target size */
+}
+
+.widget-select option {
+    background-color: #ffffff;
+    color: #333333;
 }
 
 .select-icon {
     position: absolute;
     right: var(--space-4);
-    top: 50%;
-    transform: translateY(-50%);
     pointer-events: none;
     color: var(--text-secondary);
-    transition:
-        transform var(--duration-normal) var(--ease-default),
-        color var(--duration-normal) var(--ease-default);
 }
 
-.select-wrapper:hover .select-icon,
-.select-wrapper:focus-within .select-icon {
-    color: var(--color-primary-500);
+/* BUTTON */
+.widget-action {
+    width: 100%;
+    margin-top: var(--space-2);
 }
-
-.widget-select option {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-}
-
-/* ===========================
-   SEARCH BUTTON
-   =========================== */
 
 .search-btn-large {
     background-color: var(--color-primary-500);
     color: white;
     border: none;
-    padding: var(--space-4) var(--space-10);
+    width: 100%;
+    height: 52px;
     font-size: var(--text-base);
     font-weight: var(--font-semibold);
     border-radius: var(--radius-md);
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.025em;
-    height: 54px;
-    margin-top: 26px;
-    flex-shrink: 0;
-    transition:
-        background-color var(--duration-normal) var(--ease-default),
-        transform var(--duration-fast) var(--ease-out);
+    transition: background-color 0.2s ease;
 }
 
 .search-btn-large:hover {
     background-color: var(--color-primary-600);
-    
-}
-
-.search-btn-large:active {
-    
-}
-
-.search-btn-large:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(74, 143, 194, 0.4);
 }
 
 /* ===========================
-   ANIMATIONS
+   RESPONSIVE: LARGE MOBILE (sm >= 640px)
    =========================== */
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        
-    }
-}
-
-.fade-in-up {
-    animation: fadeInUp 0.8s var(--ease-out) forwards;
-    opacity: 0;
-}
-
-.delay-1 {
-    animation-delay: 0.3s;
-}
-
-/* ===========================
-   RESPONSIVE: DESKTOP (≥1024px)
-   =========================== */
-
-@media (min-width: 1024px) {
-    .hero-container {
-        max-width: 95%;
-    }
-
-    .hero-section {
-        padding: var(--space-16) var(--space-8);
-    }
-
-    .search-widget {
-        max-width: 100%;
-        padding: var(--space-5);
-        gap: var(--space-5);
-    }
-
-    .widget-group {
-        min-width: 180px;
-    }
-}
-
-/* ===========================
-   RESPONSIVE: TABLET (≥768px)
-   =========================== */
-
-@media (min-width: 768px) and (max-width: 1023px) {
-    .hero-section {
-        padding: var(--space-16) var(--space-8);
-    }
-
+@media (min-width: 640px) {
     .hero-title {
         font-size: var(--text-4xl);
     }
@@ -308,280 +204,130 @@
         font-size: var(--text-lg);
     }
 
-    .hero-text-content {
-        margin-bottom: var(--space-12);
-    }
-
     .search-widget {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--space-6);
-        padding: var(--space-8);
-        align-items: start;
-    }
-
-    .widget-group {
-        border-right: none;
-        padding-right: 0;
-        min-width: 0;
-    }
-
-    .widget-group:nth-child(1),
-    .widget-group:nth-child(2) {
-        border-bottom: 1px solid var(--border-default);
-        padding-bottom: var(--space-6);
-    }
-
-    .widget-action {
-        grid-column: 1 / -1;
-        width: 100%;
-        margin-top: var(--space-2);
-    }
-
-    .search-btn-large {
-        width: 100%;
-        height: 54px;
-        margin-top: 0;
+        max-width: 500px;
+        /* Limit width on larger phones so it doesn't stretch ugly */
+        padding: var(--space-6);
     }
 }
 
 /* ===========================
-   RESPONSIVE: LARGE MOBILE (≥640px)
+   RESPONSIVE: TABLET (md >= 768px)
    =========================== */
-
-@media (min-width: 640px) and (max-width: 767px) {
-    .hero-section {
-        padding: var(--space-12) var(--space-6);
-        background-attachment: scroll;
+@media (min-width: 768px) {
+    .hero-container {
+        max-width: 90%;
     }
 
     .hero-title {
-        font-size: var(--text-3xl);
-        line-height: 1.15;
-    }
-
-    .hero-subtitle {
-        font-size: var(--text-lg);
-        padding: 0 var(--space-4);
-    }
-
-    .hero-text-content {
-        margin-bottom: var(--space-10);
-    }
-
-    .search-widget {
-        flex-direction: column;
-        padding: var(--space-5);
-        gap: var(--space-6);
-        border-radius: var(--radius-lg);
-    }
-
-    .widget-group {
-        border-right: none;
-        border-bottom: 1px solid var(--border-default);
-        padding: 0 0 var(--space-6) 0;
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .widget-group:last-of-type {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .widget-action {
-        width: 100%;
-        margin-top: var(--space-2);
-    }
-
-    .search-btn-large {
-        width: 100%;
-        height: 54px;
-        margin-top: 0;
-    }
-}
-
-/* ===========================
-   RESPONSIVE: MOBILE (<640px)
-   =========================== */
-
-@media (max-width: 639px) {
-    .hero-section {
-        padding: var(--space-8) var(--space-4);
-        background-attachment: scroll;
-    }
-
-    .hero-title {
-        font-size: var(--text-2xl);
-        line-height: 1.2;
-        margin-bottom: var(--space-4);
-    }
-
-    .hero-subtitle {
-        font-size: var(--text-base);
-        padding: 0 var(--space-2);
-        line-height: var(--leading-relaxed);
-    }
-
-    .hero-text-content {
-        margin-bottom: var(--space-8);
-    }
-
-    .search-widget {
-        padding: var(--space-5) var(--space-4);
-        border-radius: var(--radius-lg);
-        gap: var(--space-5);
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .widget-group {
-        border-right: none;
-        border-bottom: 1px solid var(--border-default);
-        padding: 0 0 var(--space-5) 0;
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .widget-group:last-of-type {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .widget-label {
-        font-size: var(--text-xs);
-        margin-bottom: var(--space-2);
-        letter-spacing: 0.08em;
-    }
-
-    .select-wrapper {
-        width: 100%;
-        min-height: 52px;
-    }
-
-    .widget-select {
-        padding: var(--space-4) var(--space-10) var(--space-4) var(--space-4);
-        font-size: 16px;
-        min-height: 52px;
-    }
-
-    .select-icon {
-        right: var(--space-3);
-    }
-
-    .widget-action {
-        width: 100%;
-        margin-top: var(--space-2);
-    }
-
-    .search-btn-large {
-        width: 100%;
-        padding: var(--space-4) var(--space-8);
-        font-size: var(--text-base);
-        margin-top: 0;
-        min-height: 52px;
-        border-radius: var(--radius-md);
-        letter-spacing: 0.05em;
-    }
-}
-
-/* ===========================
-   LANDSCAPE OPTIMIZATION
-   =========================== */
-
-@media (max-height: 600px) and (orientation: landscape) {
-    .hero-section {
-        padding: var(--space-8);
-    }
-
-    .hero-title {
-        font-size: var(--text-2xl);
-        margin-bottom: var(--space-3);
-    }
-
-    .hero-subtitle {
-        font-size: var(--text-base);
-    }
-
-    .hero-text-content {
+        font-size: var(--text-4xl);
         margin-bottom: var(--space-6);
     }
 
+    /* Tablet Layout: 2x2 Grid */
     .search-widget {
-        padding: var(--space-4);
-        gap: var(--space-4);
-    }
-
-    .widget-label {
-        margin-bottom: var(--space-1);
-    }
-
-    .search-btn-large {
-        height: 48px;
-        padding: var(--space-3) var(--space-8);
-    }
-}
-
-/* ===========================
-   TOUCH DEVICE OPTIMIZATION
-   =========================== */
-
-@media (hover: none) and (pointer: coarse) {
-    .search-btn-large {
-        min-height: 48px;
-        -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .widget-select {
-        font-size: 16px;
-        min-height: 48px;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    .search-btn-large:active {
-        transform: scale(0.98);
-        opacity: 0.9;
+        max-width: 700px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* 2 equal columns */
+        gap: var(--space-6);
+        align-items: end;
+        /* Align items to bottom */
     }
 
     .widget-group {
-        padding: var(--space-3) 0;
+        border-bottom: none;
+        /* Remove mobile borders */
+        border-right: none;
+        padding-bottom: 0;
+        width: auto;
+        /* Let grid handle width */
+    }
+
+    /* Reset button margins */
+    .widget-action {
+        margin-top: 0;
+        height: 100%;
+        /* Fill grid cell height if needed */
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .search-btn-large {
+        /* Align visual height with inputs (approx 50px input + 24px label space) */
+        height: 52px;
     }
 }
 
 /* ===========================
-   HIGH-DPI DISPLAYS
+   RESPONSIVE: DESKTOP (lg >= 1024px)
    =========================== */
-
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
+@media (min-width: 1024px) {
     .hero-section {
-        background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=80');
+        padding: var(--space-16) var(--space-8);
+    }
+
+    .hero-title {
+        font-size: var(--text-5xl);
+    }
+
+    /* Desktop Layout: Single Row */
+    .search-widget {
+        max-width: 1000px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        /* This aligns the button with the inputs, ignoring labels */
+        gap: var(--space-4);
+        padding: var(--space-6);
+    }
+
+    .widget-group {
+        flex: 1;
+        /* Equal width inputs */
+        min-width: 200px;
+        padding-right: var(--space-4);
+        border-right: 1px solid var(--border-default);
+    }
+
+    .widget-group:last-of-type {
+        border-right: none;
+        /* Rating doesn't need right border */
+    }
+
+    .widget-action {
+        width: auto;
+        flex: 0 0 auto;
+        /* Don't shrink/grow */
+        margin-top: 0;
+        padding-left: var(--space-2);
+    }
+
+    .search-btn-large {
+        width: auto;
+        padding: 0 var(--space-8);
+        margin-top: 29px;
+        /* Optical alignment if labels push inputs down */
     }
 }
 
 /* ===========================
-   REDUCED MOTION
+   LANDSCAPE & PRINT UTILS
    =========================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .search-widget,
-    .search-btn-large,
-    .widget-select,
-    .select-wrapper {
-        transition: none;
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero-section {
+        padding: var(--space-4);
     }
 
-    .fade-in-up,
-    .delay-1 {
-        animation: none;
-        opacity: 1;
+    .search-widget {
+        padding: var(--space-3);
+        gap: var(--space-3);
+    }
+
+    .search-btn-large {
+        height: 44px;
     }
 }
-
-/* ===========================
-   PRINT STYLES
-   =========================== */
 
 @media print {
     .hero-section {
@@ -590,10 +336,6 @@
     }
 
     .hero-section::before,
-    .hero-overlay {
-        display: none;
-    }
-
     .search-widget {
         display: none;
     }

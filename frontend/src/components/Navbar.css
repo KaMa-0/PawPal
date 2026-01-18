@@ -201,12 +201,10 @@
 .nav-btn.secondary:hover:not(:disabled) {
     border-color: var(--text-primary);
     background-color: rgba(255, 255, 255, 0.05);
-    
+
 }
 
-.nav-btn.secondary:active:not(:disabled) {
-    
-}
+.nav-btn.secondary:active:not(:disabled) {}
 
 /* Primary Button */
 .nav-btn.primary {
@@ -218,12 +216,10 @@
 .nav-btn.primary:hover {
     background-color: var(--color-primary-600);
     border-color: var(--color-primary-600);
-    
+
 }
 
-.nav-btn.primary:active {
-    
-}
+.nav-btn.primary:active {}
 
 /* Ghost Button */
 .nav-btn.ghost {
@@ -233,14 +229,12 @@
 }
 
 .nav-btn.ghost:hover:not(:disabled) {
-    
+
     color: var(--color-error);
     background-color: rgba(239, 68, 68, 0.1);
 }
 
-.nav-btn.ghost:active:not(:disabled) {
-    
-}
+.nav-btn.ghost:active:not(:disabled) {}
 
 /* ===========================
    RESPONSIVE: TABLET & MOBILE
@@ -391,7 +385,6 @@
     .hamburger {
         min-width: 44px;
         min-height: 44px;
-        display: flex;
         align-items: center;
         justify-content: center;
     }

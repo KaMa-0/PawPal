@@ -129,6 +129,11 @@
         box-shadow var(--duration-normal) var(--ease-default);
 }
 
+.form-input option {
+    background-color: #ffffff;
+    color: #333333;
+}
+
 .form-input:hover {
     border-color: var(--border-strong);
 }
