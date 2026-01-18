@@ -375,7 +375,7 @@
     }
 
     .profile-avatar-placeholder {
-        font-size: 4rem;
+        font-size: var(--text-base);
     }
 
     .profile-name {
@@ -455,7 +455,7 @@
     }
 
     .profile-avatar-placeholder {
-        font-size: var(--text-4xl);
+        font-size: var(--text-base);
     }
 
     .profile-name {
