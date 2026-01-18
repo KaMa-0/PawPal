@@ -113,14 +113,14 @@ export default function Register() {
                             <div className="select-wrapper">
                                 <select name="state" value={formData.state} onChange={handleChange} required className="form-select">
                                     <option value="" disabled>Select your state...</option>
-                                    <option value="WIEN">Vienna (Wien)</option>
-                                    <option value="NIEDEROESTERREICH">Lower Austria (Niederösterreich)</option>
-                                    <option value="OBEROESTERREICH">Upper Austria (Oberösterreich)</option>
+                                    <option value="WIEN">Vienna</option>
+                                    <option value="NIEDEROESTERREICH">Lower Austria</option>
+                                    <option value="OBEROESTERREICH">Upper Austria</option>
                                     <option value="SALZBURG">Salzburg</option>
-                                    <option value="TIROL">Tyrol (Tirol)</option>
+                                    <option value="TIROL">Tyrol</option>
                                     <option value="VORARLBERG">Vorarlberg</option>
-                                    <option value="KAERNTEN">Carinthia (Kärnten)</option>
-                                    <option value="STEIERMARK">Styria (Steiermark)</option>
+                                    <option value="KAERNTEN">Carinthia</option>
+                                    <option value="STEIERMARK">Styria</option>
                                     <option value="BURGENLAND">Burgenland</option>
                                 </select>
                                 <ChevronDown className="select-icon" size={20} />
