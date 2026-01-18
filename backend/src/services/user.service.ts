@@ -157,7 +157,7 @@ export const addFavoriteSitter = async (ownerId: number, sitterId: number) => {
   const sitter = await prisma.petSitter.findUnique({ where: { userId: sitterId } });
   if (!sitter) throw new Error("Sitter not found");
 
-  // Create favorite (idempotent due to @@id)
+  // Create favorite 
   return prisma.favorite.create({
     data: {
       ownerId,

@@ -87,8 +87,6 @@ export const deleteProfileImage = async (req: AuthRequest, res: Response) => {
 
     await prisma.profileImage.delete({ where: { imageId } });
 
-    // No auto-promotion logic. If avatar is deleted, user has no avatar.
-
     res.json({ message: 'Image deleted' });
   } catch (err) {
     console.error(err);
@@ -156,7 +154,7 @@ export const getPetSitters = async (req: AuthRequest, res: Response) => {
       state as AustriaState | undefined,
       petType as string | undefined,
       minRating ? parseFloat(minRating as string) : undefined,
-      req.user?.userId // Optional user ID for favorite check
+      req.user?.userId
     );
 
     res.json(sitters);
