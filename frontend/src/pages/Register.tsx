@@ -42,6 +42,11 @@ export default function Register() {
         e.preventDefault();
         setError(null);
 
+        if (formData.userType === "SITTER" && formData.petTypes.length === 0) {
+            setError("Please select at least one pet type.");
+            return;
+        }
+
         try {
             const res = await api.post<AuthResponse>("/api/auth/register", formData);
 

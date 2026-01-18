@@ -24,6 +24,11 @@ export const registerUser = async (data: RegisterData): Promise<AuthResponse> =>
         throw new Error('Password must be at least 8 characters long');
     }
 
+    // Role-specific validation
+    if (userType === UserType.SITTER && (!petTypes || petTypes.length === 0)) {
+        throw new Error('Pet Sitters must select at least one pet type');
+    }
+
     // 2. Hash Password
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 
