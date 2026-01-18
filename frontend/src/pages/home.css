@@ -116,8 +116,8 @@
 }
 
 .avatar-placeholder {
-  width: 120px;
-  height: 120px;
+  width: 120px !important;
+  height: 120px !important;
   border-radius: var(--radius-full);
   background-color: var(--bg-tertiary);
   display: flex;
@@ -552,8 +552,8 @@
 
   .avatar-image,
   .avatar-placeholder {
-    width: 100px;
-    height: 100px;
+    width: 100px !important;
+    height: 100px !important;
     font-size: var(--text-base);
   }
 
@@ -604,8 +604,8 @@
 
   .avatar-image,
   .avatar-placeholder {
-    width: 80px;
-    height: 80px;
+    width: 80px !important;
+    height: 80px !important;
     font-size: var(--text-base);
   }
 
