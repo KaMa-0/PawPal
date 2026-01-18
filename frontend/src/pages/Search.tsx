@@ -5,6 +5,7 @@ import { getAuth } from "../auth/authStore";
 import api, { API_BASE_URL } from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import FavoriteButton from "../components/FavoriteButton";
 import { translateState, type AustriaState } from "../lib/stateTranslations";
 import "./search.css";
 
@@ -268,6 +269,23 @@ export default function Search() {
                                             <div className="card-badge">
                                                 <BadgeCheck size={14} strokeWidth={3} /> Certified
                                             </div>
+                                        )}
+
+                                        {/* Favorite Button - Only for Pet Owners */}
+                                        {auth?.role === "OWNER" && (
+                                            <FavoriteButton
+                                                sitterId={sitter.userId}
+                                                initialIsFavorited={sitter.isFavorited}
+                                                variant="card"
+                                                onToggle={(newStatus) => {
+                                                    // Update local state
+                                                    setSitters(prev => prev.map(s => 
+                                                        s.userId === sitter.userId 
+                                                            ? { ...s, isFavorited: newStatus }
+                                                            : s
+                                                    ));
+                                                }}
+                                            />
                                         )}
                                     </div>
 

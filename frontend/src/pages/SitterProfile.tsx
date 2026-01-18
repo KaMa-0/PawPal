@@ -5,6 +5,7 @@ import { getAuth } from "../auth/authStore";
 import ImageGallery from "../components/ImageGallery";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import FavoriteButton from "../components/FavoriteButton";
 import { translateState, type AustriaState } from "../lib/stateTranslations";
 import "./SitterProfile.css";
 
@@ -185,6 +186,20 @@ export default function SitterProfile() {
                                     </svg>
                                     Certified
                                 </span>
+                            )}
+                            {/* Favorite Button - Only for Pet Owners */}
+                            {auth?.role === "OWNER" && (
+                                <FavoriteButton
+                                    sitterId={sitter.userId}
+                                    initialIsFavorited={sitter.isFavorited}
+                                    variant="inline"
+                                    onToggle={(newStatus) => {
+                                        // Update local state
+                                        if (sitter) {
+                                            setSitter({ ...sitter, isFavorited: newStatus });
+                                        }
+                                    }}
+                                />
                             )}
                         </div>
 
