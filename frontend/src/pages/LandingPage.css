@@ -127,7 +127,6 @@
     width: 100%;
     display: flex;
     align-items: center;
-    background-color: var(--bg-secondary);
     border-radius: var(--radius-md);
     border: 1px solid var(--border-default);
     transition: all var(--duration-normal) var(--ease-default);
@@ -143,7 +142,8 @@
     padding: var(--space-4);
     padding-right: var(--space-10);
     /* Space for chevron */
-    background: transparent;
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-md);
     border: none;
     color: var(--text-primary);
     font-size: var(--text-base);
