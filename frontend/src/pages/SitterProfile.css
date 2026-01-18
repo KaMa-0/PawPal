@@ -191,11 +191,11 @@
 
 .booking-button:hover:not(:disabled) {
     background-color: var(--color-primary-600);
-    
+
 }
 
 .booking-button:active:not(:disabled) {
-    
+
 }
 
 .booking-button:focus-visible {
@@ -375,7 +375,7 @@
     }
 
     .profile-avatar-placeholder {
-        font-size: var(--text-base);
+        font-size: 4rem;
     }
 
     .profile-name {
@@ -455,7 +455,7 @@
     }
 
     .profile-avatar-placeholder {
-        font-size: var(--text-base);
+        font-size: var(--text-4xl);
     }
 
     .profile-name {
