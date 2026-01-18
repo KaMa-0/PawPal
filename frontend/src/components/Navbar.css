@@ -71,11 +71,11 @@
     background-color: var(--text-primary);
     border-radius: 2px;
     transition: all var(--duration-slow) var(--ease-default);
-    transform-origin: left;
+    transform-origin: center;
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg);
+    transform: translateY(8px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -83,7 +83,7 @@
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg);
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 /* ===========================
@@ -382,17 +382,9 @@
    =========================== */
 
 @media (hover: none) and (pointer: coarse) {
-
-    .nav-link,
-    .nav-btn {
-        min-height: 44px;
-    }
-
     .hamburger {
         min-width: 44px;
         min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        padding: 13px 10px;
     }
 }
